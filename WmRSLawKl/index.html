@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>php 数组函数 | June</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594806311537">
+<link rel="shortcut icon" href="/favicon.ico?v=1594807115010">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -223,19 +223,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">3</span>
+        <span class="site-item-stat-count">8</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">3</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">3</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -492,6 +492,10 @@ usort()	使用用户自定义的比较函数对数组进行排序。</p>
   </div>
   <div class="nav">
     <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="php echo 1+&#34;9a&#34; 为什么等于10" href="https://Dawn-cheng.github.io/V4katkucI/">php echo 1+&#34;9a&#34; 为什么等于10</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="php echo 1+&#34;9a&#34; 为什么等于10" href="https://Dawn-cheng.github.io/V4katkucI/">上一篇</a>
       
     </div>
     <div class="nav-next">
@@ -1550,6 +1554,175 @@ usort()	使用用户自定义的比较函数对数组进行排序。</p>
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/E4ZClyFIL/"" data-c="
+          &lt;p&gt;web-view 是一个 web 浏览器组件，可以用来承载网页的容器，会自动铺满整个页面。&lt;/p&gt;
+&lt;p&gt;但是web-view铺满全屏  1.状态栏遮挡页面  2.没有区别app和h5页面&lt;/p&gt;
+&lt;p&gt;所以  打算加一个顶部导航&lt;/p&gt;
+&lt;p&gt;放入web-view组件&lt;/p&gt;
+&lt;p&gt;这就遇到了web-view铺满的问题  如果直接在页面中直接写入web-view组件放入url  那就铺满了&lt;/p&gt;
+&lt;p&gt;想放个标题或者是不想让状态栏遮挡的话怎么办呢？&lt;/p&gt;
+&lt;p&gt;一种：引用了web-view组件之后  进行修改&lt;/p&gt;
+&lt;p&gt;// #ifdef APP-PLUS&lt;/p&gt;
+&lt;p&gt;var currentWebview = this.&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;mp.page.&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.625em;vertical-align:-0.19444em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.03588em;&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;getAppWebview() //获取当前页面的webview对象&lt;/p&gt;
+&lt;p&gt;setTimeout(function() {&lt;/p&gt;
+&lt;p&gt;wv   = currentWebview.children()[0]&lt;/p&gt;
+&lt;p&gt;wv.setStyle({top:150,height:300})&lt;/p&gt;
+&lt;p&gt;}, 1000); //如果是页面初始化调用时，需要延时一下&lt;/p&gt;
+&lt;p&gt;// #endif&lt;/p&gt;
+&lt;p&gt;一种：直接用js创建web-view组件&lt;/p&gt;
+&lt;p&gt;// #ifdef APP-PLUS&lt;/p&gt;
+&lt;p&gt;var w=plus.webview.create(url,&#39;id&#39;,{&lt;/p&gt;
+&lt;p&gt;top:uni.getSystemInfoSync().statusBarHeight+50，&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;//放置在titleNView下方。如果还想在webview上方加个地址栏的什么的，可以继续降低TOP值&lt;/p&gt;
+&lt;p&gt;//因为设置top之后 webview的高度依然不变会往下移 底部会被遮住  所以设置一下高度&lt;/p&gt;
+&lt;p&gt;height:uni.getSystemInfoSync().windowHeight - 44 -uni.getSystemInfoSync().statusBarHeight&lt;/p&gt;
+&lt;p&gt;},{preload:&#39;preload webview&#39;}); // 可直接通过以下方法获取preload值&lt;/p&gt;
+&lt;p&gt;var currentWebview = this.&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;mp.page.&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.625em;vertical-align:-0.19444em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.03588em;&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;getAppWebview() //获取当前页面的webview对象&lt;/p&gt;
+&lt;p&gt;currentWebview.append(w);//一定要append到当前的页面里！！！才能跟随当前页面一起做动画，一起关闭&lt;/p&gt;
+&lt;p&gt;// #endif&lt;/p&gt;
+&lt;p&gt;转载链接：https://www.jianshu.com/p/bc0504905d8e&lt;/p&gt;
+">uni-app webview组件，页面铺面全屏问题</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/4AtekLall/"" data-c="
+          &lt;p&gt;一、缓存处理流程&lt;/p&gt;
+&lt;p&gt;前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返&lt;br&gt;
+回结果，数据库也没取到，那直接返回空结果。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594806915998.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+二、缓存穿透&lt;/p&gt;
+&lt;p&gt;描述：&lt;/p&gt;
+&lt;p&gt;缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。&lt;/p&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;p&gt;接口层增加校验，如用户鉴权校验，id做基础校验，id&amp;lt;=0的直接拦截；&lt;br&gt;
+从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设置短点，如30秒（设置太长会导致正常情况也没法使用）。这样可以防止攻击用户反复用同一个id暴力攻击&lt;br&gt;
+三、缓存击穿&lt;/p&gt;
+&lt;p&gt;描述：&lt;/p&gt;
+&lt;p&gt;缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力&lt;/p&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;p&gt;设置热点数据永远不过期。&lt;br&gt;
+加互斥锁，互斥锁参考代码如下：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594806894795.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+说明：&lt;/p&gt;
+&lt;p&gt;1）缓存中有数据，直接走上述代码13行后就返回结果了&lt;/p&gt;
+&lt;p&gt;2）缓存中没有数据，第1个进入的线程，获取锁并从数据库去取数据，没释放锁之前，其他并行进入的线程会等待100ms，再重新去缓存取数据。这样就防止都去数据库重复取数据，重复往缓存中更新数据情况出现。&lt;/p&gt;
+&lt;p&gt;3）当然这是简化处理，理论上如果能根据key值加锁就更好了，就是线程A从数据库取key1的数据并不妨碍线程B取key2的数据，上面代码明显做不到这点。&lt;/p&gt;
+&lt;p&gt;四、缓存雪崩&lt;/p&gt;
+&lt;p&gt;描述：&lt;/p&gt;
+&lt;p&gt;缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，        缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。&lt;/p&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;p&gt;缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。&lt;br&gt;
+如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。&lt;br&gt;
+设置热点数据永远不过期。&lt;/p&gt;
+&lt;p&gt;转载：https://www.cnblogs.com/sbj-dawn/p/11116673.html&lt;/p&gt;
+">缓存穿透、缓存击穿、缓存雪崩区别和解决方案</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/nqk-kNdhD/"" data-c="
+          &lt;p&gt;forEach：（可以三个参数，第一个是value，第二个是index，第三个是数组体）&lt;/p&gt;
+&lt;p&gt;缺点：不能同时遍历多个集合，在遍历的时候无法修改和删除集合数据，&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;方法不能使用break，continue语句跳出循环，或者使用return从函数体返回，对于空数组不会执行回调函数&lt;/p&gt;
+&lt;p&gt;优点：便利的时候更加简洁，效率和for循环相同，不用关心集合下标的问题，减少了出错的效率&lt;/p&gt;
+&lt;p&gt;定义：用于调用数组的每个元素，并将元素传递给回调函数&lt;/p&gt;
+&lt;p&gt;实例：&lt;/p&gt;
+&lt;p&gt;//我们先用它来遍历数组&lt;br&gt;
+let arry=[9,8,7,6,5,4]&lt;br&gt;
+array.forEach(function(value,index,arr){&lt;br&gt;
+console.log(value)&lt;br&gt;
+})&lt;br&gt;
+//输出结果为9 8 7 6 5 4&lt;/p&gt;
+&lt;p&gt;//首先有人疑问它能不能用来遍历对象（一开始我也不知道）？&lt;br&gt;
+//我们用它来遍历对象试试可不可以&lt;br&gt;
+let obj={a:1,b:2,c:3,d:4}&lt;br&gt;
+obj.forEach(function(value,index,oObj){&lt;br&gt;
+console.log(value)&lt;br&gt;
+}&lt;br&gt;
+//输出结果会是obj.forEach is not a function，&lt;br&gt;
+//所以forEach不可以遍历对象，这也是它和for in的一个区别&lt;/p&gt;
+&lt;p&gt;for in:（它大部分用于遍历对象）&lt;/p&gt;
+&lt;p&gt;定义：用于循环遍历数组或对象属性，fot in循环里面的index是string类型的，&lt;/p&gt;
+&lt;p&gt;代码每执行一次，就会对数组的元素或者对象的属性进行一次操作&lt;/p&gt;
+&lt;p&gt;缺点：某些情况下，会出现随机顺序的遍历，因为里面的值是string类型，所以&lt;br&gt;
+增加了转换过程，因此开销较大&lt;/p&gt;
+&lt;p&gt;优点：可以遍历数组的键名，遍历对象简洁方便&lt;/p&gt;
+&lt;p&gt;实例：&lt;/p&gt;
+&lt;p&gt;//首先遍历对象&lt;br&gt;
+let person={name:&amp;quot;老王&amp;quot;,age:23,city:&amp;quot;大唐&amp;quot;}&lt;br&gt;
+let text=&amp;quot;&amp;quot;&lt;br&gt;
+for (let i in person){&lt;br&gt;
+text+=person[i]&lt;br&gt;
+}&lt;br&gt;
+输出结果为：老王23大唐&lt;/p&gt;
+&lt;p&gt;//其次在尝试一些数组&lt;br&gt;
+let arry=[1,2,3,4,5]&lt;br&gt;
+for (let i in arry){&lt;br&gt;
+console.log(arry[i])&lt;br&gt;
+}&lt;br&gt;
+//能输出出来，证明也是可以的&lt;/p&gt;
+&lt;p&gt;for of:（可遍历map，object,array,set string等）用来遍历数据，比如组中的值，&lt;/p&gt;
+&lt;p&gt;map,set会在下篇文章详解，这节只查看遍历对象和数组&lt;/p&gt;
+&lt;p&gt;优点：避免了for in的所有缺点，可以使用break,continue和return，不仅支持&lt;/p&gt;
+&lt;p&gt;数组的遍历，还可以遍历类似数组的对象，支持字符串的遍历&lt;br&gt;
+最简洁，最直接的遍历数组的语法&lt;br&gt;
+支持map和Set对象遍历&lt;/p&gt;
+&lt;p&gt;缺点：不适用于处理原有的原生对象（原生对象是一个子集，包含一些在运动过程中动态创建的对象）&lt;/p&gt;
+&lt;p&gt;实例：&lt;/p&gt;
+&lt;p&gt;//遍历数组&lt;br&gt;
+let arr=[&amp;quot;nick&amp;quot;,&amp;quot;freddy&amp;quot;,&amp;quot;mike&amp;quot;,&amp;quot;james&amp;quot;];&lt;br&gt;
+for (let item of arr){&lt;br&gt;
+console.log(item)&lt;br&gt;
+}&lt;br&gt;
+//暑促结果为nice freddy mike james&lt;/p&gt;
+&lt;p&gt;//遍历对象&lt;br&gt;
+let person={name:&amp;quot;老王&amp;quot;,age:23,city:&amp;quot;唐山&amp;quot;}&lt;br&gt;
+for (let item of person){&lt;br&gt;
+console.log(item)&lt;br&gt;
+}&lt;br&gt;
+//我们发现它是不可以的&lt;br&gt;
+//但是它和forEach有个解决方法，结尾介绍&lt;/p&gt;
+&lt;p&gt;for：&lt;/p&gt;
+&lt;p&gt;优点：程序简洁，结构清晰，循环初始化，循环变量化，循环体和循环条件位置突出&lt;/p&gt;
+&lt;p&gt;缺点：结构比while循环复杂，容易出编码错误&lt;/p&gt;
+&lt;p&gt;实例：&lt;/p&gt;
+&lt;p&gt;//首先它和forEach,forof一样不可以遍历对象&lt;br&gt;
+//解决办法：就是把对象先转化为数组类型- -&lt;br&gt;
+//有一个对象：&lt;br&gt;
+let obj={a:1,b:2,c:3}&lt;br&gt;
+//用Object.keys属性转化&lt;br&gt;
+let obj2=Object.keys(obj)&lt;br&gt;
+//最后就可以用来遍历了&lt;br&gt;
+for (let i=0;i&amp;lt;obj2.length;i++){&lt;br&gt;
+console.log(obj2[i])&lt;br&gt;
+}&lt;br&gt;
+//输出结果就能出来了，forEach，for of同理&lt;/p&gt;
+&lt;p&gt;转载于:https://www.cnblogs.com/larrywang/p/10325988.html&lt;/p&gt;
+">JS中的forEach,for in,for of和for的遍历优缺点及区别</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/3TRVjZYqd/"" data-c="
+          &lt;p&gt;使用值接受者实现接口与使用指针接受者实现接口的区别&lt;/p&gt;
+&lt;p&gt;使用值接受者实现接口，结构体类型和结构体指针类型的变量都能存。&lt;br&gt;
+指针接受者实现接口只能存结构体指针类型的变量&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;值接受者&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594806629009.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+指针接受者&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594806636606.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+">GO语言的值接受者和指针接受者实现接口的区别</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/V4katkucI/"" data-c="
+          &lt;p&gt;首先php是这样解释的  语句里面出现运算符，那就认为是运算操作， 会将非int类型的数据强制转换为int。所以 intval(&#39;9a&#39; ) 等于 9， 然后加上1 就等于10&lt;/p&gt;
+">php echo 1+"9a" 为什么等于10</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/WmRSLawKl/"" data-c="
