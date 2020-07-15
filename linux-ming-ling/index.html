@@ -8,7 +8,7 @@
 <meta name="keywords" content="june个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>June</title>
+<title>Linux命令 | June</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1594803534903">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -52,6 +52,8 @@
 
 
 
+  <meta name="description" content="Linux命令" />
+  <meta name="keywords" content="LINUX" />
 </head>
 
 <body>
@@ -87,7 +89,7 @@
             
               
             
-            <li class="nav-item nav-item-active">
+            <li class="nav-item ">
               
               
                 
@@ -194,8 +196,23 @@
     <div
       class="section-layout pisces ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+          
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -238,27 +255,92 @@
 
 
 </div>
+          
+        
+      </div>
+    </div>
+  
 </div>
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'pisces';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
       }
-    });
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
   }
-  </script>
-        <div class="section-box pisces">
-          <section class="section bg-color posts-expand slide-down-in">
-            
-  <article class="post-list-box  post box-shadow-wrapper">
-    <div class="article-wrapper bg-color">
-      <section class="post-header">
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
   <h1 class="post-title">
     <a class="post-title-link" href="https://Dawn-cheng.github.io/linux-ming-ling/">
       Linux命令
@@ -298,46 +380,333 @@
     
   </div>
 </section>
-      <div class="post-body">
-        
-        
-          
-          
-        
-        
-        <div class="post-button text-center">
-          <a class="btn language" data-lan="read-more" href="https://Dawn-cheng.github.io/linux-ming-ling/" rel="contents">
-            阅读全文 »
-          </a>
-        </div>
-        
-      </div>
-      
-        <footer class="post-footer">
-          <div class="post-eof"></div>
-        </footer>
+            <div class="post-body next-md-body" id="post_body">
+              <p>一、开关机<br>
+sync ：把内存中的数据写到磁盘中（关机、重启前都需先执行sync）<br>
+shutdown -rnow或reboot ：立刻重启<br>
+shutdown -hnow ：立刻关机<br>
+shutdown -h 19:00 ：预定时间关闭系统（晚上7点关机，如果现在超过8点则第二天）<br>
+shutdown -h +10 ：预定时间关闭系统（10分钟后关机）<br>
+shutdown -c ：取消按预定时间关闭系统<br>
+init 0 ：关闭系统<br>
+telinit 0 ：关闭系统<br>
+logout ：注销<br>
+ 二、系统信息<br>
+arch ：显示机器的处理器架构<br>
+uname -m ：显示机器的处理器架构<br>
+uname -r ：显示正在使用的内核版本<br>
+dmidecode -q ：显示硬件系统部件 - (SMBIOS / DMI)<br>
+hdparm -i /dev/hda ：罗列一个磁盘的架构特性<br>
+hdparm -tT /dev/sda ：在磁盘上执行测试性读取操作<br>
+cat /proc/cpuinfo ：显示CPU info的信息<br>
+cat /proc/interrupts ：显示中断<br>
+cat /proc/meminfo ：校验内存使用<br>
+cat /proc/swaps ：显示哪些swap被使用<br>
+cat /proc/version ：显示内核的版本<br>
+cat /proc/net/dev ：显示网络适配器及统计<br>
+cat /proc/mounts ：显示已加载的文件系统<br>
+cat /etc/passwd :显示密码信息<br>
+lspci -tv ：罗列 PCI 设备<br>
+lsusb -tv ：显示 USB 设备<br>
+date ：显示系统日期<br>
+cal 2007 ：显示2007年的日历表<br>
+date 041217002007.00 ：设置日期和时间 - 月日时分年.秒<br>
+clock -w ：将时间修改保存到 BIOS<br>
+who ami：查看当前使用的终端<br>
+who或w ：查看所有终端<br>
+uname -m ：显示机器的处理器架构（如x86_64）<br>
+uname -f: 显示系统信息<br>
+ 三、文件和目录<br>
+cd /home：进入 '/ home' 目录'<br>
+cd .. ：返回上一级目录<br>
+cd ../.. ：返回上两级目录<br>
+cd ：进入个人的主目录<br>
+cd ~ ：进入个人的主目录<br>
+cd - ：返回上次所在的目录<br>
+pwd ：显示当前工作路径<br>
+ls ：查看目录中的文件<br>
+ls -F ：查看目录中的文件<br>
+ls -l ：显示文件和目录的详细资料<br>
+ls -a ：显示隐藏文件 ls <em>[0-9]</em> 显示包含数字的文件名和目录名<br>
+tree ：显示文件和目录由根目录开始的树形结构<br>
+lstree ：显示文件和目录由根目录开始的树形结构<br>
+mkdir dir1 ：创建一个叫做 'dir1' 的目录'<br>
+mkdir dir1 dir2 ：同时创建两个目录<br>
+mkdir -p /tmp/dir1/dir2 ：创建一个目录树<br>
+rm -f file1 ：删除一个叫做 'file1' 的文件'<br>
+rmdir dir1 ：删除一个叫做 'dir1' 的目录'<br>
+rm -rf dir1 ：删除一个叫做 'dir1' 的目录并同时删除其内容<br>
+rm -rf dir1 dir2 ：同时删除两个目录及它们的内容<br>
+mv dir1 new_dir ：重命名/移动 一个目录<br>
+cp file1 file2 ：复制一个文件 cp dir/* . 复制一个目录下的所有文件到当前工作目录<br>
+cp -a /tmp/dir1 ：复制一个目录到当前工作目录<br>
+cp -a dir1 dir2 ：复制一个目录<br>
+ln -s file1 lnk1 ：创建一个指向文件或目录的软链接<br>
+ln file1 lnk1 ：创建一个指向文件或目录的物理链接<br>
+touch “test”：创建一个名为test的文件<br>
+四、文件搜索<br>
+find / -name file1 ：从 '/' 开始进入根文件系统搜索文件和目录<br>
+find / -user user1 ：搜索属于用户 'user1' 的文件和目录<br>
+find /home/user1 -name *.bin ：在目录 '/ home/user1' 中搜索带有'.bin' 结尾的文件<br>
+find /usr/bin -type f -atime +100 ：搜索在过去100天内未被使用过的执行文件<br>
+find /usr/bin -type f -mtime -10 ：搜索在10天内被创建或者修改过的文件<br>
+find / -name *.rpm -exec chmod 755 '{}' \ ：搜索以 '.rpm' 结尾的文件并定义其权限<br>
+find / -xdev -name *.rpm ：搜索以 '.rpm' 结尾的文件，忽略光驱、捷盘等可移动设备<br>
+locate *.ps ：寻找以 '.ps' 结尾的文件 - 先运行 'updatedb' 命令<br>
+whereis halt ：显示一个二进制文件、源码或man的位置<br>
+which halt ：显示一个二进制文件或可执行文件的完整路径<br>
+ 五、挂载系统文件<br>
+mount /dev/hda2 /mnt/hda2 ：挂载一个叫做hda2的盘 - 确定目录 '/ mnt/hda2' 已经存在<br>
+umount /dev/hda2 ：卸载一个叫做hda2的盘 - 先从挂载点 '/ mnt/hda2' 退出<br>
+fuser -km /mnt/hda2 ：当设备繁忙时强制卸载<br>
+umount -n /mnt/hda2 ：运行卸载操作而不写入 /etc/mtab 文件- 当文件为只读或当磁盘写满时非常有用<br>
+mount /dev/fd0 /mnt/floppy ：挂载一个软盘<br>
+mount /dev/cdrom /mnt/cdrom ：挂载一个cdrom或dvdrom<br>
+mount /dev/hdc /mnt/cdrecorder ：挂载一个cdrw或dvdrom<br>
+mount /dev/hdb /mnt/cdrecorder ：挂载一个cdrw或dvdrom<br>
+mount -o loop file.iso /mnt/cdrom ：挂载一个文件或ISO镜像文件<br>
+mount -t vfat /dev/hda5 /mnt/hda5 ：挂载一个Windows FAT32文件系统<br>
+mount /dev/sda1 /mnt/usbdisk ：挂载一个usb 捷盘或闪存设备<br>
+mount -t smbfs -o username=user,password=pass //WinClient/share /mnt/share ：挂载一个windows网络共享<br>
+ 五、用户和群组<br>
+useradd 用户名 ：创建用户<br>
+userdel -r 用户名 :删除用户：（-r表示把用户的主目录一起删除）<br>
+usermod -g 组名 用户名 ：修改用户的组<br>
+usermod -aG 组名 用户名 ：将用户添加到组<br>
+groups test ：查看test用户所在的组<br>
+cat /etc/group |grep test ：查看test用户详情：用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell<br>
+passwd [ludf] 用户名 ：用户改自己密码，不需要输入用户名，选项-d:指定空口令,-l:禁用某用户，-u解禁某用户，-f：强迫用户下次登录时修改口令<br>
+groupadd 组名 ：创建用户组<br>
+groupdel 用户组 ：删除组<br>
+groupmod -n 新组名 旧组名 ：修改用户组名字<br>
+su - 用户名：完整的切换到一个用户环境（相当于登录）（建议用这个）（退出用户：exit）<br>
+su 用户名 :切换到用户的身份（环境变量等没变，导致很多命令要加上绝对路径才能执行）<br>
+sudo 命令 ：以root的身份执行命令（输入用户自己的密码，而su为输入要切换用户的密码，普通用户需设置/etc/sudoers才可用sudo）<br>
+chage -E 2005-12-31 用户名：设置用户口令的失效期限<br>
+pwck ：检查 '/etc/passwd' 的文件格式和语法修正以及存在的用户<br>
+grpck ：检查 '/etc/passwd' 的文件格式和语法修正以及存在的群组<br>
+newgrp group_name ：登陆进一个新的群组以改变新创建文件的预设群组<br>
+ 六、文件权限操作</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>u 表示“用户（user）”，即文件或者目录所有者。</p>
+<p>g 表示“同组（group）用户”，即文件属主有相同组ID的所有用户。</p>
+<p>o 表示“其他（others）用户”，即系统默认值。</p>
+<p>1</p>
+<p>2</p>
+<p>文字设定：（r：可读）、（w：可写）、（ x：可执行）</p>
+<p>数字设定：（r：4）、（w：2）、（ x：1）</p>
+<p>chmod ugo+rwx test.txt: 表示分别给test.txt文件g、u、o用户可读、可写、可执行权限(也可单独给权限用逗号隔开)<br>
+chmod 777 test.txt: 表示分别test.txt文件 g、u、o用户可读、可写、可执行权限（数字表示）<br>
+chmod u-wx test.txt：表示删除test.txt文件 u用户可写、可执行权限。<br>
+ 七、打包压缩文件<br>
+bunzip2 file1.bz2 ：解压一个叫做 'file1.bz2'的文件<br>
+bzip2 file1 ：压缩一个叫做 'file1' 的文件<br>
+gunzip file1.gz ：解压一个叫做 'file1.gz'的文件<br>
+gzip file1 ：压缩一个叫做 'file1'的文件<br>
+gzip -9 file1 ：最大程度压缩<br>
+rar a file1.rar test_file ：创建一个叫做 'file1.rar' 的包<br>
+rar a file1.rar file1 file2 dir1 ：同时压缩 'file1', 'file2' 以及目录 'dir1'<br>
+rar x file1.rar ：解压rar包<br>
+unrar x file1.rar ：解压rar包<br>
+tar -cvf archive.tar file1 ：创建一个非压缩的 tarball<br>
+tar -cvf archive.tar file1 file2 dir1 ：创建一个包含了 'file1', 'file2' 以及 'dir1'的档案文件<br>
+tar -tf archive.tar ：显示一个包中的内容<br>
+tar -xvf archive.tar ：释放一个包<br>
+tar -xvf archive.tar -C /tmp ：将压缩包释放到 /tmp目录下<br>
+tar -cvfj archive.tar.bz2 dir1 ：创建一个bzip2格式的压缩包<br>
+tar -jxvf archive.tar.bz2 ：解压一个bzip2格式的压缩包<br>
+tar -cvfz archive.tar.gz dir1 ：创建一个gzip格式的压缩包<br>
+tar -zxvf archive.tar.gz ：解压一个gzip格式的压缩包<br>
+zip file1.zip file1 ：创建一个zip格式的压缩包<br>
+zip -r file1.zip file1 file2 dir1 ：将几个文件和目录同时压缩成一个zip格式的压缩包<br>
+unzip file1.zip ：解压一个zip格式压缩包<br>
+ 八、RPM包<br>
+rpm -ivh 名字.rpm ：安装一个rpm包<br>
+rpm -ivh --nodeeps package.rpm ：安装一个rpm包而忽略依赖关系警告<br>
+rpm -U package.rpm ：更新一个rpm包但不改变其配置文件<br>
+rpm -F package.rpm ：更新一个确定已经安装的rpm包<br>
+rpm -e package_name.rpm ：删除一个rpm包<br>
+rpm -qa ：显示系统中所有已经安装的rpm包<br>
+rpm -qa | grep httpd ：显示所有名称中包含 &quot;httpd&quot; 字样的rpm包<br>
+rpm -qi package_name ：获取一个已安装包的特殊信息<br>
+rpm -qg &quot;System Environment/Daemons&quot; ：显示一个组件的rpm包<br>
+rpm -ql package_name ：显示一个已经安装的rpm包提供的文件列表<br>
+rpm -qc package_name ：显示一个已经安装的rpm包提供的配置文件列表<br>
+rpm -q package_name --whatrequires ：显示与一个rpm包存在依赖关系的列表<br>
+rpm -q package_name --whatprovides ：显示一个rpm包所占的体积<br>
+rpm -q package_name --scripts ：显示在安装/删除期间所执行的脚本l<br>
+rpm -q package_name --changelog ：显示一个rpm包的修改历史<br>
+rpm -qf /etc/httpd/conf/httpd.conf ：确认所给的文件由哪个rpm包所提供<br>
+rpm -qp package.rpm -l ：显示由一个尚未安装的rpm包提供的文件列表<br>
+rpm --import /media/cdrom/RPM-GPG-KEY ：导入公钥数字证书<br>
+rpm --checksig package.rpm ：确认一个rpm包的完整性<br>
+rpm -qa gpg-pubkey ：确认已安装的所有rpm包的完整性<br>
+rpm -V package_name ：检查文件尺寸、 许可、类型、所有者、群组、MD5检查以及最后修改时间<br>
+rpm -Va ：检查系统中所有已安装的rpm包- 小心使用<br>
+rpm -Vp package.rpm ：确认一个rpm包还未安装<br>
+rpm2cpio package.rpm | cpio --extract --make-directories <em>bin</em> ：从一个rpm包运行可执行文件<br>
+rpm -ivh /usr/src/redhat/RPMS/<code>arch</code>/package.rpm ：从一个rpm源码安装一个构建好的包<br>
+rpmbuild --rebuild package_name.src.rpm ：从一个rpm源码构建一个 rpm 包<br>
+ 九、yum软件包<br>
+yum install 软件名：下载并安装一个rpm包<br>
+yum localinstall 软件包名： 将安装一个rpm包，使用你自己的软件仓库为你解决所有依赖关系<br>
+yum update 软件包名.rpm ：更新当前系统中所有安装的rpm包<br>
+yum update 软件包名：更新一个rpm包<br>
+yum remove 软件包名： 删除一个rpm包<br>
+yum list：列出当前系统中安装的所有包<br>
+yum search 软件包名： 在rpm仓库中搜寻软件包<br>
+yum clean packages ：清理rpm缓存删除下载的包<br>
+yum clean headers ：删除所有头文件<br>
+yum clean all ：删除所有缓存的包和头文件<br>
+ 十、磁盘管理<br>
+df -h :显示磁盘的空间使用情况 及挂载点<br>
+df -h /var/log :（显示log所在分区（挂载点）、目录所在磁盘及可用的磁盘容量）<br>
+du -sm /var/log/* | sort -rn : 根据占用磁盘空间大小排序（MB）某目录下文件和目录大小<br>
+fdisk -l :查所有分区及总容量，加/dev/sda为查硬盘a的分区）<br>
+fdisk /dev/sdb :对硬盘sdb进行分区<br>
+mount /dev/sda1 /mnt ：硬盘sda1挂载到/mnt目录（mount 装置文件名 挂载点）<br>
+mount -t cifs -o username=luolanguo,password=win用户账号密码,vers=3.0 //10.2.1.178/G /mnt/usb :远程linux 共享挂载windows的U盘,G为U盘共享名，需设置U盘共享<br>
+mount -o loop /opt/soft/CentOS-7-x86_64-DVD-1708.iso /media/CentOS ：挂载iso文件<br>
+umount /dev/sda1 ：取消挂载（umount 装置文件名或挂载点）<br>
+ 十一、DEB包<br>
+dpkg -i package.deb ：安装/更新一个 deb 包<br>
+dpkg -r package_name ：从系统删除一个 deb 包<br>
+dpkg -l ：显示系统中所有已经安装的 deb 包<br>
+dpkg -l | grep httpd ：显示所有名称中包含 &quot;httpd&quot; 字样的deb包<br>
+dpkg -s package_name ：获得已经安装在系统中一个特殊包的信息<br>
+dpkg -L package_name ：显示系统中已经安装的一个deb包所提供的文件列表<br>
+dpkg --contents package.deb ：显示尚未安装的一个包所提供的文件列表<br>
+dpkg -S /bin/ping ：确认所给的文件由哪个deb包提供<br>
+ 十二、APT软件工具<br>
+apt-get install package_name ：安装/更新一个 deb 包<br>
+apt-cdrom install package_name ：从光盘安装/更新一个 deb 包<br>
+apt-get update ：升级列表中的软件包<br>
+apt-get upgrade ：升级所有已安装的软件<br>
+apt-get remove package_name ：从系统删除一个deb包<br>
+apt-get check ：确认依赖的软件仓库正确<br>
+apt-get clean ：从下载的软件包中清理缓存<br>
+apt-cache search searched-package ：返回包含所要搜索字符串的软件包名称<br>
+十三、文本处理<br>
+cat file1 file2 ... | command &lt;&gt; file1_in.txt_or_file1_out.txt general syntax for text manipulation using PIPE, STDIN and STDOUT<br>
+cat file1 | command( sed, grep, awk, grep, etc...) &gt; result.txt 合并一个文件的详细说明文本，并将简介写入一个新文件中<br>
+cat file1 | command( sed, grep, awk, grep, etc...) &gt;&gt; result.txt 合并一个文件的详细说明文本，并将简介写入一个已有的文件中<br>
+grep Aug /var/log/messages 在文件 '/var/log/messages'中查找关键词&quot;Aug&quot;<br>
+grep ^Aug /var/log/messages 在文件 '/var/log/messages'中查找以&quot;Aug&quot;开始的词汇<br>
+grep [0-9] /var/log/messages 选择 '/var/log/messages' 文件中所有包含数字的行<br>
+grep Aug -R /var/log/* 在目录 '/var/log' 及随后的目录中搜索字符串&quot;Aug&quot;<br>
+sed 's/stringa1/stringa2/g' example.txt 将example.txt文件中的 &quot;string1&quot; 替换成 &quot;string2&quot;<br>
+sed '/^<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;#&#039; at position 48: …除所有空白行
+sed &#039;/ *#̲/d; /^'>/d&#039; example.txt 从example.txt文件中删除所有空白行
+sed &#039;/ *#/d; /^</span>/d' example.txt 从example.txt文件中删除所有注释和空白行<br>
+echo 'esempio' | tr '[:lower:]' '[:upper:]' 合并上下单元格内容<br>
+sed -e '1d' result.txt 从文件example.txt 中排除第一行<br>
+sed -n '/stringa1/p' 查看只包含词汇 &quot;string1&quot;的行<br>
+sed -e 's/ <em>$//' example.txt 删除每一行最后的空白字符<br>
+sed -e 's/stringa1//g' example.txt 从文档中只删除词汇 &quot;string1&quot; 并保留剩余全部<br>
+sed -n '1,5p;5q' example.txt 查看从第一行到第5行内容<br>
+sed -n '5p;5q' example.txt 查看第5行<br>
+sed -e 's/00</em>/0/g' example.txt 用单个零替换多个零<br>
+cat -n file1 标示文件的行数<br>
+cat example.txt | awk 'NR%2==1' 删除example.txt文件中的所有偶数行<br>
+echo a b c | awk '{print $1}' 查看一行第一栏<br>
+echo a b c | awk '{print $1,$3}' 查看一行的第一和第三栏<br>
+paste file1 file2 合并两个文件或两栏的内容<br>
+paste -d '+' file1 file2 合并两个文件或两栏的内容，中间用&quot;+&quot;区分<br>
+sort file1 file2 排序两个文件的内容<br>
+sort file1 file2 | uniq 取出两个文件的并集(重复的行只保留一份)<br>
+sort file1 file2 | uniq -u 删除交集，留下其他的行<br>
+sort file1 file2 | uniq -d 取出两个文件的交集(只留下同时存在于两个文件中的文件)<br>
+comm -1 file1 file2 比较两个文件的内容只删除 'file1' 所包含的内容<br>
+comm -2 file1 file2 比较两个文件的内容只删除 'file2' 所包含的内容<br>
+comm -3 file1 file2 比较两个文件的内容只删除两个文件共有的部分<br>
+十四、字符设置和文件格式转换 <br>
+dos2unix filedos.txt fileunix.txt 将一个文本文件的格式从MSDOS转换成UNIX<br>
+unix2dos fileunix.txt filedos.txt 将一个文本文件的格式从UNIX转换成MSDOS<br>
+recode ..HTML &lt; page.txt &gt; page.html 将一个文本文件转换成html<br>
+recode -l | more 显示所有允许的转换格式<br>
+  十五、文件系统分析 <br>
+badblocks -v /dev/hda1 检查磁盘hda1上的坏磁块<br>
+fsck /dev/hda1 修复/检查hda1磁盘上linux文件系统的完整性<br>
+fsck.ext2 /dev/hda1 修复/检查hda1磁盘上ext2文件系统的完整性<br>
+e2fsck /dev/hda1 修复/检查hda1磁盘上ext2文件系统的完整性<br>
+e2fsck -j /dev/hda1 修复/检查hda1磁盘上ext3文件系统的完整性<br>
+fsck.ext3 /dev/hda1 修复/检查hda1磁盘上ext3文件系统的完整性<br>
+fsck.vfat /dev/hda1 修复/检查hda1磁盘上fat文件系统的完整性<br>
+fsck.msdos /dev/hda1 修复/检查hda1磁盘上dos文件系统的完整性<br>
+dosfsck /dev/hda1 修复/检查hda1磁盘上dos文件系统的完整性<br>
+十六、初始化一个文件系统<br>
+mkfs /dev/hda1 在hda1分区创建一个文件系统<br>
+mke2fs /dev/hda1 在hda1分区创建一个linux ext2的文件系统<br>
+mke2fs -j /dev/hda1 在hda1分区创建一个linux ext3(日志型)的文件系统<br>
+mkfs -t vfat 32 -F /dev/hda1 创建一个 FAT32 文件系统<br>
+fdformat -n /dev/fd0 格式化一个软盘<br>
+mkswap /dev/hda3 创建一个swap文件系统<br>
+十七、SWAP文件系统<br>
+mkswap /dev/hda3 创建一个swap文件系统<br>
+swapon /dev/hda3 启用一个新的swap文件系统<br>
+swapon /dev/hda2 /dev/hdb3 启用两个swap分区<br>
+十八、备份<br>
+dump -0aj -f /tmp/home0.bak /home 制作一个 '/home' 目录的完整备份<br>
+dump -1aj -f /tmp/home0.bak /home 制作一个 '/home' 目录的交互式备份<br>
+restore -if /tmp/home0.bak 还原一个交互式备份<br>
+rsync -rogpav --delete /home /tmp 同步两边的目录<br>
+rsync -rogpav -e ssh --delete /home ip_address:/tmp 通过SSH通道rsync<br>
+rsync -az -e ssh --delete ip_addr:/home/public /home/local 通过ssh和压缩将一个远程目录同步到本地目录<br>
+rsync -az -e ssh --delete /home/local ip_addr:/home/public 通过ssh和压缩将本地目录同步到远程目录<br>
+dd bs=1M if=/dev/hda | gzip | ssh user@ip_addr 'dd of=hda.gz' 通过ssh在远程主机上执行一次备份本地磁盘的操作<br>
+dd if=/dev/sda of=/tmp/file1 备份磁盘内容到一个文件<br>
+tar -Puf backup.tar /home/user 执行一次对 '/home/user' 目录的交互式备份操作<br>
+( cd /tmp/local/ &amp;&amp; tar c . ) | ssh -C user@ip_addr 'cd /home/share/ &amp;&amp; tar x -p' 通过ssh在远程目录中复制一个目录内容<br>
+( tar c /home ) | ssh -C user@ip_addr 'cd /home/backup-home &amp;&amp; tar x -p' 通过ssh在远程目录中复制一个本地目录<br>
+tar cf - . | (cd /tmp/backup ; tar xf - ) 本地将一个目录复制到另一个地方，保留原有权限及链接<br>
+find /home/user1 -name '<em>.txt' | xargs cp -av --target-directory=/home/backup/ --parents 从一个目录查找并复制所有以 '.txt' 结尾的文件到另一个目录<br>
+find /var/log -name '</em>.log' | tar cv --files-from=- | bzip2 &gt; log.tar.bz2 查找所有以 '.log' 结尾的文件并做成一个bzip包<br>
+dd if=/dev/hda of=/dev/fd0 bs=512 count=1 做一个将 MBR (Master Boot Record)内容复制到软盘的动作<br>
+dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容</p>
+
+            </div>
+            
+              <div class="reward-btn">
+                <div class="reward-btn-text">赞赏</div>
+              </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      june
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://Dawn-cheng.github.io/linux-ming-ling/" title="Linux命令">https://Dawn-cheng.github.io/linux-ming-ling/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://Dawn-cheng.github.io/WGvtriPys/"># LINUX</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
       
     </div>
-  </article>
-  
-            
-            
-<div class="page bg-color">
-  <ul class="pagination-ul">
-    
-    
+    <div class="nav-next">
       
-        <li class="pagination-li pagination-active">
-            <a href="/page/../">
-              1
-            </a>
-        </li>
-      
-    
-    
-  </ul>
+    </div>
+  </div>
 </div>
-          </section>
+            
+            
+  
+
+          </div>
         </div>
       </div>
     </div>
@@ -1140,6 +1509,223 @@
     }
   })
 </script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        window.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        window.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        window.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        window.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      window.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
   </div>
 </body>
 
@@ -1738,6 +2324,5 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
 
   <div class="snow-container"></div>
   <script src="/media/js/bg/snow.js"></script>
-
 
 </html>
