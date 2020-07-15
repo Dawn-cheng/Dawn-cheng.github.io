@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Linux命令 | June</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594803534903">
+<link rel="shortcut icon" href="/favicon.ico?v=1594803859446">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -487,17 +487,13 @@ pwck ：检查 '/etc/passwd' 的文件格式和语法修正以及存在的用户
 grpck ：检查 '/etc/passwd' 的文件格式和语法修正以及存在的群组<br>
 newgrp group_name ：登陆进一个新的群组以改变新创建文件的预设群组<br>
  六、文件权限操作</p>
-<p>1</p>
-<p>2</p>
-<p>3</p>
-<p>u 表示“用户（user）”，即文件或者目录所有者。</p>
-<p>g 表示“同组（group）用户”，即文件属主有相同组ID的所有用户。</p>
-<p>o 表示“其他（others）用户”，即系统默认值。</p>
-<p>1</p>
-<p>2</p>
-<p>文字设定：（r：可读）、（w：可写）、（ x：可执行）</p>
-<p>数字设定：（r：4）、（w：2）、（ x：1）</p>
-<p>chmod ugo+rwx test.txt: 表示分别给test.txt文件g、u、o用户可读、可写、可执行权限(也可单独给权限用逗号隔开)<br>
+<ul>
+<li>1 u 表示“用户（user）”，即文件或者目录所有者。</li>
+<li>2 g 表示“同组（group）用户”，即文件属主有相同组ID的所有用户。</li>
+<li>3 o 表示“其他（others）用户”，即系统默认值。</li>
+<li>1 文字设定：（r：可读）、（w：可写）、（ x：可执行）</li>
+<li>2 数字设定：（r：4）、（w：2）、（ x：1）<br>
+chmod ugo+rwx test.txt: 表示分别给test.txt文件g、u、o用户可读、可写、可执行权限(也可单独给权限用逗号隔开)<br>
 chmod 777 test.txt: 表示分别test.txt文件 g、u、o用户可读、可写、可执行权限（数字表示）<br>
 chmod u-wx test.txt：表示删除test.txt文件 u用户可写、可执行权限。<br>
  七、打包压缩文件<br>
@@ -664,7 +660,8 @@ tar cf - . | (cd /tmp/backup ; tar xf - ) 本地将一个目录复制到另一�
 find /home/user1 -name '<em>.txt' | xargs cp -av --target-directory=/home/backup/ --parents 从一个目录查找并复制所有以 '.txt' 结尾的文件到另一个目录<br>
 find /var/log -name '</em>.log' | tar cv --files-from=- | bzip2 &gt; log.tar.bz2 查找所有以 '.log' 结尾的文件并做成一个bzip包<br>
 dd if=/dev/hda of=/dev/fd0 bs=512 count=1 做一个将 MBR (Master Boot Record)内容复制到软盘的动作<br>
-dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容</p>
+dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容</li>
+</ul>
 
             </div>
             
@@ -1852,17 +1849,13 @@ pwck ：检查 &#39;/etc/passwd&#39; 的文件格式和语法修正以及存在�
 grpck ：检查 &#39;/etc/passwd&#39; 的文件格式和语法修正以及存在的群组&lt;br&gt;
 newgrp group_name ：登陆进一个新的群组以改变新创建文件的预设群组&lt;br&gt;
  六、文件权限操作&lt;/p&gt;
-&lt;p&gt;1&lt;/p&gt;
-&lt;p&gt;2&lt;/p&gt;
-&lt;p&gt;3&lt;/p&gt;
-&lt;p&gt;u 表示“用户（user）”，即文件或者目录所有者。&lt;/p&gt;
-&lt;p&gt;g 表示“同组（group）用户”，即文件属主有相同组ID的所有用户。&lt;/p&gt;
-&lt;p&gt;o 表示“其他（others）用户”，即系统默认值。&lt;/p&gt;
-&lt;p&gt;1&lt;/p&gt;
-&lt;p&gt;2&lt;/p&gt;
-&lt;p&gt;文字设定：（r：可读）、（w：可写）、（ x：可执行）&lt;/p&gt;
-&lt;p&gt;数字设定：（r：4）、（w：2）、（ x：1）&lt;/p&gt;
-&lt;p&gt;chmod ugo+rwx test.txt: 表示分别给test.txt文件g、u、o用户可读、可写、可执行权限(也可单独给权限用逗号隔开)&lt;br&gt;
+&lt;ul&gt;
+&lt;li&gt;1 u 表示“用户（user）”，即文件或者目录所有者。&lt;/li&gt;
+&lt;li&gt;2 g 表示“同组（group）用户”，即文件属主有相同组ID的所有用户。&lt;/li&gt;
+&lt;li&gt;3 o 表示“其他（others）用户”，即系统默认值。&lt;/li&gt;
+&lt;li&gt;1 文字设定：（r：可读）、（w：可写）、（ x：可执行）&lt;/li&gt;
+&lt;li&gt;2 数字设定：（r：4）、（w：2）、（ x：1）&lt;br&gt;
+chmod ugo+rwx test.txt: 表示分别给test.txt文件g、u、o用户可读、可写、可执行权限(也可单独给权限用逗号隔开)&lt;br&gt;
 chmod 777 test.txt: 表示分别test.txt文件 g、u、o用户可读、可写、可执行权限（数字表示）&lt;br&gt;
 chmod u-wx test.txt：表示删除test.txt文件 u用户可写、可执行权限。&lt;br&gt;
  七、打包压缩文件&lt;br&gt;
@@ -2029,7 +2022,8 @@ tar cf - . | (cd /tmp/backup ; tar xf - ) 本地将一个目录复制到另一�
 find /home/user1 -name &#39;&lt;em&gt;.txt&#39; | xargs cp -av --target-directory=/home/backup/ --parents 从一个目录查找并复制所有以 &#39;.txt&#39; 结尾的文件到另一个目录&lt;br&gt;
 find /var/log -name &#39;&lt;/em&gt;.log&#39; | tar cv --files-from=- | bzip2 &amp;gt; log.tar.bz2 查找所有以 &#39;.log&#39; 结尾的文件并做成一个bzip包&lt;br&gt;
 dd if=/dev/hda of=/dev/fd0 bs=512 count=1 做一个将 MBR (Master Boot Record)内容复制到软盘的动作&lt;br&gt;
-dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容&lt;/p&gt;
+dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容&lt;/li&gt;
+&lt;/ul&gt;
 ">Linux命令</a>
       </div>
       
