@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>June</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594883669073">
+<link rel="shortcut icon" href="/favicon.ico?v=1594899209154">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -175,19 +175,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">9</span>
+        <span class="site-item-stat-count">10</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">6</span>
+        <span class="site-item-stat-count">7</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">6</span>
+        <span class="site-item-stat-count">7</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -228,6 +228,10 @@
           <small class="language" data-lan="tag">标签</small>
         </h2>
       </div>
+      
+      
+      
+      
       
       
       
@@ -496,6 +500,48 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/jvx7Ng7mp/"" data-c="
+          &lt;p&gt;首先介绍这些索引的概念：&lt;br&gt;
+1、聚集索引&lt;/p&gt;
+&lt;p&gt;聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;也就是说聚集索引的顺序就是数据的物理存储顺序。它会根据聚集索引键的顺序来存储表中的数据，即对表的数据按索引键的顺序进行排序，然后重新存储到磁盘上。因为数据在物理存放时只能有一种排列方式，所以一个表只能有一个聚集索引。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594898785007.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;比如字典中，用‘拼音’查汉字，就是聚集索引。因为正文中字都是按照拼音排序的。而用‘偏旁部首’查汉字，就是非聚集索引，因为正文中的字并不是按照偏旁部首排序的，我们通过检字表得到正文中的字在索引中的映射，然后通过映射找到所需要的字。&lt;/p&gt;
+&lt;p&gt;聚集索引的使用场合为：&lt;/p&gt;
+&lt;p&gt;a.查询命令的回传结果是以该字段为排序依据的；&lt;/p&gt;
+&lt;p&gt;b.查询的结果返回一个区间的值；&lt;/p&gt;
+&lt;p&gt;c.查询的结果返回某值相同的大量结果集。&lt;/p&gt;
+&lt;p&gt;聚集索引会降低 insert，和update操作的性能，所以，是否使用聚集索引要全面衡量。&lt;/p&gt;
+&lt;p&gt;2、非聚集索引： 索引顺序与物理存储顺序不同&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594898800060.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;非聚集索引的使用场合为：&lt;/p&gt;
+&lt;p&gt;a.查询所获数据量较少时；&lt;/p&gt;
+&lt;p&gt;b.某字段中的数据的唯一性比较高时；&lt;/p&gt;
+&lt;p&gt;非聚集索引必须是稠密索引&lt;/p&gt;
+&lt;p&gt;3、聚簇索引&lt;/p&gt;
+&lt;p&gt;聚簇索引并不是一种单独的索引类型，而是一种数据存储方式。术语“聚族”表示数据行和相邻的键值紧凑的存储在一起。因为无法同时把数据行放在两个不同的地方，所以一个表只能有一个聚族索引。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594898814943.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;聚族索引的优点&lt;/p&gt;
+&lt;p&gt;可以把相关数据保存在一起。就好像在操场上战队，一个院系一个院系的站在一起，这样要找到一个人，就先找到他的院系，然后在他的院系里找到他就行了，而不是把学校里的所有人都遍历一遍&lt;/p&gt;
+&lt;p&gt;数据访问更快。聚族索引将索引和数据保存在同一个B-Tree中，因此从聚族索引中获取数据通常比在非聚族索引中查找更快&lt;/p&gt;
+&lt;p&gt;4、稠密索引&lt;/p&gt;
+&lt;p&gt;稠密索引：每个索引键值都对应有一个索引项&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594898824043.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;稠密索引能够比稀疏索引更快的定位一条记录。但是，稀疏索引相比于稠密索引的优点是：它所占空间更小，且插入和删除时的维护开销也小。&lt;/p&gt;
+&lt;p&gt;5、稀疏索引&lt;/p&gt;
+&lt;p&gt;稀疏索引：相对于稠密索引，稀疏索引只为某些搜索码值建立索引记录；在搜索时，找到其最大的搜索码值小于或等于所查找记录的搜索码值的索引项，然后从该记录开始向后顺序查询直到找到为止。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1594898834027.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;接着结合mysql进行讲解：&lt;br&gt;
+mysql的两种数据存储方式，一种是InnoDB，一种是MyISAM。这两种存储都是基于B+树的存储方式，但是也有点不同。&lt;/p&gt;
+&lt;p&gt;MyIsam 索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。主索引和辅助索引没有区别都是非聚集索引。索引页正常大小为1024字节，索引页存放在.MYI 文件中。MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。&lt;/p&gt;
+&lt;p&gt;InnoDB 也使用B+Tree作为索引结构，索引页大小16，和表数据页共同存放在表空间中。从InnoDB表数据存放方式可看出InnoDB表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。&lt;/p&gt;
+&lt;p&gt;InnoDB默认对主键建立聚簇索引。如果你不指定主键，InnoDB会用一个具有唯一且非空值的索引来代替。如果不存在这样的索引，InnoDB会定义一个隐藏的主键，然后对其建立聚簇索引。一般来说，InnoDB 会以聚簇索引的形式来存储实际的数据，它是其它二级索引的基础。&lt;/p&gt;
+&lt;p&gt;所以mysql innodb引擎的聚集索引、聚簇索引都默认是主键索引，如果没有指定主键，就是一个具有唯一且非空值的索引，如果不存在这样的索引，就是InnoDB自定义的隐藏主键索引，并且该索引是稠密索引。&lt;/p&gt;
+">mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/6ZVP7IE6V/"" data-c="

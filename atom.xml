@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>June</title>
-    <updated>2020-07-16T07:14:40.763Z</updated>
+    <updated>2020-07-16T11:33:40.569Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,21 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, June</rights>
+    <entry>
+        <title type="html"><![CDATA[mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引]]></title>
+        <id>https://Dawn-cheng.github.io/jvx7Ng7mp/</id>
+        <link href="https://Dawn-cheng.github.io/jvx7Ng7mp/">
+        </link>
+        <updated>2020-07-16T11:24:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>首先介绍这些索引的概念：<br>
+1、聚集索引</p>
+<p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>首先介绍这些索引的概念：<br>
+1、聚集索引</p>
+<p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[邀请码的设计]]></title>
         <id>https://Dawn-cheng.github.io/6ZVP7IE6V/</id>
