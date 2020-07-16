@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>搞懂这些Redis知识点，吊打面试官！ | June</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594883048869">
+<link rel="shortcut icon" href="/favicon.ico?v=1594883669073">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -339,7 +339,7 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>8399<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>8408<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
@@ -392,8 +392,38 @@
 <p>spring-session-data-redis：Spring Session 引入，用作共享 Session。</p>
 <p>配置文件 application.yml 的配置：</p>
 <p>server: port: 8082 servlet: session: timeout: 30msspring:cache:type: redis redis: host: 127.0.0.1 port: 6379password:# redis默认情况下有16个分片，这里配置具体使用的分片，默认为0database: 0 lettuce: pool:# 连接池最大连接数(使用负数表示没有限制),默认8max-active: 100</p>
-<p>创建实体类 User.java：</p>
-<p>publicclassUserimplementsSerializable{privatestaticfinallong serialVersionUID = 662692455422902539L;private Integer id;private String name;private Integer age;publicUser(){ }publicUser(Integer id, String name, Integer age){this.id = id;this.name = name;this.age = age; }public Integer getId(){return id; }publicvoidsetId(Integer id){this.id = id; }public String getName(){return name; }publicvoidsetName(String name){this.name = name; }public Integer getAge(){return age; }publicvoidsetAge(Integer age){this.age = age; }@Overridepublic String toString(){return&quot;User{&quot; +&quot;id=&quot; + id +&quot;, name='&quot; + name + ''' +&quot;, age=&quot; + age +'}'; }}</p>
+<p>创建实体类 User.java：<br>
+public class UserimplementsSerializable{<br>
+private staticfinallong serialVersionUID = 662692455422902539L;<br>
+private Integer id;<br>
+private String name;<br>
+private Integer age;<br>
+public User(){ }<br>
+public User(Integer id, String name, Integer age){<br>
+this.id = id;this.name = name;<br>
+this.age = age;<br>
+}<br>
+public Integer getId(){<br>
+return id;<br>
+}<br>
+public voidsetId(Integer id){<br>
+this.id = id;<br>
+}<br>
+public String getName(){<br>
+return name;<br>
+}<br>
+public voidsetName(String name){<br>
+this.name = name;<br>
+}<br>
+public Integer getAge(){<br>
+return age;<br>
+}<br>
+public voidsetAge(Integer age){<br>
+this.age = age;<br>
+}<br>
+@Override public String toString(){<br>
+return&quot;User{&quot; +&quot;id=&quot; + id +&quot;, name='&quot; + name + ''' +&quot;, age=&quot; + age +'}'; }<br>
+}</p>
 <p>RedisTemplate 的使用方式</p>
 <p>默认情况下的模板只能支持 RedisTemplate&lt;String, String&gt;，也就是只能存入字符串，所以自定义模板很有必要。</p>
 <p>添加配置类 RedisCacheConfig.java：</p>
@@ -1440,8 +1470,38 @@ usort()	使用用户自定义的比较函数对数组进行排序。&lt;/p&gt;
 &lt;p&gt;spring-session-data-redis：Spring Session 引入，用作共享 Session。&lt;/p&gt;
 &lt;p&gt;配置文件 application.yml 的配置：&lt;/p&gt;
 &lt;p&gt;server: port: 8082 servlet: session: timeout: 30msspring:cache:type: redis redis: host: 127.0.0.1 port: 6379password:# redis默认情况下有16个分片，这里配置具体使用的分片，默认为0database: 0 lettuce: pool:# 连接池最大连接数(使用负数表示没有限制),默认8max-active: 100&lt;/p&gt;
-&lt;p&gt;创建实体类 User.java：&lt;/p&gt;
-&lt;p&gt;publicclassUserimplementsSerializable{privatestaticfinallong serialVersionUID = 662692455422902539L;private Integer id;private String name;private Integer age;publicUser(){ }publicUser(Integer id, String name, Integer age){this.id = id;this.name = name;this.age = age; }public Integer getId(){return id; }publicvoidsetId(Integer id){this.id = id; }public String getName(){return name; }publicvoidsetName(String name){this.name = name; }public Integer getAge(){return age; }publicvoidsetAge(Integer age){this.age = age; }@Overridepublic String toString(){return&amp;quot;User{&amp;quot; +&amp;quot;id=&amp;quot; + id +&amp;quot;, name=&#39;&amp;quot; + name + &#39;&#39;&#39; +&amp;quot;, age=&amp;quot; + age +&#39;}&#39;; }}&lt;/p&gt;
+&lt;p&gt;创建实体类 User.java：&lt;br&gt;
+public class UserimplementsSerializable{&lt;br&gt;
+private staticfinallong serialVersionUID = 662692455422902539L;&lt;br&gt;
+private Integer id;&lt;br&gt;
+private String name;&lt;br&gt;
+private Integer age;&lt;br&gt;
+public User(){ }&lt;br&gt;
+public User(Integer id, String name, Integer age){&lt;br&gt;
+this.id = id;this.name = name;&lt;br&gt;
+this.age = age;&lt;br&gt;
+}&lt;br&gt;
+public Integer getId(){&lt;br&gt;
+return id;&lt;br&gt;
+}&lt;br&gt;
+public voidsetId(Integer id){&lt;br&gt;
+this.id = id;&lt;br&gt;
+}&lt;br&gt;
+public String getName(){&lt;br&gt;
+return name;&lt;br&gt;
+}&lt;br&gt;
+public voidsetName(String name){&lt;br&gt;
+this.name = name;&lt;br&gt;
+}&lt;br&gt;
+public Integer getAge(){&lt;br&gt;
+return age;&lt;br&gt;
+}&lt;br&gt;
+public voidsetAge(Integer age){&lt;br&gt;
+this.age = age;&lt;br&gt;
+}&lt;br&gt;
+@Override public String toString(){&lt;br&gt;
+return&amp;quot;User{&amp;quot; +&amp;quot;id=&amp;quot; + id +&amp;quot;, name=&#39;&amp;quot; + name + &#39;&#39;&#39; +&amp;quot;, age=&amp;quot; + age +&#39;}&#39;; }&lt;br&gt;
+}&lt;/p&gt;
 &lt;p&gt;RedisTemplate 的使用方式&lt;/p&gt;
 &lt;p&gt;默认情况下的模板只能支持 RedisTemplate&amp;lt;String, String&amp;gt;，也就是只能存入字符串，所以自定义模板很有必要。&lt;/p&gt;
 &lt;p&gt;添加配置类 RedisCacheConfig.java：&lt;/p&gt;
