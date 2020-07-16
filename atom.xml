@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>June</title>
-    <updated>2020-07-16T06:22:21.125Z</updated>
+    <updated>2020-07-16T06:23:09.402Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -16,6 +16,10 @@
         <link href="https://Dawn-cheng.github.io/6ZVP7IE6V/">
         </link>
         <updated>2020-07-16T06:06:48.000Z</updated>
+        <summary type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[uni-app webview组件，页面铺面全屏问题]]></title>
