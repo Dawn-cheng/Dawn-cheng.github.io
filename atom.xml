@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>June</title>
-    <updated>2020-07-16T01:48:12.187Z</updated>
+    <updated>2020-07-16T06:10:07.652Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, June</rights>
+    <entry>
+        <title type="html"><![CDATA[邀请码的设计]]></title>
+        <id>https://Dawn-cheng.github.io/6ZVP7IE6V/</id>
+        <link href="https://Dawn-cheng.github.io/6ZVP7IE6V/">
+        </link>
+        <updated>2020-07-16T06:06:48.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[uni-app webview组件，页面铺面全屏问题]]></title>
         <id>https://Dawn-cheng.github.io/E4ZClyFIL/</id>
