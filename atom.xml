@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-07-21T03:01:28.828Z</updated>
+    <updated>2020-07-21T03:22:04.717Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[ABC联合索引生效问题]]></title>
+        <id>https://Dawn-cheng.github.io/iYDeoWK2N/</id>
+        <link href="https://Dawn-cheng.github.io/iYDeoWK2N/">
+        </link>
+        <updated>2020-07-21T03:15:07.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MyISAM以及InnoDB引擎默认排序方式]]></title>
         <id>https://Dawn-cheng.github.io/Z_ENFNWmH/</id>
@@ -131,21 +138,6 @@ array_combine()	通过合并两个数组来创建一个新数组。<br>
 array_count_values()	用于统计数组中所有值出现的次数。<br>
 array_diff()	比较数组，返回差集（只比较键值）。<br>
 array_diff_assoc()	比较数组，返回差集（比较键名和键值）。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[搞懂这些Redis知识点，吊打面试官！]]></title>
-        <id>https://Dawn-cheng.github.io/gao-dong-zhe-xie-redis-zhi-shi-dian-diao-da-mian-shi-guan/</id>
-        <link href="https://Dawn-cheng.github.io/gao-dong-zhe-xie-redis-zhi-shi-dian-diao-da-mian-shi-guan/">
-        </link>
-        <updated>2020-07-15T09:06:33.000Z</updated>
-        <summary type="html"><![CDATA[<p>“今天，我不自量力的面试了某大厂的 Java 开发岗位，迎面走来一位风尘仆仆的中年男子，手里拿着屏幕还亮着的 Mac。</p>
-<p>他冲着我礼貌的笑了笑，然后说了句“不好意思，让你久等了”，然后示意我坐下，说：“我们开始吧，看了你的简历，觉得你对 Redis 应该掌握的不错，我们今天就来讨论下 Redis……”。我想：“来就来，兵来将挡水来土掩”。</p>
-<p>Redis 是什么</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>“今天，我不自量力的面试了某大厂的 Java 开发岗位，迎面走来一位风尘仆仆的中年男子，手里拿着屏幕还亮着的 Mac。</p>
-<p>他冲着我礼貌的笑了笑，然后说了句“不好意思，让你久等了”，然后示意我坐下，说：“我们开始吧，看了你的简历，觉得你对 Redis 应该掌握的不错，我们今天就来讨论下 Redis……”。我想：“来就来，兵来将挡水来土掩”。</p>
-<p>Redis 是什么</p>
 ]]></content>
     </entry>
 </feed>

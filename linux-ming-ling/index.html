@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Linux命令 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595300482779">
+<link rel="shortcut icon" href="/favicon.ico?v=1595301721003">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -178,7 +178,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">11</span>
+        <span class="site-item-stat-count">12</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1124,6 +1124,47 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/iYDeoWK2N/"" data-c="
+          &lt;p&gt;对于复合索引：Mysql从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。例如索引是key index （a,b,c）。 可以支持a | a,b| a,b,c 3种组合进行查找，但不支持 b,c进行查找 .当最左侧字段是常量引用时，索引就十分有效。&lt;/p&gt;
+&lt;p&gt;以下是一些例子：&lt;/p&gt;
+&lt;p&gt;(1) select * from myTest where a=3 and b=5 and c=4; ---- abc顺序&lt;br&gt;
+abc三个索引都在where条件里面用到了，而且都发挥了作用&lt;/p&gt;
+&lt;p&gt;(2) select * from myTest where c=4 and b=6 and a=3;&lt;br&gt;
+where里面的条件顺序在查询之前会被mysql自动优化，效果跟上一句一样&lt;/p&gt;
+&lt;p&gt;(3) select * from myTest where a=3 and c=7;&lt;br&gt;
+a用到索引，b没有用，所以c是没有用到索引效果的（b没有使用到，所以索引达不到 c ，所以c未使用索引）&lt;/p&gt;
+&lt;p&gt;(4) select * from myTest where a=3 and b&amp;gt;7 and c=3; ---- b范围值，断点，阻塞了c的索引&lt;br&gt;
+a用到了，b也用到了，c没有用到，这个地方b是范围值，也算断点，只不过自身用到了索引&lt;/p&gt;
+&lt;p&gt;(5) select * from myTest where b=3 and c=4; — 联合索引必须按照顺序使用，并且需要全部使用&lt;br&gt;
+因为a索引没有使用，所以这里 bc都没有用上索引效果&lt;/p&gt;
+&lt;p&gt;(6) select * from myTest where a&amp;gt;4 and b=7 and c=9;&lt;br&gt;
+a用到了 b没有使用，c没有使用（a用了范围所以，相当于断点，之后的b，c都没有用到索引）&lt;/p&gt;
+&lt;p&gt;(7) select * from myTest where a=3 order by b;&lt;br&gt;
+a用到了索引，b在结果排序中也用到了索引的效果，a下面任意一段的b是排好序的&lt;/p&gt;
+&lt;p&gt;(8) select * from myTest where a=3 order by c;&lt;br&gt;
+a用到了索引，但是这个地方c没有发挥排序效果，因为中间断点了，使用 explain 可以看到 filesort&lt;/p&gt;
+&lt;p&gt;(9) select * from mytable where b=3 order by a;&lt;br&gt;
+b没有用到索引，排序中a也没有发挥索引效果&lt;/p&gt;
+&lt;p&gt;以下条件会导致索引失效：&lt;br&gt;
+1.不在索引列上做任何操作（计算、函数、（自动or手动）类型转换），会导致索引失效而转向全表扫描&lt;br&gt;
+2.存储引擎不能使用索引范围条件右边的列（例如 只用到b ， c）&lt;br&gt;
+3.尽量使用覆盖索引（只访问索引的查询（索引列和查询列一致）），减少select ***&lt;br&gt;
+4.mysql在使用不等于（！=或者&amp;lt;&amp;gt;）的时候**无法使用索引会导致全表扫描&lt;/p&gt;
+&lt;p&gt;5.is null,is not null也无法使用索引&lt;/p&gt;
+&lt;p&gt;6.ike以通配符开头（’%abc…’）mysql索引失效会变成全表扫描的操作。问题：解决like‘%字符串%’时索引不被使用的方法&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1595301667226.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;7.字符串不加单引号索引失效&lt;/p&gt;
+&lt;p&gt;建议：&lt;/p&gt;
+&lt;p&gt;对于单键索引，尽量选择针对当前query过滤性更好的索引&lt;/p&gt;
+&lt;p&gt;在选择组合索引的时候，当前Query中过滤性最好的字段在索引字段顺序中，位置越靠前越好。&lt;/p&gt;
+&lt;p&gt;. 在选择组合索引的时候，尽量选择可以能够包含当前query中的where子句中更多字段的索引&lt;/p&gt;
+&lt;p&gt;. 在选择组合索引的时候，尽量选择可以能够包含当前query中的where子句中更多字段的索引&lt;/p&gt;
+&lt;p&gt;尽可能通过分析统计信息和调整query的写法来达到选择合适索引的目的&lt;/p&gt;
+&lt;p&gt;版权声明：本文为博主原创文章，遵循 CC 4.0 by-sa 版权协议，转载请附上原文出处链接和本声明。 本文链接：https://blog.csdn.net/qq_42630887/article/details/97113323&lt;/p&gt;
+">ABC联合索引生效问题</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/Z_ENFNWmH/"" data-c="
