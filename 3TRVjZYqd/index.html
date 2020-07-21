@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>GO语言的值接受者和指针接受者实现接口的区别 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595296133144">
+<link rel="shortcut icon" href="/favicon.ico?v=1595296998946">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -194,7 +194,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">10</span>
+        <span class="site-item-stat-count">11</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -868,6 +868,37 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/Z_ENFNWmH/"" data-c="
+          &lt;p&gt;今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;
+&amp;lt;select id=&amp;quot;get_by_id&amp;quot; resultMap=&amp;quot;App&amp;quot;  parameterClass=&amp;quot;java.lang.Long&amp;quot;&amp;gt;  
+select &amp;lt;include refid=&amp;quot;fileds&amp;quot;/&amp;gt; from table_a where id = #id# and type = 2 and state != 0  
+&amp;lt;/select&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;排查问题&lt;/p&gt;
+&lt;p&gt;那么到底MySQL在没有指定排序字段以及排序顺序时是按照什么规则排序呢？最早猜测是按照主键排序，即在table_a表中按照id字段进行降序排列。那么到底是否正确呢？为了验证猜测，在本地通过Navicat8对这个猜测进行了验证：SELECT * FROM test_a查询结果：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1595296853216.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+发现查询结果并没有按照猜测的方式进行排序，并且查询结果没有任何规律可循。这样看来如果按照上述的方式处理业务是很有可能出现问题的。仔细想了一下，这个问题应该和数据库存储引擎有关系，然后再网上查阅了一下这个问题，发现各种说法都有，但是初步验证了这个问题确实和数据库存储引擎有关系，不同的数据库引擎对默认排序的处理是不一致的，但是都没有统一的答案，因此决定测试一下常用的两种数据库引擎：InnoDB以及MyISAM，简单介绍一下两个数据库引擎：&lt;/p&gt;
+&lt;p&gt;简单点说就是InnoDB的优点是支持事务，支持非锁定读，行锁设计，以及全文索引，MyISAM的优点是操作速度快，不支持事务以及行锁，是MySQL默认的存储引擎。&lt;/p&gt;
+&lt;p&gt;在本地创建两个表a，b，两个表唯一的区别在于a使用MyISAM作为存储引擎，b使用InnoDB作为存储引擎，然后两个表均忘表中插入100条数据。在插入数据后对量表分别进行无排序的全表查询结果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1595296897370.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;（表b：InnoDB）&lt;br&gt;
+从查询结果上来看两个表是否都按照id进行升序排列，与table_a表查询结果顺序完全不一致，查看一下开发环境的table_a表的存储引擎为MyISAM，与表a一致，但是查询结果却没有任何相似的地方，是什么影响了table_a表的查询结果呢？难道是各种增删改查操作？因为两个相同引擎的表都进行无排序的全表查询唯一区别是表a没有进行过任何的更新删除操作，表table_a进行过大量的增删改查操作，于是对表a以及表b均模拟进行大量的增删改查操作，然后再次进行查询：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1595296915571.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;（表b：InnoDB）&lt;/p&gt;
+&lt;p&gt;发现表a查询结果出现了无序情况，表象与表table_a一致，而表b查询结果仍然按照id进行升序排列。&lt;/p&gt;
+&lt;p&gt;因此初步判定在MySQL中，如果使用MyISAM作为存储引擎，那么在进行默认排序的查询时，如果表没有进行过任何的更新删除等操作，那么查询结果将按照出入顺序进行升序排列，但是如果对表进行了更新删除等操作后，查询结果将是无序的；如果使用InnoDB作为存储引擎，那么在存在主键的情况下，查询结果将按照主键进行排序。因此在编写默认排序的SQL语句的时候，一定要注意使用的存储引擎，不同的存储引擎可能产生的查询结果完全不一致。&lt;/p&gt;
+&lt;p&gt;猜想原因：应该和两种存储引擎采用的存储结构有关系，在查阅资料以后发现InnoDB采用的是聚簇索引表，而MyISAM采用的是无序的堆表结构。最后在MySQL的官方网页上发现了对该问题的一个描述：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;SELECT * FROM tbl -- this will do a &amp;quot;table scan&amp;quot;. If the table has never had any DELETEs/REPLACEs/UPDATEs, the records will happen to be in the insertion order, hence what you observed. 
+If you had done the same statement with an InnoDB table, they would have been delivered in PRIMARY KEY order, not INSERT order. Again, this is an artifact of the underlying implementation, not something to depend on.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;大概意思是说在使用默认的存储引擎（MyISAM）进行全表查询时，会进行表扫描，如果表没有进行过删除、替换以及更新操作，那么查询结果将按照插入顺序进行排序，如果在使用InnoDB作为存储引擎执行相同的操作时，查询结果将按照主键进行排序，而不是按照插入顺序进行排序的。&lt;br&gt;
+————————————————&lt;br&gt;
+版权声明：本文为CSDN博主「南山一梦三四年」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。&lt;br&gt;
+原文链接：https://blog.csdn.net/leining_chris/article/details/39497703&lt;/p&gt;
+">MyISAM以及InnoDB引擎默认排序方式</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/jvx7Ng7mp/"" data-c="

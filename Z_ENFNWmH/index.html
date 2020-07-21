@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>缓存穿透、缓存击穿、缓存雪崩区别和解决方案 | Dawn-cheng</title>
+<title>MyISAM以及InnoDB引擎默认排序方式 | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1595296998946">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="缓存穿透、缓存击穿、缓存雪崩区别和解决方案" />
-  <meta name="keywords" content="PHP" />
+  <meta name="description" content="MyISAM以及InnoDB引擎默认排序方式" />
+  <meta name="keywords" content="MYSQL,PHP" />
 </head>
 
 <body>
@@ -306,8 +306,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://Dawn-cheng.github.io/4AtekLall/">
-      缓存穿透、缓存击穿、缓存雪崩区别和解决方案
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/Z_ENFNWmH/">
+      MyISAM以及InnoDB引擎默认排序方式
     </a>
   </h1>
   <div class="post-meta">
@@ -315,13 +315,19 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-07-15 17:53:15">2020-07-15</span>
+      <span class="publish-time" data-t="2020-07-21 09:57:32">2020-07-21</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-folder-o"></i>
       <span class="pc-show language" data-lan="category-in">分类于</span>
+      
+      
+      <a href="https://Dawn-cheng.github.io/kNG7d_hNY/">
+        <span>MYSQL</span>
+      </a>、
+      
       
       
       <a href="https://Dawn-cheng.github.io/xE0sOEJr0/">
@@ -334,47 +340,43 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>3<span class="language" data-lan="minute">分钟</span></span>
+      <span>5<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>730<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1292<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>一、缓存处理流程</p>
-<p>前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返<br>
-回结果，数据库也没取到，那直接返回空结果。</p>
+              <p>今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:</p>
 <!-- more -->
-<p><img src="https://Dawn-cheng.github.io/post-images/1594806915998.png" alt="" loading="lazy"><br>
-二、缓存穿透</p>
-<p>描述：</p>
-<p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
-<p>解决方案：</p>
-<p>接口层增加校验，如用户鉴权校验，id做基础校验，id&lt;=0的直接拦截；<br>
-从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设置短点，如30秒（设置太长会导致正常情况也没法使用）。这样可以防止攻击用户反复用同一个id暴力攻击<br>
-三、缓存击穿</p>
-<p>描述：</p>
-<p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力</p>
-<p>解决方案：</p>
-<p>设置热点数据永远不过期。<br>
-加互斥锁，互斥锁参考代码如下：<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594806894795.png" alt="" loading="lazy"><br>
-说明：</p>
-<p>1）缓存中有数据，直接走上述代码13行后就返回结果了</p>
-<p>2）缓存中没有数据，第1个进入的线程，获取锁并从数据库去取数据，没释放锁之前，其他并行进入的线程会等待100ms，再重新去缓存取数据。这样就防止都去数据库重复取数据，重复往缓存中更新数据情况出现。</p>
-<p>3）当然这是简化处理，理论上如果能根据key值加锁就更好了，就是线程A从数据库取key1的数据并不妨碍线程B取key2的数据，上面代码明显做不到这点。</p>
-<p>四、缓存雪崩</p>
-<p>描述：</p>
-<p>缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，        缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p>
-<p>解决方案：</p>
-<p>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。<br>
-如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。<br>
-设置热点数据永远不过期。</p>
-<p>转载：https://www.cnblogs.com/sbj-dawn/p/11116673.html</p>
+<pre><code class="language-php">
+&lt;select id=&quot;get_by_id&quot; resultMap=&quot;App&quot;  parameterClass=&quot;java.lang.Long&quot;&gt;  
+select &lt;include refid=&quot;fileds&quot;/&gt; from table_a where id = #id# and type = 2 and state != 0  
+&lt;/select&gt; 
+</code></pre>
+<p>排查问题</p>
+<p>那么到底MySQL在没有指定排序字段以及排序顺序时是按照什么规则排序呢？最早猜测是按照主键排序，即在table_a表中按照id字段进行降序排列。那么到底是否正确呢？为了验证猜测，在本地通过Navicat8对这个猜测进行了验证：SELECT * FROM test_a查询结果：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1595296853216.png" alt="" loading="lazy"><br>
+发现查询结果并没有按照猜测的方式进行排序，并且查询结果没有任何规律可循。这样看来如果按照上述的方式处理业务是很有可能出现问题的。仔细想了一下，这个问题应该和数据库存储引擎有关系，然后再网上查阅了一下这个问题，发现各种说法都有，但是初步验证了这个问题确实和数据库存储引擎有关系，不同的数据库引擎对默认排序的处理是不一致的，但是都没有统一的答案，因此决定测试一下常用的两种数据库引擎：InnoDB以及MyISAM，简单介绍一下两个数据库引擎：</p>
+<p>简单点说就是InnoDB的优点是支持事务，支持非锁定读，行锁设计，以及全文索引，MyISAM的优点是操作速度快，不支持事务以及行锁，是MySQL默认的存储引擎。</p>
+<p>在本地创建两个表a，b，两个表唯一的区别在于a使用MyISAM作为存储引擎，b使用InnoDB作为存储引擎，然后两个表均忘表中插入100条数据。在插入数据后对量表分别进行无排序的全表查询结果如下：</p>
+<p><img src="https://Dawn-cheng.github.io/post-images/1595296897370.png" alt="" loading="lazy">（表b：InnoDB）<br>
+从查询结果上来看两个表是否都按照id进行升序排列，与table_a表查询结果顺序完全不一致，查看一下开发环境的table_a表的存储引擎为MyISAM，与表a一致，但是查询结果却没有任何相似的地方，是什么影响了table_a表的查询结果呢？难道是各种增删改查操作？因为两个相同引擎的表都进行无排序的全表查询唯一区别是表a没有进行过任何的更新删除操作，表table_a进行过大量的增删改查操作，于是对表a以及表b均模拟进行大量的增删改查操作，然后再次进行查询：</p>
+<p><img src="https://Dawn-cheng.github.io/post-images/1595296915571.jpeg" alt="" loading="lazy">（表b：InnoDB）</p>
+<p>发现表a查询结果出现了无序情况，表象与表table_a一致，而表b查询结果仍然按照id进行升序排列。</p>
+<p>因此初步判定在MySQL中，如果使用MyISAM作为存储引擎，那么在进行默认排序的查询时，如果表没有进行过任何的更新删除等操作，那么查询结果将按照出入顺序进行升序排列，但是如果对表进行了更新删除等操作后，查询结果将是无序的；如果使用InnoDB作为存储引擎，那么在存在主键的情况下，查询结果将按照主键进行排序。因此在编写默认排序的SQL语句的时候，一定要注意使用的存储引擎，不同的存储引擎可能产生的查询结果完全不一致。</p>
+<p>猜想原因：应该和两种存储引擎采用的存储结构有关系，在查阅资料以后发现InnoDB采用的是聚簇索引表，而MyISAM采用的是无序的堆表结构。最后在MySQL的官方网页上发现了对该问题的一个描述：</p>
+<pre><code class="language-php">SELECT * FROM tbl -- this will do a &quot;table scan&quot;. If the table has never had any DELETEs/REPLACEs/UPDATEs, the records will happen to be in the insertion order, hence what you observed. 
+If you had done the same statement with an InnoDB table, they would have been delivered in PRIMARY KEY order, not INSERT order. Again, this is an artifact of the underlying implementation, not something to depend on.
+</code></pre>
+<p>大概意思是说在使用默认的存储引擎（MyISAM）进行全表查询时，会进行表扫描，如果表没有进行过删除、替换以及更新操作，那么查询结果将按照插入顺序进行排序，如果在使用InnoDB作为存储引擎执行相同的操作时，查询结果将按照主键进行排序，而不是按照插入顺序进行排序的。<br>
+————————————————<br>
+版权声明：本文为CSDN博主「南山一梦三四年」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>
+原文链接：https://blog.csdn.net/leining_chris/article/details/39497703</p>
 
             </div>
             
@@ -391,7 +393,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://Dawn-cheng.github.io/4AtekLall/" title="缓存穿透、缓存击穿、缓存雪崩区别和解决方案">https://Dawn-cheng.github.io/4AtekLall/</a>
+      <a href="https://Dawn-cheng.github.io/Z_ENFNWmH/" title="MyISAM以及InnoDB引擎默认排序方式">https://Dawn-cheng.github.io/Z_ENFNWmH/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -400,21 +402,19 @@
   </ul>
   <div class="tags">
     
+      <a href="https://Dawn-cheng.github.io/kNG7d_hNY/"># MYSQL</a>
+    
       <a href="https://Dawn-cheng.github.io/xE0sOEJr0/"># PHP</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="uni-app webview组件，页面铺面全屏问题" href="https://Dawn-cheng.github.io/E4ZClyFIL/">uni-app webview组件，页面铺面全屏问题</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="uni-app webview组件，页面铺面全屏问题" href="https://Dawn-cheng.github.io/E4ZClyFIL/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="JS中的forEach,for in,for of和for的遍历优缺点及区别" href="https://Dawn-cheng.github.io/nqk-kNdhD/">JS中的forEach,for in,for of和for的遍历优缺点及区别</a>
-        <a class="nav-mobile-next" title="JS中的forEach,for in,for of和for的遍历优缺点及区别" href="https://Dawn-cheng.github.io/nqk-kNdhD/">下一篇</a>
+        <a class="nav-pc-next" title="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引" href="https://Dawn-cheng.github.io/jvx7Ng7mp/">mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引</a>
+        <a class="nav-mobile-next" title="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引" href="https://Dawn-cheng.github.io/jvx7Ng7mp/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

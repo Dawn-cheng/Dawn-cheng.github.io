@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-07-21T01:48:57.433Z</updated>
+    <updated>2020-07-21T02:03:23.357Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[MyISAM以及InnoDB引擎默认排序方式]]></title>
+        <id>https://Dawn-cheng.github.io/Z_ENFNWmH/</id>
+        <link href="https://Dawn-cheng.github.io/Z_ENFNWmH/">
+        </link>
+        <updated>2020-07-21T01:57:32.000Z</updated>
+        <summary type="html"><![CDATA[<p>今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引]]></title>
         <id>https://Dawn-cheng.github.io/jvx7Ng7mp/</id>
@@ -135,35 +146,6 @@ array_diff_assoc()	比较数组，返回差集（比较键名和键值）。</p>
         <content type="html"><![CDATA[<p>“今天，我不自量力的面试了某大厂的 Java 开发岗位，迎面走来一位风尘仆仆的中年男子，手里拿着屏幕还亮着的 Mac。</p>
 <p>他冲着我礼貌的笑了笑，然后说了句“不好意思，让你久等了”，然后示意我坐下，说：“我们开始吧，看了你的简历，觉得你对 Redis 应该掌握的不错，我们今天就来讨论下 Redis……”。我想：“来就来，兵来将挡水来土掩”。</p>
 <p>Redis 是什么</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Linux命令]]></title>
-        <id>https://Dawn-cheng.github.io/linux-ming-ling/</id>
-        <link href="https://Dawn-cheng.github.io/linux-ming-ling/">
-        </link>
-        <updated>2020-07-15T08:57:02.000Z</updated>
-        <summary type="html"><![CDATA[<p>一、开关机<br>
-sync ：把内存中的数据写到磁盘中（关机、重启前都需先执行sync）<br>
-shutdown -rnow或reboot ：立刻重启<br>
-shutdown -hnow ：立刻关机<br>
-shutdown -h 19:00 ：预定时间关闭系统（晚上7点关机，如果现在超过8点则第二天）<br>
-shutdown -h +10 ：预定时间关闭系统（10分钟后关机）<br>
-shutdown -c ：取消按预定时间关闭系统<br>
-init 0 ：关闭系统<br>
-telinit 0 ：关闭系统<br>
-logout ：注销</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>一、开关机<br>
-sync ：把内存中的数据写到磁盘中（关机、重启前都需先执行sync）<br>
-shutdown -rnow或reboot ：立刻重启<br>
-shutdown -hnow ：立刻关机<br>
-shutdown -h 19:00 ：预定时间关闭系统（晚上7点关机，如果现在超过8点则第二天）<br>
-shutdown -h +10 ：预定时间关闭系统（10分钟后关机）<br>
-shutdown -c ：取消按预定时间关闭系统<br>
-init 0 ：关闭系统<br>
-telinit 0 ：关闭系统<br>
-logout ：注销</p>
 ]]></content>
     </entry>
 </feed>
