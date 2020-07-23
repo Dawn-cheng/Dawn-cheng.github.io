@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595302437960">
+<link rel="shortcut icon" href="/favicon.ico?v=1595469142231">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -161,7 +161,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">12</span>
+        <span class="site-item-stat-count">13</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -214,6 +214,21 @@
           <small class="language" data-lan="tag">标签</small>
         </h2>
       </div>
+      
+      
+      
+      <a href="https://Dawn-cheng.github.io/2RM9DBOkg/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              07-22
+              <small>GO time包</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
       
       
       
@@ -492,6 +507,124 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/2RM9DBOkg/"" data-c="
+          &lt;h3 id=&#34;时间类型&#34;&gt;时间类型&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;time.Time&lt;/code&gt;类型表示时间，通过&lt;code&gt;time.Now()&lt;/code&gt;函数获取当前时间对象&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func getTime(){
+    now := time.Now() //获取当前时间对象
+    fmt.Println(now) // 2020-07-15 09:16:15.85101 +0800 CST m=+0.000154330
+
+	year := now.Year() // 年
+	fmt.Println(year) // 2020
+	month := now.Month() // 月
+	fmt.Println(month) // July
+	day := now.Day() // 日
+	fmt.Println(day) // 15
+	hour := now.Hour() // 时
+	fmt.Println(hour) // 9
+	minute := now.Minute() // 分
+	fmt.Println(minute) // 16
+	second := now.Second() // 秒
+	fmt.Println(second) //15
+	fmt.Printf(&amp;quot;%d-%02d-%02d %02d:%02d:%02d\n&amp;quot;, year, month, day, hour, minute, second) // 2020-07-15 09:16:15 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;时间戳&#34;&gt;时间戳&lt;/h3&gt;
+&lt;p&gt;根据当前时间对象获取时间戳&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func getTimeUnix(){
+    now := time.Now() //获取当前时间对象
+    time1 := now.Unix() //时间戳
+    time2 := now.UnixNano() //纳秒时间戳
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;把时间戳转化为时间格式，使用&lt;code&gt;time.Unix()&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func timeFormat(){
+    timeObj := time.Unix(timestamp, 0) //将时间戳转为时间格式
+	fmt.Println(timeObj)
+	year := timeObj.Year()     //年
+	month := timeObj.Month()   //月
+	day := timeObj.Day()       //日
+	hour := timeObj.Hour()     //小时
+	minute := timeObj.Minute() //分钟
+	second := timeObj.Second() //秒
+	fmt.Printf(&amp;quot;%d-%02d-%02d %02d:%02d:%02d\n&amp;quot;, year, month, day, hour, minute, second)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;时间间隔&#34;&gt;时间间隔&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;time.Duration&lt;/code&gt;是&lt;code&gt;time&lt;/code&gt;包定义的一个类型，它代表两个时间点之间经过的时间，以纳秒为单位。&lt;code&gt;time.Duration&lt;/code&gt;表示一段时间间隔，可表示的最长时间段大约290年。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;time&lt;/code&gt;包中定义的时间间隔类型的常量如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-const&#34;&gt;    Nanosecond  Duration = 1
+    Microsecond          = 1000 * Nanosecond
+    Millisecond          = 1000 * Microsecond
+    Second               = 1000 * Millisecond
+    Minute               = 60 * Second
+    Hour                 = 60 * Minute
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例如：&lt;code&gt;time.Duration&lt;/code&gt;表示1纳秒，&lt;code&gt;time.Second&lt;/code&gt;表示1秒。&lt;/p&gt;
+&lt;h3 id=&#34;时间操作&#34;&gt;时间操作&lt;/h3&gt;
+&lt;p&gt;Add&lt;br&gt;
+&lt;code&gt;func (t Time) Add(d Duration) Time&lt;/code&gt;&lt;br&gt;
+例子，求一个小时之后的时间：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func main(){
+    now := time.Now()
+    nowTime := now.Add(time.Hour) //当前时间加1小时后的时间
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sub 求两个时间之间的差值&lt;br&gt;
+&lt;code&gt;func (t Time) Sub(u Time) Duration&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Equal 判断两个时间是否相同，会考虑时区影响&lt;br&gt;
+&lt;code&gt;func (t Time) Equal(u Time) bool&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Before 判断一段时间是否在另一段时间之前 返回bool&lt;br&gt;
+&lt;code&gt;func (t time) Before(u time) bool&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;After 判断一段时间是否在另一段时间之后 返回bool&lt;br&gt;
+&lt;code&gt;func (t time) After(u Time) bool&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;定时器&#34;&gt;定时器&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;time.Tick(时间间隔)&lt;/code&gt;设置定时器。定时器的本质是一个通道(channel)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func tickDemo() {
+	ticker := time.Tick(time.Second) //定义一个1秒间隔的定时器
+	for i := range ticker {
+		fmt.Println(i)//每秒都会执行的任务
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;时间格式化&#34;&gt;时间格式化&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Format&lt;/code&gt;是对时间类型格式化的方法&lt;br&gt;
+Go语言中格式时间模版不是&lt;code&gt;Y-m-d H:M:S&lt;/code&gt;,而是使用GO的诞生时间2006年1月2号15点04分05秒(2006 1 2 3 4 5).如果项格式为12小时方式，需指定&lt;code&gt;PM&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;func formatDemo() {
+	now := time.Now()
+	// 格式化的模板为Go的出生时间2006年1月2号15点04分 Mon Jan
+	// 24小时制
+	fmt.Println(now.Format(&amp;quot;2006-01-02 15:04:05.000 Mon Jan&amp;quot;))
+	// 12小时制
+	fmt.Println(now.Format(&amp;quot;2006-01-02 03:04:05.000 PM Mon Jan&amp;quot;))
+	fmt.Println(now.Format(&amp;quot;2006/01/02 15:04&amp;quot;))
+	fmt.Println(now.Format(&amp;quot;15:04 2006/01/02&amp;quot;))
+	fmt.Println(now.Format(&amp;quot;2006/01/02&amp;quot;))
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;解析字符串格式的时间&#34;&gt;解析字符串格式的时间&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;now := time.Now()
+fmt.Println(now)
+// 加载时区
+loc, err := time.LoadLocation(&amp;quot;Asia/Shanghai&amp;quot;)
+if err != nil {
+	fmt.Println(err)
+	return
+}
+// 按照指定时区和指定格式解析字符串时间
+timeObj, err := time.ParseInLocation(&amp;quot;2006/01/02 15:04:05&amp;quot;, &amp;quot;2019/08/04 14:15:20&amp;quot;, loc)
+if err != nil {
+	fmt.Println(err)
+	return
+}
+fmt.Println(timeObj)
+fmt.Println(timeObj.Sub(now))
+&lt;/code&gt;&lt;/pre&gt;
+">GO time包</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/iYDeoWK2N/"" data-c="
