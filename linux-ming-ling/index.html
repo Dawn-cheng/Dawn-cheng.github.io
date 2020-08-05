@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Linux命令 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1596610676895">
+<link rel="shortcut icon" href="/favicon.ico?v=1596611038040">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1250,20 +1250,19 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
    		 // 创建海报
    		 createPoster() {
    		 	 return new Promise((resolve, reject) =&amp;gt; {
-   		 		let qrcode = qr.createQrCodeImg(&amp;quot;www.baidu.com&amp;quot;);
+   		 		let qrcode = qr.createQrCodeImg(二维码地址);
    		 		const ctx = uni.createCanvasContext(&#39;poster&#39;);
    		 		let	that = this;
    		 		ctx.fillRect(0, 0, 375, 673);
    		 		ctx.setFillStyle(&amp;quot;#FFF&amp;quot;);
    		 		ctx.fillRect(0, 0, 375, 673);
    		 		// 淘宝logo
-   		 		ctx.drawImage(&amp;quot;../../static/img/taobao.png&amp;quot;, 30, 40, 25, 20);
+   		 		ctx.drawImage(淘宝logo本地地址, 30, 40, 25, 20);
    		 		// 商品标题
    		 		ctx.setFontSize(18);
    		 		ctx.setFillStyle(&#39;#333&#39;);
-   		 		//drawText(ctx,that.goods.title,63,20,270)
    		 		let textTop = 40;
-   		 		let drawtextList = drawtext(that.goods.title, 330);
+   		 		let drawtextList = drawtext(商品标题, 330);
    		 		drawtextList.forEach((item,index) =&amp;gt; {
    		 			if(index==1 &amp;amp;&amp;amp; index &amp;lt; 2){
    		 				textTop = textTop + (index + 1) * 10;
@@ -1277,38 +1276,38 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
    		 		// 商品价格
    		 		ctx.setFontSize(14);
    		 		ctx.setFillStyle(&#39;#f00&#39;);
-   		 		ctx.fillText(&amp;quot;券后价 ¥&amp;quot;+that.goods.price, 30, textTop + 30);
+   		 		ctx.fillText(&amp;quot;券后价 ¥&amp;quot;+商品价格, 30, textTop + 30);
    		 		// 商品门市价
    		 		ctx.setFontSize(12);
    		 		ctx.setFillStyle(&#39;#999&#39;);
    		 		let textLeft = 30;
-   		 		ctx.fillText(&amp;quot;原价 ¥&amp;quot;+that.goods.reserve_price, 30, textTop + 60);
+   		 		ctx.fillText(&amp;quot;原价 ¥&amp;quot;+商品原价, 30, textTop + 60);
    		 		// 商品门市价横线
    		 		ctx.beginPath();
    		 		ctx.setLineWidth(1);
    		 		ctx.moveTo(textLeft + 25, textTop + 55);
-   		 		ctx.lineTo(textLeft + 8 + that.goods.reserve_price.toString().length * 13, textTop + 55);
+   		 		ctx.lineTo(textLeft + 8 + 商品原价.toString().length * 13, textTop + 55);
    		 		ctx.setStrokeStyle(&#39;#999&#39;);
    		 		ctx.stroke();
    		 		// 商品销售量
    		 		ctx.setFontSize(12);
    		 		ctx.setFillStyle(&#39;#999&#39;);
-   		 		ctx.fillText(&amp;quot;销量 &amp;quot;+that.goods.volume, 120, textTop + 60);
+   		 		ctx.fillText(&amp;quot;销量 &amp;quot;+商品销售量, 120, textTop + 60);
    		 		//优惠券图
    		 		let len = that.goods.coupon_amount.toString().length
-   		 		ctx.drawImage(&amp;quot;../../static/img/coupontk.png&amp;quot;, 270, textTop+48, 40+len*5, 20 );
+   		 		ctx.drawImage(优惠券底部背景图地址 270, textTop+48, 40+len*5, 20 );
    		 		// 商品优惠券金额
    		 		ctx.setFontSize(12);
    		 		ctx.setFillStyle(&#39;#FFF&#39;);
-   		 		ctx.fillText(&amp;quot;¥&amp;quot;+that.goods.coupon_amount, 280, textTop + 63);
+   		 		ctx.fillText(&amp;quot;¥&amp;quot;+优惠券金额, 280, textTop + 63);
    		 		//商品图
-   		 		ctx.drawImage(that.goods.lb_img[that.img_index], 30, textTop+80, 310, 310 );
+   		 		ctx.drawImage(商品图片地址, 30, textTop+80, 310, 310 );
    		 		// 平台logo
-   		 		ctx.drawImage(&amp;quot;../../static/img/logo2.jpg&amp;quot;, 30, textTop + 425, 60, 60);
+   		 		ctx.drawImage(平台logo图地址, 30, textTop + 425, 60, 60);
    		 		// 平台名称
    		 		ctx.setFontSize(16);
    		 		ctx.setFillStyle(&#39;#999&#39;);
-   		 		ctx.fillText(&amp;quot;Morefood&amp;quot;, 103, textTop + 460);
+   		 		ctx.fillText(平台名称, 103, textTop + 460);
    		 		// 长按识别二维码访问
    		 		ctx.setFontSize(16);
    		 		ctx.setFillStyle(&#39;#999&#39;);
@@ -1318,7 +1317,7 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
    		 		ctx.setFillStyle(&#39;#999&#39;);
    		 		ctx.fillText(&amp;quot;扫码领取优惠券&amp;quot;, 30, textTop + 530);
    		 		// 二维码
-   		 		ctx.drawImage(qrcode, 220, textTop + 430, 120, 120);
+   		 		ctx.drawImage(上面生成的二维码, 220, textTop + 430, 120, 120);
    		 		ctx.stroke();
    		 		ctx.draw(true, function(){
    		 			// canvas画布转成图片并返回图片地址
