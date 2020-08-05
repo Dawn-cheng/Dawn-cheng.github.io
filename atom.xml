@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-07-23T02:48:44.231Z</updated>
+    <updated>2020-08-05T06:58:02.428Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,28 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[uni-app canvas 绘制海报图]]></title>
+        <id>https://Dawn-cheng.github.io/916fEKaXJ/</id>
+        <link href="https://Dawn-cheng.github.io/916fEKaXJ/">
+        </link>
+        <updated>2020-08-05T06:41:56.000Z</updated>
+        <summary type="html"><![CDATA[<p>公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GO 并发]]></title>
+        <id>https://Dawn-cheng.github.io/lmW1HkTh_/</id>
+        <link href="https://Dawn-cheng.github.io/lmW1HkTh_/">
+        </link>
+        <updated>2020-07-23T03:13:38.000Z</updated>
+        <summary type="html"><![CDATA[<p>并发是编程里面一个非常重要的概念，Go语言在语言层面天生支持并发，这也是Go语言流行的一个很重要的原因</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>并发是编程里面一个非常重要的概念，Go语言在语言层面天生支持并发，这也是Go语言流行的一个很重要的原因</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[GO time包]]></title>
         <id>https://Dawn-cheng.github.io/2RM9DBOkg/</id>
@@ -105,27 +127,5 @@
         <content type="html"><![CDATA[<p>forEach：（可以三个参数，第一个是value，第二个是index，第三个是数组体）</p>
 <p>缺点：不能同时遍历多个集合，在遍历的时候无法修改和删除集合数据，</p>
 ]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GO语言的值接受者和指针接受者实现接口的区别]]></title>
-        <id>https://Dawn-cheng.github.io/3TRVjZYqd/</id>
-        <link href="https://Dawn-cheng.github.io/3TRVjZYqd/">
-        </link>
-        <updated>2020-07-15T09:46:16.000Z</updated>
-        <summary type="html"><![CDATA[<p>使用值接受者实现接口与使用指针接受者实现接口的区别</p>
-<p>使用值接受者实现接口，结构体类型和结构体指针类型的变量都能存。<br>
-指针接受者实现接口只能存结构体指针类型的变量</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>使用值接受者实现接口与使用指针接受者实现接口的区别</p>
-<p>使用值接受者实现接口，结构体类型和结构体指针类型的变量都能存。<br>
-指针接受者实现接口只能存结构体指针类型的变量</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[php echo 1+"9a" 为什么等于10]]></title>
-        <id>https://Dawn-cheng.github.io/V4katkucI/</id>
-        <link href="https://Dawn-cheng.github.io/V4katkucI/">
-        </link>
-        <updated>2020-07-15T09:45:46.000Z</updated>
     </entry>
 </feed>

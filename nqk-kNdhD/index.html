@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>JS中的forEach,for in,for of和for的遍历优缺点及区别 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595472520640">
+<link rel="shortcut icon" href="/favicon.ico?v=1596610676895">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -178,7 +178,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">13</span>
+        <span class="site-item-stat-count">15</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -924,6 +924,233 @@ console.log(obj2[i])<br>
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/916fEKaXJ/"" data-c="
+          &lt;p&gt;公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;视图&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
+	&amp;lt;view&amp;gt;
+        &amp;lt;canvas  canvas-id=&amp;quot;poster&amp;quot; &amp;gt;&amp;lt;/canvas&amp;gt;
+        &amp;lt;image v-bind:src=&amp;quot;hbimg&amp;quot;&amp;gt;&amp;lt;/image&amp;gt;
+    &amp;lt;/view&amp;gt;
+&amp;lt;/template&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;js&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  // 生成二维码
+   import qr from &#39;@/common/wxqrcode.js&#39;
+   // 文字换行
+   function drawtext(text, maxWidth) {
+   	let textArr = text.split(&amp;quot;&amp;quot;);
+   	let len = textArr.length;
+   	// 上个节点
+   	let previousNode = 0;
+   	// 记录节点宽度
+   	let nodeWidth = 0;
+   	// 文本换行数组
+   	let rowText = [];
+   	// 如果是字母，侧保存长度
+   	let letterWidth = 0;
+   	// 汉字宽度
+   	let chineseWidth = 21;
+   	// otherFont宽度
+   	let otherWidth = 10.5;
+   	for (let i = 0; i &amp;lt; len; i++) {
+   		if (/[\u4e00-\u9fa5]|[\uFE30-\uFFA0]/g.test(textArr[i])) {
+   			if(letterWidth &amp;gt; 0){
+   				if(nodeWidth + chineseWidth + letterWidth * otherWidth &amp;gt; maxWidth){
+   					rowText.push({
+   						type: &amp;quot;text&amp;quot;,
+   						content: text.substring(previousNode, i)
+   					});
+   					previousNode = i;
+   					nodeWidth = chineseWidth;
+   					letterWidth = 0;
+   				} else {
+   					nodeWidth += chineseWidth + letterWidth * otherWidth;
+   					letterWidth = 0;
+   				}
+   			} else {
+   				if(nodeWidth + chineseWidth &amp;gt; maxWidth){
+   					rowText.push({
+   						type: &amp;quot;text&amp;quot;,
+   						content: text.substring(previousNode, i)
+   					});
+   					previousNode = i;
+   					nodeWidth = chineseWidth;
+   				}else{
+   					nodeWidth += chineseWidth;
+   				}
+   			}
+   		} else {
+   			if(/\n/g.test(textArr[i])){
+   				rowText.push({
+   					type: &amp;quot;break&amp;quot;,
+   					content: text.substring(previousNode, i)
+   				});
+   				previousNode = i + 1;
+   				nodeWidth = 0;
+   				letterWidth = 0;
+   			}else if(textArr[i] == &amp;quot;\\&amp;quot; &amp;amp;&amp;amp; textArr[i + 1] == &amp;quot;n&amp;quot;){
+   				rowText.push({
+   					type: &amp;quot;break&amp;quot;,
+   					content: text.substring(previousNode, i)
+   				});
+   				previousNode = i + 2;
+   				nodeWidth = 0;
+   				letterWidth = 0;
+   			}else if(/[a-zA-Z0-9]/g.test(textArr[i])){
+   				letterWidth += 1;
+   				if(nodeWidth + letterWidth * otherWidth &amp;gt; maxWidth){
+   					rowText.push({
+   						type: &amp;quot;text&amp;quot;,
+   						content: text.substring(previousNode, i + 1 - letterWidth)
+   					});
+   					previousNode = i + 1 - letterWidth;
+   					nodeWidth = letterWidth * otherWidth;
+   					letterWidth = 0;
+   				}
+   			} else{
+   				if(nodeWidth + otherWidth &amp;gt; maxWidth){
+   					rowText.push({
+   						type: &amp;quot;text&amp;quot;,
+   						content: text.substring(previousNode, i)
+   					});
+   					previousNode = i;
+   					nodeWidth = otherWidth;
+   				}else{
+   					nodeWidth += otherWidth;
+   				}
+   			}
+   		}
+   	}
+   	if (previousNode &amp;lt; len) {
+   		rowText.push({
+   			type: &amp;quot;text&amp;quot;,
+   			content: text.substring(previousNode, len)
+   		});
+   	}
+   	return rowText;
+   }
+   
+   export default {
+   	data() {
+   	    return {
+   			hbimg:&amp;quot;&amp;quot;，
+   	    }
+   	}，
+       onLoad(e) {
+   		let hb = this.createPoster();
+           hb.then(function(data){
+               this.hbimg = data;
+           });
+   	},
+   	methods:{
+   		 // 创建海报
+   		 createPoster() {
+   		 	 return new Promise((resolve, reject) =&amp;gt; {
+   		 		let qrcode = qr.createQrCodeImg(&amp;quot;www.baidu.com&amp;quot;);
+   		 		const ctx = uni.createCanvasContext(&#39;poster&#39;);
+   		 		let	that = this;
+   		 		ctx.fillRect(0, 0, 375, 673);
+   		 		ctx.setFillStyle(&amp;quot;#FFF&amp;quot;);
+   		 		ctx.fillRect(0, 0, 375, 673);
+   		 		// 淘宝logo
+   		 		ctx.drawImage(&amp;quot;../../static/img/taobao.png&amp;quot;, 30, 40, 25, 20);
+   		 		// 商品标题
+   		 		ctx.setFontSize(18);
+   		 		ctx.setFillStyle(&#39;#333&#39;);
+   		 		//drawText(ctx,that.goods.title,63,20,270)
+   		 		let textTop = 40;
+   		 		let drawtextList = drawtext(that.goods.title, 330);
+   		 		drawtextList.forEach((item,index) =&amp;gt; {
+   		 			if(index==1 &amp;amp;&amp;amp; index &amp;lt; 2){
+   		 				textTop = textTop + (index + 1) * 10;
+   		 				let str = item.content.substring(0,item.content.length-1+ &#39;...&#39;;
+   		 				ctx.fillText(str, 63, textTop);
+   		 			}else if(index==0 &amp;amp;&amp;amp; index &amp;lt; 2){
+   		 				textTop = textTop + (index + 1) * 10;
+   		 				ctx.fillText(item.content, 63, textTop);
+   		 			}
+   		 		});
+   		 		// 商品价格
+   		 		ctx.setFontSize(14);
+   		 		ctx.setFillStyle(&#39;#f00&#39;);
+   		 		ctx.fillText(&amp;quot;券后价 ¥&amp;quot;+that.goods.price, 30, textTop + 30);
+   		 		// 商品门市价
+   		 		ctx.setFontSize(12);
+   		 		ctx.setFillStyle(&#39;#999&#39;);
+   		 		let textLeft = 30;
+   		 		ctx.fillText(&amp;quot;原价 ¥&amp;quot;+that.goods.reserve_price, 30, textTop + 60);
+   		 		// 商品门市价横线
+   		 		ctx.beginPath();
+   		 		ctx.setLineWidth(1);
+   		 		ctx.moveTo(textLeft + 25, textTop + 55);
+   		 		ctx.lineTo(textLeft + 8 + that.goods.reserve_price.toString().length * 13, textTop + 55);
+   		 		ctx.setStrokeStyle(&#39;#999&#39;);
+   		 		ctx.stroke();
+   		 		// 商品销售量
+   		 		ctx.setFontSize(12);
+   		 		ctx.setFillStyle(&#39;#999&#39;);
+   		 		ctx.fillText(&amp;quot;销量 &amp;quot;+that.goods.volume, 120, textTop + 60);
+   		 		//优惠券图
+   		 		let len = that.goods.coupon_amount.toString().length
+   		 		ctx.drawImage(&amp;quot;../../static/img/coupontk.png&amp;quot;, 270, textTop+48, 40+len*5, 20 );
+   		 		// 商品优惠券金额
+   		 		ctx.setFontSize(12);
+   		 		ctx.setFillStyle(&#39;#FFF&#39;);
+   		 		ctx.fillText(&amp;quot;¥&amp;quot;+that.goods.coupon_amount, 280, textTop + 63);
+   		 		//商品图
+   		 		ctx.drawImage(that.goods.lb_img[that.img_index], 30, textTop+80, 310, 310 );
+   		 		// 平台logo
+   		 		ctx.drawImage(&amp;quot;../../static/img/logo2.jpg&amp;quot;, 30, textTop + 425, 60, 60);
+   		 		// 平台名称
+   		 		ctx.setFontSize(16);
+   		 		ctx.setFillStyle(&#39;#999&#39;);
+   		 		ctx.fillText(&amp;quot;Morefood&amp;quot;, 103, textTop + 460);
+   		 		// 长按识别二维码访问
+   		 		ctx.setFontSize(16);
+   		 		ctx.setFillStyle(&#39;#999&#39;);
+   		 		ctx.fillText(&amp;quot;长按图片&amp;quot;, 30, textTop + 510);
+   		 		// 长按识别二维码访问
+   		 		ctx.setFontSize(16);
+   		 		ctx.setFillStyle(&#39;#999&#39;);
+   		 		ctx.fillText(&amp;quot;扫码领取优惠券&amp;quot;, 30, textTop + 530);
+   		 		// 二维码
+   		 		ctx.drawImage(qrcode, 220, textTop + 430, 120, 120);
+   		 		ctx.stroke();
+   		 		ctx.draw(true, function(){
+   		 			// canvas画布转成图片并返回图片地址
+   		 			uni.canvasToTempFilePath({
+   		 				canvasId: &#39;poster&#39;,
+   		 				fileType:&amp;quot;jpg&amp;quot;,
+   		 				success: (res) =&amp;gt; {
+   		 					resolve(res.tempFilePath);
+   		 				},
+   		 				fail: () =&amp;gt; {
+   		 					reject();
+   		 				}
+   		 			})
+   		 		})
+   		      })
+   		 }, 
+   	
+   	}
+   }
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1596610408680.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+">uni-app canvas 绘制海报图</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/lmW1HkTh_/"" data-c="
+          &lt;p&gt;并发是编程里面一个非常重要的概念，Go语言在语言层面天生支持并发，这也是Go语言流行的一个很重要的原因&lt;/p&gt;
+&lt;!-- more --&gt;
+">GO 并发</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/2RM9DBOkg/"" data-c="
