@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>php 数组函数 | Dawn-cheng</title>
+<title>GO strconv包 | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1596778925047">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="php 数组函数" />
-  <meta name="keywords" content="PHP" />
+  <meta name="description" content="GO strconv包" />
+  <meta name="keywords" content="GO" />
 </head>
 
 <body>
@@ -167,7 +167,8 @@
       <div class="sidebar-body pisces" id="sidebar_body">
         
           
-            
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -205,6 +206,213 @@
 
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2string%E5%92%8Cint%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">字符串string和int类型转换</a></li>
+<li><a href="#parse%E7%B3%BB%E5%88%97%E5%87%BD%E6%95%B0">Parse系列函数</a>
+<ul>
+<li><a href="#parsebool">ParseBool()</a></li>
+<li><a href="#parseint">ParseInt()</a></li>
+<li><a href="#parseunit">ParseUnit()</a></li>
+<li><a href="#parsefloat">ParseFloat()</a></li>
+<li><a href="#formatbool">FormatBool()</a></li>
+<li><a href="#formatint">FormatInt()</a></li>
+<li><a href="#formatuint">FormatUint()</a></li>
+<li><a href="#formatfloat">FormatFloat()</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E4%BB%96">其他</a>
+<ul>
+<li><a href="#isprint">isPrint()</a></li>
+<li><a href="#canbackquote">CanBackquote()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
           
         
       </div>
@@ -292,8 +500,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://Dawn-cheng.github.io/WmRSLawKl/">
-      php 数组函数
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/Vk-CNXac3/">
+      GO strconv包
     </a>
   </h1>
   <div class="post-meta">
@@ -301,7 +509,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-07-15 17:35:12">2020-07-15</span>
+      <span class="publish-time" data-t="2020-08-07 11:18:33">2020-08-07</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -310,8 +518,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/">
-        <span>PHP</span>
+      <a href="https://Dawn-cheng.github.io/tag/NG2BdKx1U/">
+        <span>GO</span>
       </a>
       
       
@@ -325,93 +533,92 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>1271<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>983<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>array_change_key_case()	把数组中所有键更改为小写或大写。<br>
-array_chunk()	把一个数组分割为新的数组块。<br>
-array_column()	返回输入数组中某个单一列的值。<br>
-array_combine()	通过合并两个数组来创建一个新数组。<br>
-array_count_values()	用于统计数组中所有值出现的次数。<br>
-array_diff()	比较数组，返回差集（只比较键值）。<br>
-array_diff_assoc()	比较数组，返回差集（比较键名和键值）。</p>
-<!-- more -->
-<p>array_diff_key()	比较数组，返回差集（只比较键名）。<br>
-array_diff_uassoc()	比较数组，返回差集（比较键名和键值，使用用户自定义的键名比较函数）。<br>
-array_diff_ukey()	比较数组，返回差集（只比较键名，使用用户自定义的键名比较函数）。<br>
-array_fill()	用给定的键值填充数组。<br>
-array_fill_keys()	用指定键名的给定键值填充数组。<br>
-array_filter()	用回调函数过滤数组中的元素。<br>
-array_flip()	交换数组中的键和值。<br>
-array_intersect()	比较数组，返回交集（只比较键值）。<br>
-array_intersect_assoc()	比较数组，返回交集（比较键名和键值）。<br>
-array_intersect_key()	比较数组，返回交集（只比较键名）。<br>
-array_intersect_uassoc()	比较数组，返回交集（比较键名和键值，使用用户自定义的键名比较函数）。<br>
-array_intersect_ukey()	比较数组，返回交集（只比较键名，使用用户自定义的键名比较函数）。<br>
-array_key_exists()	检查指定的键名是否存在于数组中。<br>
-array_keys()	返回数组中所有的键名。<br>
-array_map()	把数组中的每个值发送到用户自定义函数，返回新的值。<br>
-array_merge()	把一个或多个数组合并为一个数组。<br>
-array_merge_recursive()	递归地合并一个或多个数组。<br>
-array_multisort()	对多个数组或多维数组进行排序。<br>
-array_pad()	用值将数组填补到指定长度。<br>
-array_pop()	删除数组的最后一个元素（出栈）。<br>
-array_product()	计算数组中所有值的乘积。<br>
-array_push()	将一个或多个元素插入数组的末尾（入栈）。<br>
-array_rand()	返回数组中一个或多个随机的键。<br>
-array_reduce()	通过使用用户自定义函数，以字符串返回数组。<br>
-array_replace()	使用后面数组的值替换第一个数组的值。<br>
-array_replace_recursive()	递归地使用后面数组的值替换第一个数组的值。<br>
-array_reverse()	以相反的顺序返回数组。<br>
-array_search()	搜索数组中给定的值并返回键名。<br>
-array_shift()	删除数组中首个元素，并返回被删除元素的值。<br>
-array_slice()	返回数组中被选定的部分。<br>
-array_splice()	删除并替换数组中指定的元素。<br>
-array_sum()	返回数组中值的和。<br>
-array_udiff()	比较数组，返回差集（只比较值，使用一个用户自定义的键名比较函数）。<br>
-array_udiff_assoc()	比较数组，返回差集（比较键和值，使用内建函数比较键名，使用用户自定义函数比较键值）。<br>
-array_udiff_uassoc()	比较数组，返回差集（比较键和值，使用两个用户自定义的键名比较函数）。<br>
-array_uintersect()	比较数组，返回交集（只比较值，使用一个用户自定义的键名比较函数）。<br>
-array_uintersect_assoc()	比较数组，返回交集（比较键和值，使用内建函数比较键名，使用用户自定义函数比较键值）。<br>
-array_uintersect_uassoc()	比较数组，返回交集（比较键和值，使用两个用户自定义的键名比较函数）。<br>
-array_unique()	删除数组中的重复值。<br>
-array_unshift()	在数组开头插入一个或多个元素。<br>
-array_values()	返回数组中所有的值。<br>
-array_walk()	对数组中的每个成员应用用户函数。<br>
-array_walk_recursive()	对数组中的每个成员递归地应用用户函数。<br>
-arsort()	对关联数组按照键值进行降序排序。<br>
-asort()	对关联数组按照键值进行升序排序。<br>
-compact()	创建包含变量名和它们的值的数组。<br>
-count()	返回数组中元素的数目。<br>
-current()	返回数组中的当前元素。<br>
-each()	返回数组中当前的键／值对。<br>
-end()	将数组的内部指针指向最后一个元素。<br>
-extract()	从数组中将变量导入到当前的符号表。<br>
-in_array()	检查数组中是否存在指定的值。<br>
-key()	从关联数组中取得键名。<br>
-krsort()	对数组按照键名逆向排序。<br>
-ksort()	对数组按照键名排序。<br>
-list()	把数组中的值赋给一些变量。<br>
-natcasesort()	用“自然排序”算法对数组进行不区分大小写字母的排序。<br>
-natsort()	用“自然排序”算法对数组排序。<br>
-next()	将数组中的内部指针向前移动一位。<br>
-pos()	current() 的别名。<br>
-prev()	将数组的内部指针倒回一位。<br>
-range()	创建包含指定范围单元的数组。<br>
-reset()	将数组的内部指针指向第一个元素。<br>
-rsort()	对数组逆向排序。<br>
-shuffle()	将数组打乱。<br>
-sizeof()	count() 的别名。<br>
-sort()	对数组排序。<br>
-uasort()	使用用户自定义的比较函数对数组中的键值进行排序。<br>
-uksort()	使用用户自定义的比较函数对数组中的键名进行排序。<br>
-usort()	使用用户自定义的比较函数对数组进行排序。</p>
-<!-- more -->
-<!-- more -->
-<!-- more -->
+              <p>strconv包是GO语言实现基本数据类型和字符串相互转换的包，常用函数有 <code>Atoi</code>、<code>Itia()</code>、<code>parse，format，append</code>等系列函数</p>
+<h2 id="字符串string和int类型转换">字符串string和int类型转换</h2>
+<p><code>Atoi</code><br>
+此函数是将字符串类型的整数转换为int类型<br>
+<code>func Atoi(s string)(i int ,err error)</code><br>
+例如</p>
+<pre><code>a := &quot;100&quot;
+b,err:= strconv.Atoi(a)
+if err !=nil{
+        return true
+}else{
+        return false
+}
+</code></pre>
+<p><code>Itoa()</code><br>
+此函数是将int类型数据转换为对应的字符串表示<br>
+<code>func Itoa(i int) string</code><br>
+例如</p>
+<pre><code>a := 200
+v := strconv.Itoa(a)
+fmt.Printf(&quot;type:%T value:%#v\n&quot;,a,v) //type:string value:&quot;200&quot;
+</code></pre>
+<h2 id="parse系列函数">Parse系列函数</h2>
+<p>此类函数用于转换字符串为给定类型的值：<code>ParseBool(),ParseFloat(),ParseInt(),ParseUint()</code></p>
+<h3 id="parsebool">ParseBool()</h3>
+<p><code>func ParseBool(str string) (value bool,err error)</code><br>
+返回字符串表示的bool值，只接受1,0,t,f,T,F,true,false,True,False,TRUE,FALSE;否则返回错误</p>
+<h3 id="parseint">ParseInt()</h3>
+<p><code>func ParseInt(s string,base int,bitSize int)(i int64,err error)</code><br>
+返回字符串表示的整数值，接受正负号。</p>
+<p>base指定进制（2到36），如果base为0，则会从字符串前置判断，”0x”是16进制，”0”是8进制，否则是10进制；</p>
+<p>bitSize指定结果必须能无溢出赋值的整数类型，0、8、16、32、64 分别代表 int、int8、int16、int32、int64；</p>
+<p>返回的err是*NumErr类型的，如果语法有误，err.Error = ErrSyntax；如果结果超出类型范围err.Error = ErrRange</p>
+<h3 id="parseunit">ParseUnit()</h3>
+<p><code>func ParseUnit(s string,base int,bitSize int)(n uint64,err error)</code><br>
+ParseUint类似ParseInt但不接受正负号，用于无符号整型。</p>
+<h3 id="parsefloat">ParseFloat()</h3>
+<p><code>func ParseFloat(s string,bitSize int) (f float64,err error)</code><br>
+解析一个表示浮点数的字符串并返回其值。<br>
+如果s合乎语法规则，函数会返回最为接近s表示值的一个浮点数（使用IEEE754规范舍入）。<br>
+bitSize指定了期望的接收类型，32是float32（返回值可以不改变精确值的赋值给float32），64是float64；<br>
+返回值err是*NumErr类型的，语法有误的，err.Error=ErrSyntax；结果超出表示范围的，返回值f为±Inf，err.Error= ErrRange。<br>
+例如</p>
+<pre><code>b, err := strconv.ParseBool(&quot;true&quot;)
+f, err := strconv.ParseFloat(&quot;3.1415&quot;, 64)
+i, err := strconv.ParseInt(&quot;-2&quot;, 10, 64)
+u, err := strconv.ParseUint(&quot;2&quot;, 10, 64)
+</code></pre>
+<p>这些函数都有两个返回值，第一个返回值是转换后的值，第二个返回值为转化失败的错误信息。</p>
+<p>###Format系列函数<br>
+将给定类型数据格式化为string类型数据的功能。</p>
+<h3 id="formatbool">FormatBool()</h3>
+<p><code>func FormatBool(b bool) string</code><br>
+返回值“true”或“false”</p>
+<h3 id="formatint">FormatInt()</h3>
+<p><code>func FormatInt(i int64,base int) string</code><br>
+返回i的base进制的字符串表示。base必须在2到36之间，结果中会使用小写字母‘a’到‘z’表示大于10的数字</p>
+<h3 id="formatuint">FormatUint()</h3>
+<p><code>func FormatUint( i uint64,base int) string</code><br>
+是FormatInt的无符号整数版本。</p>
+<h3 id="formatfloat">FormatFloat()</h3>
+<p><code>func FormatFloat(f float64, fmt byte, prec, bitSize int) string</code><br>
+函数将浮点数表示为字符串并返回。<br>
+bitSize表示f的来源类型（32：float32、64：float64），会据此进行舍入。<br>
+fmt表示格式：’f’（-ddd.dddd）、’b’（-ddddp±ddd，指数为二进制）、’e’（-d.dddde±dd，十进制指数）、’E’（-d.ddddE±dd，十进制指数）、’g’（指数很大时用’e’格式，否则’f’格式）、’G’（指数很大时用’E’格式，否则’f’格式）。<br>
+prec控制精度（排除指数部分）：对’f’、’e’、’E’，它表示小数点后的数字个数；对’g’、’G’，它控制总的数字个数。如果prec 为-1，则代表使用最少数量的、但又必需的数字来表示f。<br>
+例如</p>
+<pre><code>s1 := strconv.FormatBool(true)
+s2 := strconv.FormatFloat(3.1415, 'E', -1, 64)
+s3 := strconv.FormatInt(-2, 16)
+s4 := strconv.FormatUint(2, 16)
+</code></pre>
+<h2 id="其他">其他</h2>
+<h3 id="isprint">isPrint()</h3>
+<p><code>func IsPrint(r rune) bool</code><br>
+返回一个字符是否是可打印的，和unicode.IsPrint一样，r必须是：字母（广义）、数字、标点、符号、ASCII空格。</p>
+<h3 id="canbackquote">CanBackquote()</h3>
+<p><code>func CanBackquote(s string) bool</code><br>
+返回字符串s是否可以不被修改的表示为一个单行的、没有空格和tab之外控制字符的反引号字符串。</p>
+<p>还有其他函数，具体查看<a href="https://golang.org/pkg/strconv/">官方文档</a></p>
 
             </div>
             
@@ -428,7 +635,7 @@ usort()	使用用户自定义的比较函数对数组进行排序。</p>
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://Dawn-cheng.github.io/WmRSLawKl/" title="php 数组函数">https://Dawn-cheng.github.io/WmRSLawKl/</a>
+      <a href="https://Dawn-cheng.github.io/Vk-CNXac3/" title="GO strconv包">https://Dawn-cheng.github.io/Vk-CNXac3/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -437,21 +644,17 @@ usort()	使用用户自定义的比较函数对数组进行排序。</p>
   </ul>
   <div class="tags">
     
-      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/"># PHP</a>
+      <a href="https://Dawn-cheng.github.io/tag/NG2BdKx1U/"># GO</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="php echo 1+&#34;9a&#34; 为什么等于10" href="https://Dawn-cheng.github.io/V4katkucI/">php echo 1+&#34;9a&#34; 为什么等于10</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="php echo 1+&#34;9a&#34; 为什么等于10" href="https://Dawn-cheng.github.io/V4katkucI/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="搞懂这些Redis知识点，吊打面试官！" href="https://Dawn-cheng.github.io/gao-dong-zhe-xie-redis-zhi-shi-dian-diao-da-mian-shi-guan/">搞懂这些Redis知识点，吊打面试官！</a>
-        <a class="nav-mobile-next" title="搞懂这些Redis知识点，吊打面试官！" href="https://Dawn-cheng.github.io/gao-dong-zhe-xie-redis-zhi-shi-dian-diao-da-mian-shi-guan/">下一篇</a>
+        <a class="nav-pc-next" title="uni-app canvas 绘制海报图" href="https://Dawn-cheng.github.io/916fEKaXJ/">uni-app canvas 绘制海报图</a>
+        <a class="nav-mobile-next" title="uni-app canvas 绘制海报图" href="https://Dawn-cheng.github.io/916fEKaXJ/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

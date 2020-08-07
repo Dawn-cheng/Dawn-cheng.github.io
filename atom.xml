@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-08-05T07:06:11.195Z</updated>
+    <updated>2020-08-07T05:42:12.149Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[GO strconv包]]></title>
+        <id>https://Dawn-cheng.github.io/Vk-CNXac3/</id>
+        <link href="https://Dawn-cheng.github.io/Vk-CNXac3/">
+        </link>
+        <updated>2020-08-07T03:18:33.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[uni-app canvas 绘制海报图]]></title>
         <id>https://Dawn-cheng.github.io/916fEKaXJ/</id>
@@ -113,19 +120,6 @@
         <content type="html"><![CDATA[<p>一、缓存处理流程</p>
 <p>前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返<br>
 回结果，数据库也没取到，那直接返回空结果。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS中的forEach,for in,for of和for的遍历优缺点及区别]]></title>
-        <id>https://Dawn-cheng.github.io/nqk-kNdhD/</id>
-        <link href="https://Dawn-cheng.github.io/nqk-kNdhD/">
-        </link>
-        <updated>2020-07-15T09:52:14.000Z</updated>
-        <summary type="html"><![CDATA[<p>forEach：（可以三个参数，第一个是value，第二个是index，第三个是数组体）</p>
-<p>缺点：不能同时遍历多个集合，在遍历的时候无法修改和删除集合数据，</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>forEach：（可以三个参数，第一个是value，第二个是index，第三个是数组体）</p>
-<p>缺点：不能同时遍历多个集合，在遍历的时候无法修改和删除集合数据，</p>
 ]]></content>
     </entry>
 </feed>

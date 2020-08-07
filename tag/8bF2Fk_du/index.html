@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1596611166628">
+<link rel="shortcut icon" href="/favicon.ico?v=1596778925047">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -161,7 +161,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">15</span>
+        <span class="site-item-stat-count">16</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -214,6 +214,10 @@
           <small class="language" data-lan="tag">标签</small>
         </h2>
       </div>
+      
+      
+      
+      
       
       
       
@@ -517,6 +521,91 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/Vk-CNXac3/"" data-c="
+          &lt;p&gt;strconv包是GO语言实现基本数据类型和字符串相互转换的包，常用函数有 &lt;code&gt;Atoi&lt;/code&gt;、&lt;code&gt;Itia()&lt;/code&gt;、&lt;code&gt;parse，format，append&lt;/code&gt;等系列函数&lt;/p&gt;
+&lt;h2 id=&#34;字符串string和int类型转换&#34;&gt;字符串string和int类型转换&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Atoi&lt;/code&gt;&lt;br&gt;
+此函数是将字符串类型的整数转换为int类型&lt;br&gt;
+&lt;code&gt;func Atoi(s string)(i int ,err error)&lt;/code&gt;&lt;br&gt;
+例如&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;a := &amp;quot;100&amp;quot;
+b,err:= strconv.Atoi(a)
+if err !=nil{
+        return true
+}else{
+        return false
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;Itoa()&lt;/code&gt;&lt;br&gt;
+此函数是将int类型数据转换为对应的字符串表示&lt;br&gt;
+&lt;code&gt;func Itoa(i int) string&lt;/code&gt;&lt;br&gt;
+例如&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;a := 200
+v := strconv.Itoa(a)
+fmt.Printf(&amp;quot;type:%T value:%#v\n&amp;quot;,a,v) //type:string value:&amp;quot;200&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;parse系列函数&#34;&gt;Parse系列函数&lt;/h2&gt;
+&lt;p&gt;此类函数用于转换字符串为给定类型的值：&lt;code&gt;ParseBool(),ParseFloat(),ParseInt(),ParseUint()&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;parsebool&#34;&gt;ParseBool()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func ParseBool(str string) (value bool,err error)&lt;/code&gt;&lt;br&gt;
+返回字符串表示的bool值，只接受1,0,t,f,T,F,true,false,True,False,TRUE,FALSE;否则返回错误&lt;/p&gt;
+&lt;h3 id=&#34;parseint&#34;&gt;ParseInt()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func ParseInt(s string,base int,bitSize int)(i int64,err error)&lt;/code&gt;&lt;br&gt;
+返回字符串表示的整数值，接受正负号。&lt;/p&gt;
+&lt;p&gt;base指定进制（2到36），如果base为0，则会从字符串前置判断，”0x”是16进制，”0”是8进制，否则是10进制；&lt;/p&gt;
+&lt;p&gt;bitSize指定结果必须能无溢出赋值的整数类型，0、8、16、32、64 分别代表 int、int8、int16、int32、int64；&lt;/p&gt;
+&lt;p&gt;返回的err是*NumErr类型的，如果语法有误，err.Error = ErrSyntax；如果结果超出类型范围err.Error = ErrRange&lt;/p&gt;
+&lt;h3 id=&#34;parseunit&#34;&gt;ParseUnit()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func ParseUnit(s string,base int,bitSize int)(n uint64,err error)&lt;/code&gt;&lt;br&gt;
+ParseUint类似ParseInt但不接受正负号，用于无符号整型。&lt;/p&gt;
+&lt;h3 id=&#34;parsefloat&#34;&gt;ParseFloat()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func ParseFloat(s string,bitSize int) (f float64,err error)&lt;/code&gt;&lt;br&gt;
+解析一个表示浮点数的字符串并返回其值。&lt;br&gt;
+如果s合乎语法规则，函数会返回最为接近s表示值的一个浮点数（使用IEEE754规范舍入）。&lt;br&gt;
+bitSize指定了期望的接收类型，32是float32（返回值可以不改变精确值的赋值给float32），64是float64；&lt;br&gt;
+返回值err是*NumErr类型的，语法有误的，err.Error=ErrSyntax；结果超出表示范围的，返回值f为±Inf，err.Error= ErrRange。&lt;br&gt;
+例如&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;b, err := strconv.ParseBool(&amp;quot;true&amp;quot;)
+f, err := strconv.ParseFloat(&amp;quot;3.1415&amp;quot;, 64)
+i, err := strconv.ParseInt(&amp;quot;-2&amp;quot;, 10, 64)
+u, err := strconv.ParseUint(&amp;quot;2&amp;quot;, 10, 64)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这些函数都有两个返回值，第一个返回值是转换后的值，第二个返回值为转化失败的错误信息。&lt;/p&gt;
+&lt;p&gt;###Format系列函数&lt;br&gt;
+将给定类型数据格式化为string类型数据的功能。&lt;/p&gt;
+&lt;h3 id=&#34;formatbool&#34;&gt;FormatBool()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func FormatBool(b bool) string&lt;/code&gt;&lt;br&gt;
+返回值“true”或“false”&lt;/p&gt;
+&lt;h3 id=&#34;formatint&#34;&gt;FormatInt()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func FormatInt(i int64,base int) string&lt;/code&gt;&lt;br&gt;
+返回i的base进制的字符串表示。base必须在2到36之间，结果中会使用小写字母‘a’到‘z’表示大于10的数字&lt;/p&gt;
+&lt;h3 id=&#34;formatuint&#34;&gt;FormatUint()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func FormatUint( i uint64,base int) string&lt;/code&gt;&lt;br&gt;
+是FormatInt的无符号整数版本。&lt;/p&gt;
+&lt;h3 id=&#34;formatfloat&#34;&gt;FormatFloat()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func FormatFloat(f float64, fmt byte, prec, bitSize int) string&lt;/code&gt;&lt;br&gt;
+函数将浮点数表示为字符串并返回。&lt;br&gt;
+bitSize表示f的来源类型（32：float32、64：float64），会据此进行舍入。&lt;br&gt;
+fmt表示格式：’f’（-ddd.dddd）、’b’（-ddddp±ddd，指数为二进制）、’e’（-d.dddde±dd，十进制指数）、’E’（-d.ddddE±dd，十进制指数）、’g’（指数很大时用’e’格式，否则’f’格式）、’G’（指数很大时用’E’格式，否则’f’格式）。&lt;br&gt;
+prec控制精度（排除指数部分）：对’f’、’e’、’E’，它表示小数点后的数字个数；对’g’、’G’，它控制总的数字个数。如果prec 为-1，则代表使用最少数量的、但又必需的数字来表示f。&lt;br&gt;
+例如&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;s1 := strconv.FormatBool(true)
+s2 := strconv.FormatFloat(3.1415, &#39;E&#39;, -1, 64)
+s3 := strconv.FormatInt(-2, 16)
+s4 := strconv.FormatUint(2, 16)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;h3 id=&#34;isprint&#34;&gt;isPrint()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func IsPrint(r rune) bool&lt;/code&gt;&lt;br&gt;
+返回一个字符是否是可打印的，和unicode.IsPrint一样，r必须是：字母（广义）、数字、标点、符号、ASCII空格。&lt;/p&gt;
+&lt;h3 id=&#34;canbackquote&#34;&gt;CanBackquote()&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;func CanBackquote(s string) bool&lt;/code&gt;&lt;br&gt;
+返回字符串s是否可以不被修改的表示为一个单行的、没有空格和tab之外控制字符的反引号字符串。&lt;/p&gt;
+&lt;p&gt;还有其他函数，具体查看&lt;a href=&#34;https://golang.org/pkg/strconv/&#34;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+">GO strconv包</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/916fEKaXJ/"" data-c="
