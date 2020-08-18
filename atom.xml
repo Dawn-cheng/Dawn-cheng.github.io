@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-08-07T05:42:59.635Z</updated>
+    <updated>2020-08-18T03:56:55.613Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,41 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[HTTPS状态码]]></title>
+        <id>https://Dawn-cheng.github.io/cifMT6byw/</id>
+        <link href="https://Dawn-cheng.github.io/cifMT6byw/">
+        </link>
+        <updated>2020-08-18T03:54:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>1 消息<br>
+▪ 100 Continue<br>
+▪ 101 Switching Protocols<br>
+▪ 102 Processing<br>
+2 成功<br>
+▪ 200 OK<br>
+▪ 201 Created<br>
+▪ 202 Accepted<br>
+▪ 203 Non-Authoritative Information<br>
+▪ 204 No Content<br>
+▪ 205 Reset Content<br>
+▪ 206 Partial Content<br>
+▪ 207 Multi-Status</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>1 消息<br>
+▪ 100 Continue<br>
+▪ 101 Switching Protocols<br>
+▪ 102 Processing<br>
+2 成功<br>
+▪ 200 OK<br>
+▪ 201 Created<br>
+▪ 202 Accepted<br>
+▪ 203 Non-Authoritative Information<br>
+▪ 204 No Content<br>
+▪ 205 Reset Content<br>
+▪ 206 Partial Content<br>
+▪ 207 Multi-Status</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[GO strconv包]]></title>
         <id>https://Dawn-cheng.github.io/Vk-CNXac3/</id>
@@ -26,17 +61,6 @@
         <summary type="html"><![CDATA[<p>公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GO 并发]]></title>
-        <id>https://Dawn-cheng.github.io/lmW1HkTh_/</id>
-        <link href="https://Dawn-cheng.github.io/lmW1HkTh_/">
-        </link>
-        <updated>2020-07-23T03:13:38.000Z</updated>
-        <summary type="html"><![CDATA[<p>并发是编程里面一个非常重要的概念，Go语言在语言层面天生支持并发，这也是Go语言流行的一个很重要的原因</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>并发是编程里面一个非常重要的概念，Go语言在语言层面天生支持并发，这也是Go语言流行的一个很重要的原因</p>
 ]]></content>
     </entry>
     <entry>
