@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-08-18T03:56:55.613Z</updated>
+    <updated>2020-09-06T11:00:19.309Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[快速学会分析SQL执行效率]]></title>
+        <id>https://Dawn-cheng.github.io/2XXuytX6c/</id>
+        <link href="https://Dawn-cheng.github.io/2XXuytX6c/">
+        </link>
+        <updated>2020-09-06T10:50:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>从开篇词我们了解到，本专栏首先会一起讨论一下 SQL 优化，而优化 SQL 的前提是能定位到慢 SQL 并对其进行分析，因此在专栏的开始，会跟大家分享如何定位慢查询和如何分析 SQl 执行效率。在前面两节，会用一些简单的例子让大家学会这些分析技巧。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>从开篇词我们了解到，本专栏首先会一起讨论一下 SQL 优化，而优化 SQL 的前提是能定位到慢 SQL 并对其进行分析，因此在专栏的开始，会跟大家分享如何定位慢查询和如何分析 SQl 执行效率。在前面两节，会用一些简单的例子让大家学会这些分析技巧。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[HTTPS状态码]]></title>
         <id>https://Dawn-cheng.github.io/cifMT6byw/</id>
@@ -129,21 +140,6 @@
 ]]></summary>
         <content type="html"><![CDATA[<p>web-view 是一个 web 浏览器组件，可以用来承载网页的容器，会自动铺满整个页面。</p>
 <p>但是web-view铺满全屏  1.状态栏遮挡页面  2.没有区别app和h5页面</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[缓存穿透、缓存击穿、缓存雪崩区别和解决方案]]></title>
-        <id>https://Dawn-cheng.github.io/4AtekLall/</id>
-        <link href="https://Dawn-cheng.github.io/4AtekLall/">
-        </link>
-        <updated>2020-07-15T09:53:15.000Z</updated>
-        <summary type="html"><![CDATA[<p>一、缓存处理流程</p>
-<p>前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返<br>
-回结果，数据库也没取到，那直接返回空结果。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>一、缓存处理流程</p>
-<p>前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返<br>
-回结果，数据库也没取到，那直接返回空结果。</p>
 ]]></content>
     </entry>
 </feed>
