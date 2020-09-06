@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-09-06T11:08:11.793Z</updated>
+    <updated>2020-09-06T12:39:37.030Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,19 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[条件字段有索引，为什么查询也这么慢?]]></title>
+        <id>https://Dawn-cheng.github.io/xSb4UV7KE/</id>
+        <link href="https://Dawn-cheng.github.io/xSb4UV7KE/">
+        </link>
+        <updated>2020-09-06T12:16:50.000Z</updated>
+        <summary type="html"><![CDATA[<p>如果我们想在某一本书中找到特定的主题，一般最快的方法是先看索引，找到对应的主题在哪个页码。</p>
+<p>而对于 MySQL 而言，如果需要查找某一行的值，可以先通过索引找到对应的值，然后根据索引匹配的记录找到需要查询的数据行。然而，有时会发现，即使查询条件有索引，也会查询很慢，本节将分享这类情况。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>如果我们想在某一本书中找到特定的主题，一般最快的方法是先看索引，找到对应的主题在哪个页码。</p>
+<p>而对于 MySQL 而言，如果需要查找某一行的值，可以先通过索引找到对应的值，然后根据索引匹配的记录找到需要查询的数据行。然而，有时会发现，即使查询条件有索引，也会查询很慢，本节将分享这类情况。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[快速学会分析SQL执行效率（下）]]></title>
         <id>https://Dawn-cheng.github.io/amB0AixTy/</id>
@@ -129,17 +142,6 @@
         <content type="html"><![CDATA[<p>首先介绍这些索引的概念：<br>
 1、聚集索引</p>
 <p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[邀请码的设计]]></title>
-        <id>https://Dawn-cheng.github.io/6ZVP7IE6V/</id>
-        <link href="https://Dawn-cheng.github.io/6ZVP7IE6V/">
-        </link>
-        <updated>2020-07-16T06:06:48.000Z</updated>
-        <summary type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
 ]]></content>
     </entry>
 </feed>
