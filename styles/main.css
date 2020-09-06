@@ -2074,7 +2074,7 @@ p > code {
       border-bottom-color: #555;
     }
     .archive-timeline-box::after, .tag-timeline-wrapper::after {
-      background: #748ffce5;
+      background: #212529e5;
     }h1, h2, h3, h4, h5, h6 {
       color: #555;
     }
@@ -2140,8 +2140,8 @@ p > code {
       color: #343a40;
       border-bottom-color: #343a40;
     }.markdownIt-TOC a:hover {
-      color: #4263eb;
-      border-bottom-color: #4263eb;
+      color: #343a40;
+      border-bottom-color: #343a40;
     }.active-current > a {
       color: #fc6423 !important;
       border-bottom-color: #fc6423 !important;
