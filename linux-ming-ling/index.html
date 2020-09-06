@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Linux命令 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1599390014930">
+<link rel="shortcut icon" href="/favicon.ico?v=1599390487151">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -194,7 +194,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">17</span>
+        <span class="site-item-stat-count">18</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1138,6 +1138,421 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/amB0AixTy/"" data-c="
+          &lt;h2 id=&#34;1-show-profile-分析慢查询&#34;&gt;1 show profile 分析慢查询&lt;/h2&gt;
+&lt;p&gt;有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;``知识扩展：可以通过配置参数 profiling = 1 来启用 SQL 分析。该参数可以在全局和 session 级别来设置。对于全局级别则作用于整个MySQL 实例，而 session 级别仅影响当前 session 。该参数开启后，后续执行的 SQL 语句都将记录其资源开销，如 IO、上下文切换、CPU、Memory等等。根据这些开销进一步分析当前 SQL 从而进行优化与调整。```&lt;/p&gt;
+&lt;p&gt;下面我们来讲一下如何使用 profile 分析慢查询，大致步骤是：确定这个 MySQL 版本是否支持 profile；确定 profile 是否关闭；开启 profile；执行 SQL；查看执行完 SQL 的 query id；通过 query id 查看 SQL 的每个状态及耗时时间。&lt;/p&gt;
+&lt;p&gt;1.1 确定是否支持 profile&lt;br&gt;
+我们进行第一步，用下面命令来判断当前 MySQL 是否支持 profile：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select @@have_profiling;
+
++------------------+
+| @@have_profiling |
++------------------+
+| YES              |
++------------------+
+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从上面结果中可以看出是YES，表示支持profile的。&lt;/p&gt;
+&lt;p&gt;1.2 查看 profiling 是否关闭的&lt;br&gt;
+进行第二步，用下面命令判断 profiling 参数是否关闭（默认 profiling 是关闭的）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select @@profiling;
+
++-------------+
+| @@profiling |
++-------------+
+|           0 |
++-------------+
+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果显示为 0，表示 profiling 参数状态是关闭的。&lt;/p&gt;
+&lt;p&gt;1.3 通过 set 开启 profile&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set profiling=1;
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tips：set 时没加 global，只对当前 session 有效。&lt;/p&gt;
+&lt;p&gt;1.4 执行 SQL 语句&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where b=1000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1.5 确定 SQL 的 query id&lt;br&gt;
+通过 show profiles 语句确定执行过的 SQL 的 query id：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show profiles;
++----------+------------+-------------------------------+
+| Query_ID | Duration   | Query                         |
++----------+------------+-------------------------------+
+|        1 | 0.00063825 | select * from t1 where b=1000 |
++----------+------------+-------------------------------+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1.6 查询 SQL 执行详情&lt;br&gt;
+通过 show profile for query 可看到执行过的 SQL 每个状态和消耗时间：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show profile for query 1;
++----------------------+----------+
+| Status               | Duration |
++----------------------+----------+
+| starting             | 0.000115 |
+| checking permissions | 0.000013 |
+| Opening tables       | 0.000027 |
+| init                 | 0.000035 |
+| System lock          | 0.000017 |
+| optimizing           | 0.000016 |
+| statistics           | 0.000025 |
+| preparing            | 0.000020 |
+| executing            | 0.000006 |
+| Sending data         | 0.000294 |
+| end                  | 0.000009 |
+| query end            | 0.000012 |
+| closing tables       | 0.000011 |
+| freeing items        | 0.000024 |
+| cleaning up          | 0.000016 |
++----------------------+----------+
+15 rows in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过以上结果，可以确定 SQL 执行过程具体在哪个过程耗时比较久，从而更好地进行 SQL 优化与调整。&lt;/p&gt;
+&lt;h2 id=&#34;2-trace-分析-sql-优化器&#34;&gt;2 trace 分析 SQL 优化器&lt;/h2&gt;
+&lt;p&gt;从前面学到了 explain 可以查看 SQL 执行计划，但是无法知道它为什么做这个决策，如果想确定多种索引方案之间是如何选择的或者排序时选择的是哪种排序模式，有什么好的办法吗？&lt;/p&gt;
+&lt;p&gt;从 MySQL 5.6 开始，可以使用 trace 查看优化器如何选择执行计划。&lt;/p&gt;
+&lt;p&gt;通过trace，能够进一步了解为什么优化器选择A执行计划而不是选择B执行计划，或者知道某个排序使用的排序模式，帮助我们更好地理解优化器行为。&lt;/p&gt;
+&lt;p&gt;如果需要使用，先开启 trace，设置格式为 JSON，再执行需要分析的 SQL，最后查看 trace 分析结果（在 information_schema.OPTIMIZER_TRACE 中）。&lt;/p&gt;
+&lt;p&gt;开启该功能，会对 MySQL 性能有所影响，因此只建议分析问题时临时开启。&lt;/p&gt;
+&lt;p&gt;下面一起来看下 trace 的使用方法。使用讲解 explain 时创建的表t1做实验。&lt;/p&gt;
+&lt;p&gt;首先构造如下 SQL (表示取出表 t1 中 a 的值大于 900 并且 b 的值大于 910 的数据，然后按照 a 字段排序)：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们首先用 explain 分析下执行计划：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599390318027.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述通过上面执行计划中 key 这个字段可以看出，该语句使用的是 b 字段的索引 idx_b。实际表 t1 中，a、b 两个字段都有索引，为什么条件中有这两个索引字段却偏偏选了 b 字段的索引呢？这时就可以使用 trace 进行分析。大致步骤如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set session optimizer_trace=&amp;quot;enabled=on&amp;quot;,end_markers_in_json=on;
+/* optimizer_trace=&amp;quot;enabled=on&amp;quot; 表示开启 trace；end_markers_in_json=on 表示 JSON 输出开启结束标记 */
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&amp;gt; select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a;
++------+------+------+
+| id   | a    | b    |
++------+------+------+
+|    1 |    1 |    1 |
+|    2 |    2 |    2 |
+
+......
+
+| 1000 | 1000 | 1000 |
++------+------+------+
+1000 rows in set (0.00 sec)
+
+mysql&amp;gt; SELECT * FROM information_schema.OPTIMIZER_TRACE\G
+*************************** 1. row ***************************
+QUERY: select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a    --SQL语句
+TRACE: {
+  &amp;quot;steps&amp;quot;: [
+    {
+      &amp;quot;join_preparation&amp;quot;: {				--SQL准备阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;expanded_query&amp;quot;: &amp;quot;/* select#1 */ select `t1`.`id` AS `id`,`t1`.`a` AS `a`,`t1`.`b` AS `b`,`t1`.`create_time` AS `create_time`,`t1`.`update_time` AS `update_time` from `t1` where ((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910)) order by `t1`.`a`&amp;quot;
+          }
+        ] /* steps */
+      } /* join_preparation */
+    },
+    {
+      &amp;quot;join_optimization&amp;quot;: {			--SQL优化阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;condition_processing&amp;quot;: {    --条件处理
+              &amp;quot;condition&amp;quot;: &amp;quot;WHERE&amp;quot;,
+              &amp;quot;original_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;,        --原始条件
+              &amp;quot;steps&amp;quot;: [
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;equality_propagation&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot; 		--等值传递转换
+                },
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;constant_propagation&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;       --常量传递转换
+                },
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;trivial_condition_removal&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;        --去除没有的条件后的结构
+                }
+              ] /* steps */
+            } /* condition_processing */
+          },
+          {
+            &amp;quot;substitute_generated_columns&amp;quot;: {
+            } /* substitute_generated_columns */   --替换虚拟生成列
+          },
+          {
+            &amp;quot;table_dependencies&amp;quot;: [		--表依赖详情
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;row_may_be_null&amp;quot;: false,
+                &amp;quot;map_bit&amp;quot;: 0,
+                &amp;quot;depends_on_map_bits&amp;quot;: [
+                ] /* depends_on_map_bits */
+              }
+            ] /* table_dependencies */
+          },
+          {
+            &amp;quot;ref_optimizer_key_uses&amp;quot;: [
+            ] /* ref_optimizer_key_uses */
+          },
+          {
+            &amp;quot;rows_estimation&amp;quot;: [	--预估表的访问成本
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;range_analysis&amp;quot;: {
+                  &amp;quot;table_scan&amp;quot;: {
+                    &amp;quot;rows&amp;quot;: 1000,       --扫描行数
+                    &amp;quot;cost&amp;quot;: 207.1       --成本
+                  } /* table_scan */,
+                  &amp;quot;potential_range_indexes&amp;quot;: [    --分析可能使用的索引
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;PRIMARY&amp;quot;,
+                      &amp;quot;usable&amp;quot;: false,       --为false，说明主键索引不可用
+                      &amp;quot;cause&amp;quot;: &amp;quot;not_applicable&amp;quot;
+                    },
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_a&amp;quot;,      --可能使用索引idx_a
+                      &amp;quot;usable&amp;quot;: true,
+                      &amp;quot;key_parts&amp;quot;: [
+                        &amp;quot;a&amp;quot;,
+                        &amp;quot;id&amp;quot;
+                      ] /* key_parts */
+                    },
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,      --可能使用索引idx_b
+                      &amp;quot;usable&amp;quot;: true,
+                      &amp;quot;key_parts&amp;quot;: [
+                        &amp;quot;b&amp;quot;,
+                        &amp;quot;id&amp;quot;
+                      ] /* key_parts */
+                    }
+                  ] /* potential_range_indexes */,
+                  &amp;quot;setup_range_conditions&amp;quot;: [
+                  ] /* setup_range_conditions */,
+                  &amp;quot;group_index_range&amp;quot;: {
+                    &amp;quot;chosen&amp;quot;: false,
+                    &amp;quot;cause&amp;quot;: &amp;quot;not_group_by_or_distinct&amp;quot;
+                  } /* group_index_range */,
+                  &amp;quot;analyzing_range_alternatives&amp;quot;: { --分析各索引的成本
+                    &amp;quot;range_scan_alternatives&amp;quot;: [
+                      {
+                        &amp;quot;index&amp;quot;: &amp;quot;idx_a&amp;quot;,	--使用索引idx_a的成本
+                        &amp;quot;ranges&amp;quot;: [
+                          &amp;quot;900 &amp;lt; a&amp;quot;			--使用索引idx_a的范围
+                        ] /* ranges */,
+                        &amp;quot;index_dives_for_eq_ranges&amp;quot;: true, --是否使用index dive（详细描述请看下方的知识扩展）
+                        &amp;quot;rowid_ordered&amp;quot;: false, --使用该索引获取的记录是否按照主键排序
+                        &amp;quot;using_mrr&amp;quot;: false,  	--是否使用mrr
+                        &amp;quot;index_only&amp;quot;: false,    --是否使用覆盖索引
+                        &amp;quot;rows&amp;quot;: 100,            --使用该索引获取的记录数
+                        &amp;quot;cost&amp;quot;: 121.01,         --使用该索引的成本
+                        &amp;quot;chosen&amp;quot;: true          --可能选择该索引
+                      },
+                      {
+                        &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,       --使用索引idx_b的成本
+                        &amp;quot;ranges&amp;quot;: [
+                          &amp;quot;910 &amp;lt; b&amp;quot;
+                        ] /* ranges */,
+                        &amp;quot;index_dives_for_eq_ranges&amp;quot;: true,
+                        &amp;quot;rowid_ordered&amp;quot;: false,
+                        &amp;quot;using_mrr&amp;quot;: false,
+                        &amp;quot;index_only&amp;quot;: false,
+                        &amp;quot;rows&amp;quot;: 90,
+                        &amp;quot;cost&amp;quot;: 109.01,
+                        &amp;quot;chosen&amp;quot;: true             --也可能选择该索引
+                      }
+                    ] /* range_scan_alternatives */,
+                    &amp;quot;analyzing_roworder_intersect&amp;quot;: { --分析使用索引合并的成本
+                      &amp;quot;usable&amp;quot;: false,
+                      &amp;quot;cause&amp;quot;: &amp;quot;too_few_roworder_scans&amp;quot;
+                    } /* analyzing_roworder_intersect */
+                  } /* analyzing_range_alternatives */,
+                  &amp;quot;chosen_range_access_summary&amp;quot;: {  --确认最优方法
+                    &amp;quot;range_access_plan&amp;quot;: {
+                      &amp;quot;type&amp;quot;: &amp;quot;range_scan&amp;quot;,
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,
+                      &amp;quot;rows&amp;quot;: 90,
+                      &amp;quot;ranges&amp;quot;: [
+                        &amp;quot;910 &amp;lt; b&amp;quot;
+                      ] /* ranges */
+                    } /* range_access_plan */,
+                    &amp;quot;rows_for_plan&amp;quot;: 90,
+                    &amp;quot;cost_for_plan&amp;quot;: 109.01,
+                    &amp;quot;chosen&amp;quot;: true
+                  } /* chosen_range_access_summary */
+                } /* range_analysis */
+              }
+            ] /* rows_estimation */
+          },
+          {
+            &amp;quot;considered_execution_plans&amp;quot;: [  --考虑的执行计划
+              {
+                &amp;quot;plan_prefix&amp;quot;: [
+                ] /* plan_prefix */,
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;best_access_path&amp;quot;: {          --最优的访问路径
+                  &amp;quot;considered_access_paths&amp;quot;: [ --决定的访问路径
+                    {
+                      &amp;quot;rows_to_scan&amp;quot;: 90,      --扫描的行数
+                      &amp;quot;access_type&amp;quot;: &amp;quot;range&amp;quot;,  --访问类型：为range
+                      &amp;quot;range_details&amp;quot;: {
+                        &amp;quot;used_index&amp;quot;: &amp;quot;idx_b&amp;quot;  --使用的索引为：idx_b
+                      } /* range_details */,
+                      &amp;quot;resulting_rows&amp;quot;: 90,    --结果行数
+                      &amp;quot;cost&amp;quot;: 127.01,          --成本
+                      &amp;quot;chosen&amp;quot;: true,		   --确定选择
+                      &amp;quot;use_tmp_table&amp;quot;: true
+                    }
+                  ] /* considered_access_paths */
+                } /* best_access_path */,
+                &amp;quot;condition_filtering_pct&amp;quot;: 100,
+                &amp;quot;rows_for_plan&amp;quot;: 90,
+                &amp;quot;cost_for_plan&amp;quot;: 127.01,
+                &amp;quot;sort_cost&amp;quot;: 90,
+                &amp;quot;new_cost_for_plan&amp;quot;: 217.01,
+                &amp;quot;chosen&amp;quot;: true
+              }
+            ] /* considered_execution_plans */
+          },
+          {
+            &amp;quot;attaching_conditions_to_tables&amp;quot;: {  --尝试添加一些其他的查询条件
+              &amp;quot;original_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;,
+              &amp;quot;attached_conditions_computation&amp;quot;: [
+              ] /* attached_conditions_computation */,
+              &amp;quot;attached_conditions_summary&amp;quot;: [
+                {
+                  &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                  &amp;quot;attached&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;
+                }
+              ] /* attached_conditions_summary */
+            } /* attaching_conditions_to_tables */
+          },
+          {
+            &amp;quot;clause_processing&amp;quot;: {
+              &amp;quot;clause&amp;quot;: &amp;quot;ORDER BY&amp;quot;,
+              &amp;quot;original_clause&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;,
+              &amp;quot;items&amp;quot;: [
+                {
+                  &amp;quot;item&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;
+                }
+              ] /* items */,
+              &amp;quot;resulting_clause_is_simple&amp;quot;: true,
+              &amp;quot;resulting_clause&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;
+            } /* clause_processing */
+          },
+          {
+            &amp;quot;reconsidering_access_paths_for_index_ordering&amp;quot;: {
+              &amp;quot;clause&amp;quot;: &amp;quot;ORDER BY&amp;quot;,
+              &amp;quot;index_order_summary&amp;quot;: {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;index_provides_order&amp;quot;: false,
+                &amp;quot;order_direction&amp;quot;: &amp;quot;undefined&amp;quot;,
+                &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,
+                &amp;quot;plan_changed&amp;quot;: false
+              } /* index_order_summary */
+            } /* reconsidering_access_paths_for_index_ordering */
+          },
+          {
+            &amp;quot;refine_plan&amp;quot;: [          --改进的执行计划
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;pushed_index_condition&amp;quot;: &amp;quot;(`t1`.`b` &amp;gt; 910)&amp;quot;,
+                &amp;quot;table_condition_attached&amp;quot;: &amp;quot;(`t1`.`a` &amp;gt; 900)&amp;quot;
+              }
+            ] /* refine_plan */
+          }
+        ] /* steps */
+      } /* join_optimization */
+    },
+    {
+      &amp;quot;join_execution&amp;quot;: {             --SQL执行阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;filesort_information&amp;quot;: [
+              {
+                &amp;quot;direction&amp;quot;: &amp;quot;asc&amp;quot;,
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;field&amp;quot;: &amp;quot;a&amp;quot;
+              }
+            ] /* filesort_information */,
+            &amp;quot;filesort_priority_queue_optimization&amp;quot;: {
+              &amp;quot;usable&amp;quot;: false,             --未使用优先队列优化排序
+              &amp;quot;cause&amp;quot;: &amp;quot;not applicable (no LIMIT)&amp;quot;     --未使用优先队列排序的原因是没有limit
+            } /* filesort_priority_queue_optimization */,
+            &amp;quot;filesort_execution&amp;quot;: [
+            ] /* filesort_execution */,
+            &amp;quot;filesort_summary&amp;quot;: {           --排序详情
+              &amp;quot;rows&amp;quot;: 90,
+              &amp;quot;examined_rows&amp;quot;: 90,          --参与排序的行数
+              &amp;quot;number_of_tmp_files&amp;quot;: 0,     --排序过程中使用的临时文件数
+              &amp;quot;sort_buffer_size&amp;quot;: 115056,
+              &amp;quot;sort_mode&amp;quot;: &amp;quot;&amp;lt;sort_key, additional_fields&amp;gt;&amp;quot;   --排序模式（详解请看下方知识扩展）
+            } /* filesort_summary */
+          }
+        ] /* steps */
+      } /* join_execution */
+    }
+  ] /* steps */
+}
+MISSING_BYTES_BEYOND_MAX_MEM_SIZE: 0	--该字段表示分析过程丢弃的文本字节大小，本例为0，说明没丢弃任何文本
+          INSUFFICIENT_PRIVILEGES: 0    --查看trace的权限是否不足，0表示有权限查看trace详情
+1 row in set (0.00 sec)
+------------------------------------------------
+------------------------------------------------
+
+
+mysql&amp;gt; set session optimizer_trace=&amp;quot;enabled=off&amp;quot;;
+/* 及时关闭trace */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里对上方的执行字段详细描述一下：&lt;/p&gt;
+&lt;p&gt;TRACE 字段中整个文本大致分为三个过程。&lt;/p&gt;
+&lt;p&gt;准备阶段：对应文本中的 join_preparation&lt;br&gt;
+优化阶段：对应文本中的 join_optimization&lt;br&gt;
+执行阶段：对应文本中的 join_execution&lt;br&gt;
+使用时，重点关注优化阶段和执行阶段。&lt;/p&gt;
+&lt;p&gt;由此例可以看出：&lt;/p&gt;
+&lt;p&gt;在 trace 结果的 analyzing_range_alternatives 这一项可以看到：使用索引 idx_a 的成本为 121.01，使用索引 idx_b 的成本为 109.01，显然使用索引 idx_b 的成本要低些，因此优化器选择了 idx_b 索引；&lt;br&gt;
+在 trace 结果的 filesort_summary 这一项可以看到：排序模式为&amp;lt;sort_key, additional_fields&amp;gt;，表示使用的是单路排序，即一次性取出满足条件行的所有字段，然后在 sort buffer 中进行排序。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;知识扩展：
+
+知识点一：MySQL 常见排序模式：
+
+&amp;lt; sort_key, rowid &amp;gt;双路排序（又叫回表排序模式）：是首先根据相应的条件取出相应的排序字段和可以直接定位行数据的行 ID，然后在 sort buffer 中进行排序，排序完后需要再次取回其它需要的字段；
+&amp;lt; sort_key, additional_fields &amp;gt;单路排序：是一次性取出满足条件行的所有字段，然后在sort buffer中进行排序；
+&amp;lt; sort_key, packed_additional_fields &amp;gt;打包数据排序模式：将 char 和 varchar 字段存到 sort buffer 中时，更加紧缩。
+三种排序模式比较：
+
+第二种模式相对第一种模式，避免了二次回表，可以理解为用空间换时间。由于 sort buffer 有限，如果需要查询的数据比较大的话，会增加磁盘排序时间，效率可能比第一种方式更低。
+
+MySQL 提供了一个参数：max_length_for_sort_data，当“排序的键值对大小” &amp;gt; max_length_for_sort_data 时，MySQL 认为磁盘外部排序的 IO 效率不如回表的效率，会选择第一种排序模式；否则，会选择第二种模式。
+
+第三种模式主要解决变长字符数据存储空间浪费的问题。
+
+知识点二：优化器在估计符合条件的行数时有两个选择：
+
+index diver：dive 到 index 中利用索引完成元组数的估算；特点是速度慢，但可以得到精确的值；
+index statistics：使用索引的统计数值，进行估算；特点是速度快，但是值不一定准确。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;3-总结&#34;&gt;3 总结&lt;/h2&gt;
+&lt;p&gt;今天我们分享了 show profile 和 trace 的使用方法，我们来对比一下三种分析 SQL 方法的特点：&lt;/p&gt;
+&lt;p&gt;explain：获取 MySQL 中 SQL 语句的执行计划，比如语句是否使用了关联查询、是否使用了索引、扫描行数等；&lt;br&gt;
+profile：可以清楚了解到SQL到底慢在哪个环节；&lt;br&gt;
+trace：查看优化器如何选择执行计划，获取每个可能的索引选择的代价。&lt;br&gt;
+三种方法各有其适用场景，如果你有其它分析 SQL 的工具，欢迎在留言区分享。&lt;/p&gt;
+&lt;p&gt;4 问题&lt;br&gt;
+在工作中，遇到慢查询你是如何去分析优化的？&lt;/p&gt;
+">快速学会分析SQL执行效率（下）</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/2XXuytX6c/"" data-c="

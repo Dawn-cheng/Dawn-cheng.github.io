@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-09-06T11:00:19.309Z</updated>
+    <updated>2020-09-06T11:08:11.793Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,19 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[快速学会分析SQL执行效率（下）]]></title>
+        <id>https://Dawn-cheng.github.io/amB0AixTy/</id>
+        <link href="https://Dawn-cheng.github.io/amB0AixTy/">
+        </link>
+        <updated>2020-09-06T11:02:40.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="1-show-profile-分析慢查询">1 show profile 分析慢查询</h2>
+<p>有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="1-show-profile-分析慢查询">1 show profile 分析慢查询</h2>
+<p>有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[快速学会分析SQL执行效率]]></title>
         <id>https://Dawn-cheng.github.io/2XXuytX6c/</id>
@@ -127,19 +140,6 @@
         <summary type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[uni-app webview组件，页面铺面全屏问题]]></title>
-        <id>https://Dawn-cheng.github.io/E4ZClyFIL/</id>
-        <link href="https://Dawn-cheng.github.io/E4ZClyFIL/">
-        </link>
-        <updated>2020-07-15T09:57:02.000Z</updated>
-        <summary type="html"><![CDATA[<p>web-view 是一个 web 浏览器组件，可以用来承载网页的容器，会自动铺满整个页面。</p>
-<p>但是web-view铺满全屏  1.状态栏遮挡页面  2.没有区别app和h5页面</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>web-view 是一个 web 浏览器组件，可以用来承载网页的容器，会自动铺满整个页面。</p>
-<p>但是web-view铺满全屏  1.状态栏遮挡页面  2.没有区别app和h5页面</p>
 ]]></content>
     </entry>
 </feed>

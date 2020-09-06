@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>Dawn-cheng</title>
+<title>快速学会分析SQL执行效率（下） | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1599390487151">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,6 +38,8 @@
 
 
 
+  <meta name="description" content="快速学会分析SQL执行效率（下）" />
+  <meta name="keywords" content="MYSQL" />
 </head>
 
 <body>
@@ -163,10 +165,26 @@
   <div class="main-continer">
     
     <div
-      class="section-layout  pisces">
+      class="section-layout pisces ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -202,168 +220,779 @@
 
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-show-profile-%E5%88%86%E6%9E%90%E6%85%A2%E6%9F%A5%E8%AF%A2">1 show profile 分析慢查询</a></li>
+<li><a href="#2-trace-%E5%88%86%E6%9E%90-sql-%E4%BC%98%E5%8C%96%E5%99%A8">2 trace 分析 SQL 优化器</a></li>
+<li><a href="#3-%E6%80%BB%E7%BB%93">3 总结</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
 </div>
+
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'pisces';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
       }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
     });
   }
-  </script>
-        <div class="section-box tag-line box-shadow-wrapper">
-          <section class="section tags-section posts-expand bg-color">
-            <div class="padding-wrapper">
-  <div class="tag-timeline-box">
-    <div class="tag-timeline-wrapper">
-      <div class="tag-timeline-title">
-        <h2>
-          MYSQL
-          <small class="language" data-lan="tag">标签</small>
-        </h2>
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
       </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/amB0AixTy/">
+      快速学会分析SQL执行效率（下）
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2020-09-06 19:02:40">2020-09-06</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-folder-o"></i>
+      <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      
-      <a href="https://Dawn-cheng.github.io/amB0AixTy/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              09-06
-              <small>快速学会分析SQL执行效率（下）</small>
-            </h1>
-          </div>
-        </div>
+      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/">
+        <span>MYSQL</span>
       </a>
       
       
-      
-      
-      
-      <a href="https://Dawn-cheng.github.io/2XXuytX6c/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              09-06
-              <small>快速学会分析SQL执行效率</small>
-            </h1>
-          </div>
-        </div>
-      </a>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <a href="https://Dawn-cheng.github.io/iYDeoWK2N/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              07-21
-              <small>ABC联合索引生效问题</small>
-            </h1>
-          </div>
-        </div>
-      </a>
-      
-      
-      
-      
-      
-      <a href="https://Dawn-cheng.github.io/Z_ENFNWmH/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              07-21
-              <small>MyISAM以及InnoDB引擎默认排序方式</small>
-            </h1>
-          </div>
-        </div>
-      </a>
-      
-      
-      
-      
-      
-      
-      
-      <a href="https://Dawn-cheng.github.io/jvx7Ng7mp/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              07-16
-              <small>mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引</small>
-            </h1>
-          </div>
-        </div>
-      </a>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+    </span>
+    <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>15<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>3170<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <h2 id="1-show-profile-分析慢查询">1 show profile 分析慢查询</h2>
+<p>有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。</p>
+<!-- more -->
+<p>``知识扩展：可以通过配置参数 profiling = 1 来启用 SQL 分析。该参数可以在全局和 session 级别来设置。对于全局级别则作用于整个MySQL 实例，而 session 级别仅影响当前 session 。该参数开启后，后续执行的 SQL 语句都将记录其资源开销，如 IO、上下文切换、CPU、Memory等等。根据这些开销进一步分析当前 SQL 从而进行优化与调整。```</p>
+<p>下面我们来讲一下如何使用 profile 分析慢查询，大致步骤是：确定这个 MySQL 版本是否支持 profile；确定 profile 是否关闭；开启 profile；执行 SQL；查看执行完 SQL 的 query id；通过 query id 查看 SQL 的每个状态及耗时时间。</p>
+<p>1.1 确定是否支持 profile<br>
+我们进行第一步，用下面命令来判断当前 MySQL 是否支持 profile：</p>
+<pre><code>mysql&gt; select @@have_profiling;
+
++------------------+
+| @@have_profiling |
++------------------+
+| YES              |
++------------------+
+
+1 row in set, 1 warning (0.00 sec)
+</code></pre>
+<p>从上面结果中可以看出是YES，表示支持profile的。</p>
+<p>1.2 查看 profiling 是否关闭的<br>
+进行第二步，用下面命令判断 profiling 参数是否关闭（默认 profiling 是关闭的）：</p>
+<pre><code>mysql&gt; select @@profiling;
+
++-------------+
+| @@profiling |
++-------------+
+|           0 |
++-------------+
+
+1 row in set, 1 warning (0.00 sec)
+</code></pre>
+<p>结果显示为 0，表示 profiling 参数状态是关闭的。</p>
+<p>1.3 通过 set 开启 profile</p>
+<pre><code>mysql&gt; set profiling=1;
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+</code></pre>
+<p>Tips：set 时没加 global，只对当前 session 有效。</p>
+<p>1.4 执行 SQL 语句</p>
+<pre><code>mysql&gt; select * from t1 where b=1000;
+</code></pre>
+<p>1.5 确定 SQL 的 query id<br>
+通过 show profiles 语句确定执行过的 SQL 的 query id：</p>
+<pre><code>mysql&gt; show profiles;
++----------+------------+-------------------------------+
+| Query_ID | Duration   | Query                         |
++----------+------------+-------------------------------+
+|        1 | 0.00063825 | select * from t1 where b=1000 |
++----------+------------+-------------------------------+
+1 row in set, 1 warning (0.00 sec)
+</code></pre>
+<p>1.6 查询 SQL 执行详情<br>
+通过 show profile for query 可看到执行过的 SQL 每个状态和消耗时间：</p>
+<pre><code>mysql&gt; show profile for query 1;
++----------------------+----------+
+| Status               | Duration |
++----------------------+----------+
+| starting             | 0.000115 |
+| checking permissions | 0.000013 |
+| Opening tables       | 0.000027 |
+| init                 | 0.000035 |
+| System lock          | 0.000017 |
+| optimizing           | 0.000016 |
+| statistics           | 0.000025 |
+| preparing            | 0.000020 |
+| executing            | 0.000006 |
+| Sending data         | 0.000294 |
+| end                  | 0.000009 |
+| query end            | 0.000012 |
+| closing tables       | 0.000011 |
+| freeing items        | 0.000024 |
+| cleaning up          | 0.000016 |
++----------------------+----------+
+15 rows in set, 1 warning (0.00 sec)
+</code></pre>
+<p>通过以上结果，可以确定 SQL 执行过程具体在哪个过程耗时比较久，从而更好地进行 SQL 优化与调整。</p>
+<h2 id="2-trace-分析-sql-优化器">2 trace 分析 SQL 优化器</h2>
+<p>从前面学到了 explain 可以查看 SQL 执行计划，但是无法知道它为什么做这个决策，如果想确定多种索引方案之间是如何选择的或者排序时选择的是哪种排序模式，有什么好的办法吗？</p>
+<p>从 MySQL 5.6 开始，可以使用 trace 查看优化器如何选择执行计划。</p>
+<p>通过trace，能够进一步了解为什么优化器选择A执行计划而不是选择B执行计划，或者知道某个排序使用的排序模式，帮助我们更好地理解优化器行为。</p>
+<p>如果需要使用，先开启 trace，设置格式为 JSON，再执行需要分析的 SQL，最后查看 trace 分析结果（在 information_schema.OPTIMIZER_TRACE 中）。</p>
+<p>开启该功能，会对 MySQL 性能有所影响，因此只建议分析问题时临时开启。</p>
+<p>下面一起来看下 trace 的使用方法。使用讲解 explain 时创建的表t1做实验。</p>
+<p>首先构造如下 SQL (表示取出表 t1 中 a 的值大于 900 并且 b 的值大于 910 的数据，然后按照 a 字段排序)：</p>
+<pre><code>select * from t1 where a &gt;900 and b &gt; 910 order  by a;
+</code></pre>
+<p>我们首先用 explain 分析下执行计划：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1599390318027.jpeg" alt="" loading="lazy"><br>
+图片描述通过上面执行计划中 key 这个字段可以看出，该语句使用的是 b 字段的索引 idx_b。实际表 t1 中，a、b 两个字段都有索引，为什么条件中有这两个索引字段却偏偏选了 b 字段的索引呢？这时就可以使用 trace 进行分析。大致步骤如下：</p>
+<pre><code>mysql&gt; set session optimizer_trace=&quot;enabled=on&quot;,end_markers_in_json=on;
+/* optimizer_trace=&quot;enabled=on&quot; 表示开启 trace；end_markers_in_json=on 表示 JSON 输出开启结束标记 */
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select * from t1 where a &gt;900 and b &gt; 910 order  by a;
++------+------+------+
+| id   | a    | b    |
++------+------+------+
+|    1 |    1 |    1 |
+|    2 |    2 |    2 |
+
+......
+
+| 1000 | 1000 | 1000 |
++------+------+------+
+1000 rows in set (0.00 sec)
+
+mysql&gt; SELECT * FROM information_schema.OPTIMIZER_TRACE\G
+*************************** 1. row ***************************
+QUERY: select * from t1 where a &gt;900 and b &gt; 910 order  by a    --SQL语句
+TRACE: {
+  &quot;steps&quot;: [
+    {
+      &quot;join_preparation&quot;: {				--SQL准备阶段
+        &quot;select#&quot;: 1,
+        &quot;steps&quot;: [
+          {
+            &quot;expanded_query&quot;: &quot;/* select#1 */ select `t1`.`id` AS `id`,`t1`.`a` AS `a`,`t1`.`b` AS `b`,`t1`.`create_time` AS `create_time`,`t1`.`update_time` AS `update_time` from `t1` where ((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910)) order by `t1`.`a`&quot;
+          }
+        ] /* steps */
+      } /* join_preparation */
+    },
+    {
+      &quot;join_optimization&quot;: {			--SQL优化阶段
+        &quot;select#&quot;: 1,
+        &quot;steps&quot;: [
+          {
+            &quot;condition_processing&quot;: {    --条件处理
+              &quot;condition&quot;: &quot;WHERE&quot;,
+              &quot;original_condition&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot;,        --原始条件
+              &quot;steps&quot;: [
+                {
+                  &quot;transformation&quot;: &quot;equality_propagation&quot;,
+                  &quot;resulting_condition&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot; 		--等值传递转换
+                },
+                {
+                  &quot;transformation&quot;: &quot;constant_propagation&quot;,
+                  &quot;resulting_condition&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot;       --常量传递转换
+                },
+                {
+                  &quot;transformation&quot;: &quot;trivial_condition_removal&quot;,
+                  &quot;resulting_condition&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot;        --去除没有的条件后的结构
+                }
+              ] /* steps */
+            } /* condition_processing */
+          },
+          {
+            &quot;substitute_generated_columns&quot;: {
+            } /* substitute_generated_columns */   --替换虚拟生成列
+          },
+          {
+            &quot;table_dependencies&quot;: [		--表依赖详情
+              {
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;row_may_be_null&quot;: false,
+                &quot;map_bit&quot;: 0,
+                &quot;depends_on_map_bits&quot;: [
+                ] /* depends_on_map_bits */
+              }
+            ] /* table_dependencies */
+          },
+          {
+            &quot;ref_optimizer_key_uses&quot;: [
+            ] /* ref_optimizer_key_uses */
+          },
+          {
+            &quot;rows_estimation&quot;: [	--预估表的访问成本
+              {
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;range_analysis&quot;: {
+                  &quot;table_scan&quot;: {
+                    &quot;rows&quot;: 1000,       --扫描行数
+                    &quot;cost&quot;: 207.1       --成本
+                  } /* table_scan */,
+                  &quot;potential_range_indexes&quot;: [    --分析可能使用的索引
+                    {
+                      &quot;index&quot;: &quot;PRIMARY&quot;,
+                      &quot;usable&quot;: false,       --为false，说明主键索引不可用
+                      &quot;cause&quot;: &quot;not_applicable&quot;
+                    },
+                    {
+                      &quot;index&quot;: &quot;idx_a&quot;,      --可能使用索引idx_a
+                      &quot;usable&quot;: true,
+                      &quot;key_parts&quot;: [
+                        &quot;a&quot;,
+                        &quot;id&quot;
+                      ] /* key_parts */
+                    },
+                    {
+                      &quot;index&quot;: &quot;idx_b&quot;,      --可能使用索引idx_b
+                      &quot;usable&quot;: true,
+                      &quot;key_parts&quot;: [
+                        &quot;b&quot;,
+                        &quot;id&quot;
+                      ] /* key_parts */
+                    }
+                  ] /* potential_range_indexes */,
+                  &quot;setup_range_conditions&quot;: [
+                  ] /* setup_range_conditions */,
+                  &quot;group_index_range&quot;: {
+                    &quot;chosen&quot;: false,
+                    &quot;cause&quot;: &quot;not_group_by_or_distinct&quot;
+                  } /* group_index_range */,
+                  &quot;analyzing_range_alternatives&quot;: { --分析各索引的成本
+                    &quot;range_scan_alternatives&quot;: [
+                      {
+                        &quot;index&quot;: &quot;idx_a&quot;,	--使用索引idx_a的成本
+                        &quot;ranges&quot;: [
+                          &quot;900 &lt; a&quot;			--使用索引idx_a的范围
+                        ] /* ranges */,
+                        &quot;index_dives_for_eq_ranges&quot;: true, --是否使用index dive（详细描述请看下方的知识扩展）
+                        &quot;rowid_ordered&quot;: false, --使用该索引获取的记录是否按照主键排序
+                        &quot;using_mrr&quot;: false,  	--是否使用mrr
+                        &quot;index_only&quot;: false,    --是否使用覆盖索引
+                        &quot;rows&quot;: 100,            --使用该索引获取的记录数
+                        &quot;cost&quot;: 121.01,         --使用该索引的成本
+                        &quot;chosen&quot;: true          --可能选择该索引
+                      },
+                      {
+                        &quot;index&quot;: &quot;idx_b&quot;,       --使用索引idx_b的成本
+                        &quot;ranges&quot;: [
+                          &quot;910 &lt; b&quot;
+                        ] /* ranges */,
+                        &quot;index_dives_for_eq_ranges&quot;: true,
+                        &quot;rowid_ordered&quot;: false,
+                        &quot;using_mrr&quot;: false,
+                        &quot;index_only&quot;: false,
+                        &quot;rows&quot;: 90,
+                        &quot;cost&quot;: 109.01,
+                        &quot;chosen&quot;: true             --也可能选择该索引
+                      }
+                    ] /* range_scan_alternatives */,
+                    &quot;analyzing_roworder_intersect&quot;: { --分析使用索引合并的成本
+                      &quot;usable&quot;: false,
+                      &quot;cause&quot;: &quot;too_few_roworder_scans&quot;
+                    } /* analyzing_roworder_intersect */
+                  } /* analyzing_range_alternatives */,
+                  &quot;chosen_range_access_summary&quot;: {  --确认最优方法
+                    &quot;range_access_plan&quot;: {
+                      &quot;type&quot;: &quot;range_scan&quot;,
+                      &quot;index&quot;: &quot;idx_b&quot;,
+                      &quot;rows&quot;: 90,
+                      &quot;ranges&quot;: [
+                        &quot;910 &lt; b&quot;
+                      ] /* ranges */
+                    } /* range_access_plan */,
+                    &quot;rows_for_plan&quot;: 90,
+                    &quot;cost_for_plan&quot;: 109.01,
+                    &quot;chosen&quot;: true
+                  } /* chosen_range_access_summary */
+                } /* range_analysis */
+              }
+            ] /* rows_estimation */
+          },
+          {
+            &quot;considered_execution_plans&quot;: [  --考虑的执行计划
+              {
+                &quot;plan_prefix&quot;: [
+                ] /* plan_prefix */,
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;best_access_path&quot;: {          --最优的访问路径
+                  &quot;considered_access_paths&quot;: [ --决定的访问路径
+                    {
+                      &quot;rows_to_scan&quot;: 90,      --扫描的行数
+                      &quot;access_type&quot;: &quot;range&quot;,  --访问类型：为range
+                      &quot;range_details&quot;: {
+                        &quot;used_index&quot;: &quot;idx_b&quot;  --使用的索引为：idx_b
+                      } /* range_details */,
+                      &quot;resulting_rows&quot;: 90,    --结果行数
+                      &quot;cost&quot;: 127.01,          --成本
+                      &quot;chosen&quot;: true,		   --确定选择
+                      &quot;use_tmp_table&quot;: true
+                    }
+                  ] /* considered_access_paths */
+                } /* best_access_path */,
+                &quot;condition_filtering_pct&quot;: 100,
+                &quot;rows_for_plan&quot;: 90,
+                &quot;cost_for_plan&quot;: 127.01,
+                &quot;sort_cost&quot;: 90,
+                &quot;new_cost_for_plan&quot;: 217.01,
+                &quot;chosen&quot;: true
+              }
+            ] /* considered_execution_plans */
+          },
+          {
+            &quot;attaching_conditions_to_tables&quot;: {  --尝试添加一些其他的查询条件
+              &quot;original_condition&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot;,
+              &quot;attached_conditions_computation&quot;: [
+              ] /* attached_conditions_computation */,
+              &quot;attached_conditions_summary&quot;: [
+                {
+                  &quot;table&quot;: &quot;`t1`&quot;,
+                  &quot;attached&quot;: &quot;((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))&quot;
+                }
+              ] /* attached_conditions_summary */
+            } /* attaching_conditions_to_tables */
+          },
+          {
+            &quot;clause_processing&quot;: {
+              &quot;clause&quot;: &quot;ORDER BY&quot;,
+              &quot;original_clause&quot;: &quot;`t1`.`a`&quot;,
+              &quot;items&quot;: [
+                {
+                  &quot;item&quot;: &quot;`t1`.`a`&quot;
+                }
+              ] /* items */,
+              &quot;resulting_clause_is_simple&quot;: true,
+              &quot;resulting_clause&quot;: &quot;`t1`.`a`&quot;
+            } /* clause_processing */
+          },
+          {
+            &quot;reconsidering_access_paths_for_index_ordering&quot;: {
+              &quot;clause&quot;: &quot;ORDER BY&quot;,
+              &quot;index_order_summary&quot;: {
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;index_provides_order&quot;: false,
+                &quot;order_direction&quot;: &quot;undefined&quot;,
+                &quot;index&quot;: &quot;idx_b&quot;,
+                &quot;plan_changed&quot;: false
+              } /* index_order_summary */
+            } /* reconsidering_access_paths_for_index_ordering */
+          },
+          {
+            &quot;refine_plan&quot;: [          --改进的执行计划
+              {
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;pushed_index_condition&quot;: &quot;(`t1`.`b` &gt; 910)&quot;,
+                &quot;table_condition_attached&quot;: &quot;(`t1`.`a` &gt; 900)&quot;
+              }
+            ] /* refine_plan */
+          }
+        ] /* steps */
+      } /* join_optimization */
+    },
+    {
+      &quot;join_execution&quot;: {             --SQL执行阶段
+        &quot;select#&quot;: 1,
+        &quot;steps&quot;: [
+          {
+            &quot;filesort_information&quot;: [
+              {
+                &quot;direction&quot;: &quot;asc&quot;,
+                &quot;table&quot;: &quot;`t1`&quot;,
+                &quot;field&quot;: &quot;a&quot;
+              }
+            ] /* filesort_information */,
+            &quot;filesort_priority_queue_optimization&quot;: {
+              &quot;usable&quot;: false,             --未使用优先队列优化排序
+              &quot;cause&quot;: &quot;not applicable (no LIMIT)&quot;     --未使用优先队列排序的原因是没有limit
+            } /* filesort_priority_queue_optimization */,
+            &quot;filesort_execution&quot;: [
+            ] /* filesort_execution */,
+            &quot;filesort_summary&quot;: {           --排序详情
+              &quot;rows&quot;: 90,
+              &quot;examined_rows&quot;: 90,          --参与排序的行数
+              &quot;number_of_tmp_files&quot;: 0,     --排序过程中使用的临时文件数
+              &quot;sort_buffer_size&quot;: 115056,
+              &quot;sort_mode&quot;: &quot;&lt;sort_key, additional_fields&gt;&quot;   --排序模式（详解请看下方知识扩展）
+            } /* filesort_summary */
+          }
+        ] /* steps */
+      } /* join_execution */
+    }
+  ] /* steps */
+}
+MISSING_BYTES_BEYOND_MAX_MEM_SIZE: 0	--该字段表示分析过程丢弃的文本字节大小，本例为0，说明没丢弃任何文本
+          INSUFFICIENT_PRIVILEGES: 0    --查看trace的权限是否不足，0表示有权限查看trace详情
+1 row in set (0.00 sec)
+------------------------------------------------
+------------------------------------------------
+
+
+mysql&gt; set session optimizer_trace=&quot;enabled=off&quot;;
+/* 及时关闭trace */
+</code></pre>
+<p>这里对上方的执行字段详细描述一下：</p>
+<p>TRACE 字段中整个文本大致分为三个过程。</p>
+<p>准备阶段：对应文本中的 join_preparation<br>
+优化阶段：对应文本中的 join_optimization<br>
+执行阶段：对应文本中的 join_execution<br>
+使用时，重点关注优化阶段和执行阶段。</p>
+<p>由此例可以看出：</p>
+<p>在 trace 结果的 analyzing_range_alternatives 这一项可以看到：使用索引 idx_a 的成本为 121.01，使用索引 idx_b 的成本为 109.01，显然使用索引 idx_b 的成本要低些，因此优化器选择了 idx_b 索引；<br>
+在 trace 结果的 filesort_summary 这一项可以看到：排序模式为&lt;sort_key, additional_fields&gt;，表示使用的是单路排序，即一次性取出满足条件行的所有字段，然后在 sort buffer 中进行排序。</p>
+<pre><code>知识扩展：
+
+知识点一：MySQL 常见排序模式：
+
+&lt; sort_key, rowid &gt;双路排序（又叫回表排序模式）：是首先根据相应的条件取出相应的排序字段和可以直接定位行数据的行 ID，然后在 sort buffer 中进行排序，排序完后需要再次取回其它需要的字段；
+&lt; sort_key, additional_fields &gt;单路排序：是一次性取出满足条件行的所有字段，然后在sort buffer中进行排序；
+&lt; sort_key, packed_additional_fields &gt;打包数据排序模式：将 char 和 varchar 字段存到 sort buffer 中时，更加紧缩。
+三种排序模式比较：
+
+第二种模式相对第一种模式，避免了二次回表，可以理解为用空间换时间。由于 sort buffer 有限，如果需要查询的数据比较大的话，会增加磁盘排序时间，效率可能比第一种方式更低。
+
+MySQL 提供了一个参数：max_length_for_sort_data，当“排序的键值对大小” &gt; max_length_for_sort_data 时，MySQL 认为磁盘外部排序的 IO 效率不如回表的效率，会选择第一种排序模式；否则，会选择第二种模式。
+
+第三种模式主要解决变长字符数据存储空间浪费的问题。
+
+知识点二：优化器在估计符合条件的行数时有两个选择：
+
+index diver：dive 到 index 中利用索引完成元组数的估算；特点是速度慢，但可以得到精确的值；
+index statistics：使用索引的统计数值，进行估算；特点是速度快，但是值不一定准确。
+</code></pre>
+<h2 id="3-总结">3 总结</h2>
+<p>今天我们分享了 show profile 和 trace 的使用方法，我们来对比一下三种分析 SQL 方法的特点：</p>
+<p>explain：获取 MySQL 中 SQL 语句的执行计划，比如语句是否使用了关联查询、是否使用了索引、扫描行数等；<br>
+profile：可以清楚了解到SQL到底慢在哪个环节；<br>
+trace：查看优化器如何选择执行计划，获取每个可能的索引选择的代价。<br>
+三种方法各有其适用场景，如果你有其它分析 SQL 的工具，欢迎在留言区分享。</p>
+<p>4 问题<br>
+在工作中，遇到慢查询你是如何去分析优化的？</p>
+
+            </div>
+            
+              <div class="reward-btn">
+                <div class="reward-btn-text">赞赏</div>
+              </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      Dawn-cheng
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://Dawn-cheng.github.io/amB0AixTy/" title="快速学会分析SQL执行效率（下）">https://Dawn-cheng.github.io/amB0AixTy/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/"># MYSQL</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="快速学会分析SQL执行效率" href="https://Dawn-cheng.github.io/2XXuytX6c/">快速学会分析SQL执行效率</a>
+        <a class="nav-mobile-next" title="快速学会分析SQL执行效率" href="https://Dawn-cheng.github.io/2XXuytX6c/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
 </div>
-          </section>
+            
+            
+  
+
+          </div>
         </div>
       </div>
     </div>
@@ -559,6 +1188,259 @@
   }
 
 </script>
+    <div class="light-box" id="light_box"></div>
+<script>
+  let imgs = document.querySelectorAll('.post-body img');
+  let lightBox = document.querySelector('#light_box');
+  lightBox.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+  })
+  lightBox.addEventListener('mousewheel', (e) => {
+    e.preventDefault()
+  })
+  let width = window.innerWidth * 0.8;
+  lightBox.onclick = () => {
+    let img = lightBox.querySelector('img');
+    lightBox.style = '';
+    img && img.remove();
+  }
+  imgs.forEach(item => {
+    item.onclick = function (e) {
+      let lightImg = document.createElement('img');
+      lightImg.src = this.src;
+      lightBox.style = `height: 100%; opacity: 1; background-color: rgba(0, 0, 0, 0.5);cursor: zoom-out;`;
+      lightImg.style = `width: ${width}px;border-radius: 2px;`;
+      lightImg.onclick = function () {
+        lightBox.style = '';
+        this.remove();
+      }
+      lightBox.append(lightImg);
+    }
+  })
+</script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+            <img id="wx" class="reward-img" src="/media/images/custom-wxImg.jpeg" alt="赞赏码">
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+      <div id="wxBtn" class="pay-text">
+        微信支付
+      </div>
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        window.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        window.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        window.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        window.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      window.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
   </div>
 </body>
 
@@ -3022,7 +3904,6 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
 
 
 <script src="/media/js/mouse/love.js"></script>
-
 
 
 
