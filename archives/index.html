@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1614320349198">
+<link rel="shortcut icon" href="/favicon.ico?v=1614320658728">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -759,23 +759,23 @@ redis目前支持五种数据结构&lt;br&gt;
 集合拥有确定性、互异性和无序性，对应到redis里面的集合数据结构也是一样的。&lt;br&gt;
 &lt;code&gt;注：与集合不同，列表可以包含重复元素，列表内的元素顺序也和添加时的顺序一致。&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;确定性很好理解，你必须将一个确定的元素值添加到 Redis 集合，而不能把一个不确定的变量添加进去。&lt;/p&gt;
-&lt;p&gt;redis集合中的所有元素都是互异的，即任意一个元素都是唯一的，向集合中添加相同元素时，会忽略后续添加的值，比如我们通过 SADD 指令尝试向 skills 集合添加两个相同的 PHP 元素：&lt;br&gt;
+&lt;p&gt;redis集合中的所有元素都是互异的，即任意一个元素都是唯一的，向集合中添加相同元素时，会忽略后续添加的值，比如我们通过 &lt;code&gt;SADD&lt;/code&gt; 指令尝试向 skills 集合添加两个相同的 PHP 元素：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311198018.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-第二次添加返回值是 0，表示添加失败，通过 SMEMBERS 列举集合时，也只有一个元素，表明 Redis 集合确实会自动帮我们做去重处理：&lt;br&gt;
+第二次添加返回值是 0，表示添加失败，通过 &lt;code&gt;SMEMBERS&lt;/code&gt; 列举集合时，也只有一个元素，表明 Redis 集合确实会自动帮我们做去重处理：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311239832.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
 另外，Redis 集合具备无序性，所以当你向 skills 集合添加多个元素时，返回的结果和添加时的排序并不一致：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311278082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-这当然是为了降低底层数据维护成本从而提升性能考虑。因此，我们如果尝试从 Redis 集合获取元素时，返回的结果值也是随机的，并不能确保给定位置的值是添加序列时的值，你可以看到 Redis Set 指令集中的 SPOP 返回值也确实是随机的：&lt;/p&gt;
+这当然是为了降低底层数据维护成本从而提升性能考虑。因此，我们如果尝试从 Redis 集合获取元素时，返回的结果值也是随机的，并不能确保给定位置的值是添加序列时的值，你可以看到 Redis Set 指令集中的 &lt;code&gt;SPOP&lt;/code&gt; 返回值也确实是随机的：&lt;/p&gt;
 &lt;p&gt;四、有序集合&lt;br&gt;
 有序集合就是在集合的基础上让内部元素有确定的排序，不过这个排序不是按照添加时的顺序，而是通过额外的排序字段值指定&lt;br&gt;
 通过&lt;code&gt;zadd&lt;/code&gt;指令向有序集合添加元素，有序集合命名为 sorted_skills&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317157012.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-和 SADD 指令不同，在元素值之前插入了一个数值（score），在返回有序集合时，默认会根据这个数值进行升序排序：&lt;br&gt;
+和 &lt;code&gt;SADD&lt;/code&gt; 指令不同，在元素值之前插入了一个数值（score），在返回有序集合时，默认会根据这个数值进行升序排序：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317202509.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-&lt;code&gt;和 LRANGE 指令一样，最后面的两个数字表示集合区间，前面是起始位置，后面是结束位置，-1 表示集合末尾索引值。&lt;/code&gt;&lt;/p&gt;
+&lt;code&gt;和&lt;/code&gt;LRANGE&lt;code&gt;指令一样，最后面的两个数字表示集合区间，前面是起始位置，后面是结束位置，-1 表示集合末尾索引值。&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;当然，你也可以通过 &lt;code&gt;ZREVRANGE&lt;/code&gt; 指令返回基于排序字段的倒序排序结果：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317285706.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-还可以通过 WITHSCORES 选项在返回结果中包含排序字段值：&lt;br&gt;
+还可以通过 &lt;code&gt;WITHSCORES&lt;/code&gt; 选项在返回结果中包含排序字段值：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317328290.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
 有序集合非常适用于 Web 应用的一些排行榜功能，比如热门阅读、热门讨论等。&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317666702.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
@@ -791,9 +791,9 @@ redis目前支持五种数据结构&lt;br&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;你也可以通过 &lt;code&gt;HMSET&lt;/code&gt; 指令一次性设置多个字典字段：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319462678.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-设置完成后，可以通过 HKEYS 指令获取所有键，通过 HVALS 指令获取所有值：&lt;br&gt;
+设置完成后，可以通过 &lt;code&gt;HKEYS&lt;/code&gt; 指令获取所有键，通过 &lt;code&gt;HVALS&lt;/code&gt; 指令获取所有值：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319415896.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
-可以通过 HGET 指令获取单个字典字段值，也可以通过 HMGET 指令获取多个字典字段值，还可以通过 HGETALL 指令获取所有字典字段值：&lt;br&gt;
+可以通过 &lt;code&gt;HGET&lt;/code&gt; 指令获取单个字典字段值，也可以通过&lt;code&gt;HMGET&lt;/code&gt; 指令获取多个字典字段值，还可以通过 &lt;code&gt;HGETALL&lt;/code&gt; 指令获取所有字典字段值：&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319501710.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
 关于 Redis 字典的应用场景自然就是 NoSQL 数据库了。&lt;br&gt;
 &lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319801773.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
