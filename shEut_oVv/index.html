@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>邀请码的设计 | Dawn-cheng</title>
+<title>Redis知识点 | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1614319903278">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="邀请码的设计" />
-  <meta name="keywords" content="PHP" />
+  <meta name="description" content="Redis知识点" />
+  <meta name="keywords" content="REDIS" />
 </head>
 
 <body>
@@ -292,8 +292,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://Dawn-cheng.github.io/6ZVP7IE6V/">
-      邀请码的设计
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/shEut_oVv/">
+      Redis知识点
     </a>
   </h1>
   <div class="post-meta">
@@ -301,7 +301,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-07-16 14:06:48">2020-07-16</span>
+      <span class="publish-time" data-t="2021-02-26 10:19:42">2021-02-26</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -310,8 +310,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/">
-        <span>PHP</span>
+      <a href="https://Dawn-cheng.github.io/tag/redis/">
+        <span>REDIS</span>
       </a>
       
       
@@ -320,61 +320,93 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>2<span class="language" data-lan="minute">分钟</span></span>
+      <span>5<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>246<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1401<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>公司近期要做淘客项目，需要给每个会员生成一串唯一性的邀请码，在网上在了很多资料，最后找到一个自认为不错的设计，再次分享一下</p>
-<!-- more -->
-<pre><code class="language-php">function create_invite_code(){
-
-​        $code = ''; //保存生成的code码
-
-​        $char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; //26个字符
-
-​        $char2 = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; //24个字符
-
-​        $data[0] = $char[mt_rand(0,25)]; //值为A~Z
-
-​        $data[1] = strtoupper(dechex(Date('m',time()))); //值为1~C
-
-​        $data[2] = Date('d',time()); //值为1~31
-
-​        $data[3] = substr(time(),-5); //时间戳后5位
-
-​        $data[4] = substr(microtime(),2,5); //值为微秒的小数点后5位
-
-​        $data[5] = sprintf('%02d',rand(0,99)); //值为0~99
-
-​        $str = implode('', $data); //合并为字符串
-
-​        $bin = md5($str, true ); //16字节的二进制数据
-
-​        for($i=0;$i&lt;6;$i++){
-
-​            $a8 = ord($bin[$i]); //$a8保存前6字节的循环数据 ASCII 值
-
-​            $b8 = ord($bin[$i+6]); //$b8保存后6字节的循环数据 ASCII 值
-
-​            $index = ($a8 ^ $b8) - $a8 &amp; 0x17; //0x17表示23，即$index的范围为0~23
-
-​            $code .= $char2[$index]; //根据下标取出$char2中字符串
-
-​        }
-
-​        return  $code;
-
-​    }
-
-​    echo create_invite_code();
+              <p>一、支持的数据结构<br>
+redis目前支持五种数据结构<br>
+1: String 字符串<br>
+2: List    列表<br>
+3: Set     集合<br>
+4: SortedSet  有序集合<br>
+5:  Hash   哈希字典</p>
+<p>二、数据结构的操作<br>
+1、 字符串<br>
+1）指定字符串的值。通过<code>set</code>指令指定字符串的值。<br>
+<code>set key 'nihao'</code><br>
+2) 通过<code>get</code>指令获取该字符串的值。<br>
+<code>get key</code>。获得值为<code>nihao</code><br>
+3) 设置字符串的有效期 ，可以通过额外的<code>ex</code>参数指定有效期，单位秒<br>
+<code>set key 'nihao' ex 3</code><br>
+4) 还支持数字格式的值，利用这一特性实现计数器功能，例如浏览数，购买数，点赞数等，                 可以使用 <code>incr</code>命令初始化对应的键值<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614307682927.png" alt="" loading="lazy"><br>
+获取也是通过<code>get</code>指令，默认步长是1，每次调用对应的键值+1，可以通过 <code>incrby</code>显示设           置步长<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614307867032.png" alt="" loading="lazy"><br>
+与<code>incr</code>/<code>incrby</code>相对的是<code>decr</code>/<code>decrby</code>指令，即对给定键值做 -1 操作或者做给定步长的减少操作（对应取消点赞之类的操作）。<br>
+字符串还有很多指令可以去<a href="https://redis.io/commands">Redis官网Commands页面</a>查看</p>
+<p>2、列表<br>
+列表类似链表。可以将元素添加到列表(支持从头部添加也支持从尾部添加)  ，也可以从列表中移除并获取某个元素(支持从头部移除也支持从尾部移除)，还可以读取整个列表元素。可以基于redis的列表实现类似于栈和队列的数据结构，基于redis的消息队列也是基于这个数据结构实现的<br>
+以队列为列，从尾部添加数据，从头部读取数据<br>
+先通过  <code>rpush</code>指令推送数据到队列末尾<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614309520637.png" alt="" loading="lazy"><br>
+推送成功后，你可以通过 <code>LRANGE</code> 指令获取列表中的所有元素（0 表示起始位置索引、-1 表示结束位置索引，你也可以通过其他索引值获取给定区间元素）：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614309590635.png" alt="" loading="lazy"><br>
+然后通过 <code>LPOP</code> 指令从队列头部移除并获取元素：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614309639401.png" alt="" loading="lazy"><br>
+上述数据添加和获取符合「先入先出」规则，所以是一个标准的队列结构。</p>
+<p>当然了，还有与之相对的 <code>RPOP</code> 和 <code>LPUSH</code> 指令，你可以基于<code>LPUSH</code> 和 <code>LPOP</code> 实现栈这种数据结构，这里就不单独演示了。</p>
+<p>三、集合<br>
+集合拥有确定性、互异性和无序性，对应到redis里面的集合数据结构也是一样的。<br>
+<code>注：与集合不同，列表可以包含重复元素，列表内的元素顺序也和添加时的顺序一致。</code></p>
+<p>确定性很好理解，你必须将一个确定的元素值添加到 Redis 集合，而不能把一个不确定的变量添加进去。</p>
+<p>redis集合中的所有元素都是互异的，即任意一个元素都是唯一的，向集合中添加相同元素时，会忽略后续添加的值，比如我们通过 SADD 指令尝试向 skills 集合添加两个相同的 PHP 元素：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614311198018.png" alt="" loading="lazy"><br>
+第二次添加返回值是 0，表示添加失败，通过 SMEMBERS 列举集合时，也只有一个元素，表明 Redis 集合确实会自动帮我们做去重处理：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614311239832.png" alt="" loading="lazy"><br>
+另外，Redis 集合具备无序性，所以当你向 skills 集合添加多个元素时，返回的结果和添加时的排序并不一致：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614311278082.png" alt="" loading="lazy"><br>
+这当然是为了降低底层数据维护成本从而提升性能考虑。因此，我们如果尝试从 Redis 集合获取元素时，返回的结果值也是随机的，并不能确保给定位置的值是添加序列时的值，你可以看到 Redis Set 指令集中的 SPOP 返回值也确实是随机的：</p>
+<p>四、有序集合<br>
+有序集合就是在集合的基础上让内部元素有确定的排序，不过这个排序不是按照添加时的顺序，而是通过额外的排序字段值指定<br>
+通过<code>zadd</code>指令向有序集合添加元素，有序集合命名为 sorted_skills<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614317157012.png" alt="" loading="lazy"><br>
+和 SADD 指令不同，在元素值之前插入了一个数值（score），在返回有序集合时，默认会根据这个数值进行升序排序：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614317202509.png" alt="" loading="lazy"><br>
+<code>和 LRANGE 指令一样，最后面的两个数字表示集合区间，前面是起始位置，后面是结束位置，-1 表示集合末尾索引值。</code></p>
+<p>当然，你也可以通过 <code>ZREVRANGE</code> 指令返回基于排序字段的倒序排序结果：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614317285706.png" alt="" loading="lazy"><br>
+还可以通过 WITHSCORES 选项在返回结果中包含排序字段值：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614317328290.png" alt="" loading="lazy"><br>
+有序集合非常适用于 Web 应用的一些排行榜功能，比如热门阅读、热门讨论等。<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614317666702.png" alt="" loading="lazy"></p>
+<p>五、哈希字典<br>
+通过<code>HSET</code> 指令逐个添加字典元素：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319281731.png" alt="" loading="lazy"><br>
+在红框里，我们设定的字典名称是 student.1，字段名是 name，字段值是 lilei，其他两条指令类似，最终构建的是如下所示的字典结构：</p>
+<pre><code>{
+    name: &quot;lilei&quot;,
+    class: 7,
+    grade: &quot;A&quot;
+}
 </code></pre>
+<p>你也可以通过 <code>HMSET</code> 指令一次性设置多个字典字段：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319462678.png" alt="" loading="lazy"><br>
+设置完成后，可以通过 HKEYS 指令获取所有键，通过 HVALS 指令获取所有值：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319415896.png" alt="" loading="lazy"><br>
+可以通过 HGET 指令获取单个字典字段值，也可以通过 HMGET 指令获取多个字典字段值，还可以通过 HGETALL 指令获取所有字典字段值：<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319501710.png" alt="" loading="lazy"><br>
+关于 Redis 字典的应用场景自然就是 NoSQL 数据库了。<br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319801773.png" alt="" loading="lazy"><br>
+<img src="https://Dawn-cheng.github.io/post-images/1614319811422.png" alt="" loading="lazy"></p>
+<p>更多指令可以去<a href="https://redis.io/commands" style="color:red;">Redis官网Commands页面</a>查看</p>
 
             </div>
             
@@ -391,7 +423,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://Dawn-cheng.github.io/6ZVP7IE6V/" title="邀请码的设计">https://Dawn-cheng.github.io/6ZVP7IE6V/</a>
+      <a href="https://Dawn-cheng.github.io/shEut_oVv/" title="Redis知识点">https://Dawn-cheng.github.io/shEut_oVv/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -400,21 +432,17 @@
   </ul>
   <div class="tags">
     
-      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/"># PHP</a>
+      <a href="https://Dawn-cheng.github.io/tag/redis/"># REDIS</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引" href="https://Dawn-cheng.github.io/jvx7Ng7mp/">mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引" href="https://Dawn-cheng.github.io/jvx7Ng7mp/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="uni-app webview组件，页面铺面全屏问题" href="https://Dawn-cheng.github.io/E4ZClyFIL/">uni-app webview组件，页面铺面全屏问题</a>
-        <a class="nav-mobile-next" title="uni-app webview组件，页面铺面全屏问题" href="https://Dawn-cheng.github.io/E4ZClyFIL/">下一篇</a>
+        <a class="nav-pc-next" title="条件字段有索引，为什么查询也这么慢?" href="https://Dawn-cheng.github.io/xSb4UV7KE/">条件字段有索引，为什么查询也这么慢?</a>
+        <a class="nav-mobile-next" title="条件字段有索引，为什么查询也这么慢?" href="https://Dawn-cheng.github.io/xSb4UV7KE/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

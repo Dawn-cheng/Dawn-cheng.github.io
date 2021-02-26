@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Linux命令 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1604282697961">
+<link rel="shortcut icon" href="/favicon.ico?v=1614319903278">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -178,7 +178,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">19</span>
+        <span class="site-item-stat-count">20</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1118,6 +1118,87 @@ dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中�
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/shEut_oVv/"" data-c="
+          &lt;p&gt;一、支持的数据结构&lt;br&gt;
+redis目前支持五种数据结构&lt;br&gt;
+1: String 字符串&lt;br&gt;
+2: List    列表&lt;br&gt;
+3: Set     集合&lt;br&gt;
+4: SortedSet  有序集合&lt;br&gt;
+5:  Hash   哈希字典&lt;/p&gt;
+&lt;p&gt;二、数据结构的操作&lt;br&gt;
+1、 字符串&lt;br&gt;
+1）指定字符串的值。通过&lt;code&gt;set&lt;/code&gt;指令指定字符串的值。&lt;br&gt;
+&lt;code&gt;set key &#39;nihao&#39;&lt;/code&gt;&lt;br&gt;
+2) 通过&lt;code&gt;get&lt;/code&gt;指令获取该字符串的值。&lt;br&gt;
+&lt;code&gt;get key&lt;/code&gt;。获得值为&lt;code&gt;nihao&lt;/code&gt;&lt;br&gt;
+3) 设置字符串的有效期 ，可以通过额外的&lt;code&gt;ex&lt;/code&gt;参数指定有效期，单位秒&lt;br&gt;
+&lt;code&gt;set key &#39;nihao&#39; ex 3&lt;/code&gt;&lt;br&gt;
+4) 还支持数字格式的值，利用这一特性实现计数器功能，例如浏览数，购买数，点赞数等，                 可以使用 &lt;code&gt;incr&lt;/code&gt;命令初始化对应的键值&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614307682927.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+获取也是通过&lt;code&gt;get&lt;/code&gt;指令，默认步长是1，每次调用对应的键值+1，可以通过 &lt;code&gt;incrby&lt;/code&gt;显示设           置步长&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614307867032.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+与&lt;code&gt;incr&lt;/code&gt;/&lt;code&gt;incrby&lt;/code&gt;相对的是&lt;code&gt;decr&lt;/code&gt;/&lt;code&gt;decrby&lt;/code&gt;指令，即对给定键值做 -1 操作或者做给定步长的减少操作（对应取消点赞之类的操作）。&lt;br&gt;
+字符串还有很多指令可以去&lt;a href=&#34;https://redis.io/commands&#34;&gt;Redis官网Commands页面&lt;/a&gt;查看&lt;/p&gt;
+&lt;p&gt;2、列表&lt;br&gt;
+列表类似链表。可以将元素添加到列表(支持从头部添加也支持从尾部添加)  ，也可以从列表中移除并获取某个元素(支持从头部移除也支持从尾部移除)，还可以读取整个列表元素。可以基于redis的列表实现类似于栈和队列的数据结构，基于redis的消息队列也是基于这个数据结构实现的&lt;br&gt;
+以队列为列，从尾部添加数据，从头部读取数据&lt;br&gt;
+先通过  &lt;code&gt;rpush&lt;/code&gt;指令推送数据到队列末尾&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309520637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+推送成功后，你可以通过 &lt;code&gt;LRANGE&lt;/code&gt; 指令获取列表中的所有元素（0 表示起始位置索引、-1 表示结束位置索引，你也可以通过其他索引值获取给定区间元素）：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309590635.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+然后通过 &lt;code&gt;LPOP&lt;/code&gt; 指令从队列头部移除并获取元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309639401.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+上述数据添加和获取符合「先入先出」规则，所以是一个标准的队列结构。&lt;/p&gt;
+&lt;p&gt;当然了，还有与之相对的 &lt;code&gt;RPOP&lt;/code&gt; 和 &lt;code&gt;LPUSH&lt;/code&gt; 指令，你可以基于&lt;code&gt;LPUSH&lt;/code&gt; 和 &lt;code&gt;LPOP&lt;/code&gt; 实现栈这种数据结构，这里就不单独演示了。&lt;/p&gt;
+&lt;p&gt;三、集合&lt;br&gt;
+集合拥有确定性、互异性和无序性，对应到redis里面的集合数据结构也是一样的。&lt;br&gt;
+&lt;code&gt;注：与集合不同，列表可以包含重复元素，列表内的元素顺序也和添加时的顺序一致。&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;确定性很好理解，你必须将一个确定的元素值添加到 Redis 集合，而不能把一个不确定的变量添加进去。&lt;/p&gt;
+&lt;p&gt;redis集合中的所有元素都是互异的，即任意一个元素都是唯一的，向集合中添加相同元素时，会忽略后续添加的值，比如我们通过 SADD 指令尝试向 skills 集合添加两个相同的 PHP 元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311198018.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+第二次添加返回值是 0，表示添加失败，通过 SMEMBERS 列举集合时，也只有一个元素，表明 Redis 集合确实会自动帮我们做去重处理：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311239832.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+另外，Redis 集合具备无序性，所以当你向 skills 集合添加多个元素时，返回的结果和添加时的排序并不一致：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311278082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+这当然是为了降低底层数据维护成本从而提升性能考虑。因此，我们如果尝试从 Redis 集合获取元素时，返回的结果值也是随机的，并不能确保给定位置的值是添加序列时的值，你可以看到 Redis Set 指令集中的 SPOP 返回值也确实是随机的：&lt;/p&gt;
+&lt;p&gt;四、有序集合&lt;br&gt;
+有序集合就是在集合的基础上让内部元素有确定的排序，不过这个排序不是按照添加时的顺序，而是通过额外的排序字段值指定&lt;br&gt;
+通过&lt;code&gt;zadd&lt;/code&gt;指令向有序集合添加元素，有序集合命名为 sorted_skills&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317157012.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+和 SADD 指令不同，在元素值之前插入了一个数值（score），在返回有序集合时，默认会根据这个数值进行升序排序：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317202509.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;code&gt;和 LRANGE 指令一样，最后面的两个数字表示集合区间，前面是起始位置，后面是结束位置，-1 表示集合末尾索引值。&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;当然，你也可以通过 &lt;code&gt;ZREVRANGE&lt;/code&gt; 指令返回基于排序字段的倒序排序结果：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317285706.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+还可以通过 WITHSCORES 选项在返回结果中包含排序字段值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317328290.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+有序集合非常适用于 Web 应用的一些排行榜功能，比如热门阅读、热门讨论等。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317666702.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;五、哈希字典&lt;br&gt;
+通过&lt;code&gt;HSET&lt;/code&gt; 指令逐个添加字典元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319281731.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+在红框里，我们设定的字典名称是 student.1，字段名是 name，字段值是 lilei，其他两条指令类似，最终构建的是如下所示的字典结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    name: &amp;quot;lilei&amp;quot;,
+    class: 7,
+    grade: &amp;quot;A&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你也可以通过 &lt;code&gt;HMSET&lt;/code&gt; 指令一次性设置多个字典字段：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319462678.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+设置完成后，可以通过 HKEYS 指令获取所有键，通过 HVALS 指令获取所有值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319415896.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+可以通过 HGET 指令获取单个字典字段值，也可以通过 HMGET 指令获取多个字典字段值，还可以通过 HGETALL 指令获取所有字典字段值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319501710.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+关于 Redis 字典的应用场景自然就是 NoSQL 数据库了。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319801773.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319811422.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;更多指令可以去&lt;a href=&#34;https://redis.io/commands&#34; style=&#34;color:red;&#34;&gt;Redis官网Commands页面&lt;/a&gt;查看&lt;/p&gt;
+">Redis知识点</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/xSb4UV7KE/"" data-c="

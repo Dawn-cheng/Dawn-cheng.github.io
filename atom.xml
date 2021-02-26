@@ -2,14 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2020-11-02T02:05:00.049Z</updated>
+    <updated>2021-02-26T06:11:54.933Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Dawn-cheng</rights>
+    <rights>All rights reserved 2021, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[Redis知识点]]></title>
+        <id>https://Dawn-cheng.github.io/shEut_oVv/</id>
+        <link href="https://Dawn-cheng.github.io/shEut_oVv/">
+        </link>
+        <updated>2021-02-26T02:19:42.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[条件字段有索引，为什么查询也这么慢?]]></title>
         <id>https://Dawn-cheng.github.io/xSb4UV7KE/</id>
@@ -127,21 +134,6 @@
         <summary type="html"><![CDATA[<p>今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>今天在review代码查看SQL语句时突然对没有指定排序方式的SQL语句返回怎样的排序结构感兴趣！在某些场景中返回结果中的元素到底是按照什么顺序以什么字段排序的将直接影响到整个业务是否正确。例如myBatis中语句如下:</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引]]></title>
-        <id>https://Dawn-cheng.github.io/jvx7Ng7mp/</id>
-        <link href="https://Dawn-cheng.github.io/jvx7Ng7mp/">
-        </link>
-        <updated>2020-07-16T11:24:57.000Z</updated>
-        <summary type="html"><![CDATA[<p>首先介绍这些索引的概念：<br>
-1、聚集索引</p>
-<p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>首先介绍这些索引的概念：<br>
-1、聚集索引</p>
-<p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
 ]]></content>
     </entry>
 </feed>
