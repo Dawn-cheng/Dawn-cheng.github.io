@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2021-02-26T06:11:54.933Z</updated>
+    <updated>2021-02-26T06:13:33.571Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -16,6 +16,22 @@
         <link href="https://Dawn-cheng.github.io/shEut_oVv/">
         </link>
         <updated>2021-02-26T02:19:42.000Z</updated>
+        <summary type="html"><![CDATA[<p>一、支持的数据结构<br>
+redis目前支持五种数据结构<br>
+1: String 字符串<br>
+2: List    列表<br>
+3: Set     集合<br>
+4: SortedSet  有序集合<br>
+5:  Hash   哈希字典</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>一、支持的数据结构<br>
+redis目前支持五种数据结构<br>
+1: String 字符串<br>
+2: List    列表<br>
+3: Set     集合<br>
+4: SortedSet  有序集合<br>
+5:  Hash   哈希字典</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[条件字段有索引，为什么查询也这么慢?]]></title>
