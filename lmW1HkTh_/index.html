@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>GO 并发 | Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1596778925047">
+<link rel="shortcut icon" href="/favicon.ico?v=1614322659997">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -73,6 +73,8 @@
           
             
             
+              
+            
             <li class="nav-item ">
               
               
@@ -85,6 +87,8 @@
             </li>
           
             
+            
+              
             
             <li class="nav-item ">
               
@@ -99,6 +103,8 @@
           
             
             
+              
+            
             <li class="nav-item ">
               
               
@@ -110,6 +116,16 @@
               
             </li>
           
+          
+            
+              <li class="nav-item ">
+                <a href="/friends/" target="_self">
+                  
+                    <i class="fa fa-address-book"></i> 友情链接
+                  
+                </a>
+              </li>
+            
           
           
             <li id="fa_search" class="nav-item">
@@ -178,7 +194,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">16</span>
+        <span class="site-item-stat-count">21</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -198,8 +214,6 @@
   
     
   
-  
-
   
 
 
@@ -404,19 +418,6 @@
   </div>
   
   
-  
-  <div class="bg-img">
-    <img src="/media/images/custom-bgImg.jpg" />
-  </div>
-  
-  
-  
-  
-  
-  <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-  <script src="https://player.lmih.cn/player/js/player.js" id="myhk" key="demo" m="1"></script>
-
-
   
 </div>
 <script>
@@ -848,6 +849,1074 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/shEut_oVv/"" data-c="
+          &lt;p&gt;一、支持的数据结构&lt;br&gt;
+redis目前支持五种数据结构&lt;br&gt;
+1: String 字符串&lt;br&gt;
+2: List    列表&lt;br&gt;
+3: Set     集合&lt;br&gt;
+4: SortedSet  有序集合&lt;br&gt;
+5:  Hash   哈希字典&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;二、数据结构的操作&lt;br&gt;
+1、 字符串&lt;br&gt;
+1）指定字符串的值。通过&lt;code&gt;set&lt;/code&gt;指令指定字符串的值。&lt;br&gt;
+&lt;code&gt;set key &#39;nihao&#39;&lt;/code&gt;&lt;br&gt;
+2) 通过&lt;code&gt;get&lt;/code&gt;指令获取该字符串的值。&lt;br&gt;
+&lt;code&gt;get key&lt;/code&gt;。获得值为&lt;code&gt;nihao&lt;/code&gt;&lt;br&gt;
+3) 设置字符串的有效期 ，可以通过额外的&lt;code&gt;ex&lt;/code&gt;参数指定有效期，单位秒&lt;br&gt;
+&lt;code&gt;set key &#39;nihao&#39; ex 3&lt;/code&gt;&lt;br&gt;
+4) 还支持数字格式的值，利用这一特性实现计数器功能，例如浏览数，购买数，点赞数等，                 可以使用 &lt;code&gt;incr&lt;/code&gt;命令初始化对应的键值&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614307682927.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+获取也是通过&lt;code&gt;get&lt;/code&gt;指令，默认步长是1，每次调用对应的键值+1，可以通过 &lt;code&gt;incrby&lt;/code&gt;显示设           置步长&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614307867032.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+与&lt;code&gt;incr&lt;/code&gt;/&lt;code&gt;incrby&lt;/code&gt;相对的是&lt;code&gt;decr&lt;/code&gt;/&lt;code&gt;decrby&lt;/code&gt;指令，即对给定键值做 -1 操作或者做给定步长的减少操作（对应取消点赞之类的操作）。&lt;br&gt;
+字符串还有很多指令可以去&lt;a href=&#34;https://redis.io/commands&#34;&gt;Redis官网Commands页面&lt;/a&gt;查看&lt;/p&gt;
+&lt;p&gt;2、列表&lt;br&gt;
+列表类似链表。可以将元素添加到列表(支持从头部添加也支持从尾部添加)  ，也可以从列表中移除并获取某个元素(支持从头部移除也支持从尾部移除)，还可以读取整个列表元素。可以基于redis的列表实现类似于栈和队列的数据结构，基于redis的消息队列也是基于这个数据结构实现的&lt;br&gt;
+以队列为列，从尾部添加数据，从头部读取数据&lt;br&gt;
+先通过  &lt;code&gt;rpush&lt;/code&gt;指令推送数据到队列末尾&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309520637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+推送成功后，你可以通过 &lt;code&gt;LRANGE&lt;/code&gt; 指令获取列表中的所有元素（0 表示起始位置索引、-1 表示结束位置索引，你也可以通过其他索引值获取给定区间元素）：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309590635.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+然后通过 &lt;code&gt;LPOP&lt;/code&gt; 指令从队列头部移除并获取元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614309639401.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+上述数据添加和获取符合「先入先出」规则，所以是一个标准的队列结构。&lt;/p&gt;
+&lt;p&gt;当然了，还有与之相对的 &lt;code&gt;RPOP&lt;/code&gt; 和 &lt;code&gt;LPUSH&lt;/code&gt; 指令，你可以基于&lt;code&gt;LPUSH&lt;/code&gt; 和 &lt;code&gt;LPOP&lt;/code&gt; 实现栈这种数据结构，这里就不单独演示了。&lt;/p&gt;
+&lt;p&gt;三、集合&lt;br&gt;
+集合拥有确定性、互异性和无序性，对应到redis里面的集合数据结构也是一样的。&lt;br&gt;
+&lt;code&gt;注：与集合不同，列表可以包含重复元素，列表内的元素顺序也和添加时的顺序一致。&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;确定性很好理解，你必须将一个确定的元素值添加到 Redis 集合，而不能把一个不确定的变量添加进去。&lt;/p&gt;
+&lt;p&gt;redis集合中的所有元素都是互异的，即任意一个元素都是唯一的，向集合中添加相同元素时，会忽略后续添加的值，比如我们通过 &lt;code&gt;SADD&lt;/code&gt; 指令尝试向 skills 集合添加两个相同的 PHP 元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311198018.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+第二次添加返回值是 0，表示添加失败，通过 &lt;code&gt;SMEMBERS&lt;/code&gt; 列举集合时，也只有一个元素，表明 Redis 集合确实会自动帮我们做去重处理：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311239832.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+另外，Redis 集合具备无序性，所以当你向 skills 集合添加多个元素时，返回的结果和添加时的排序并不一致：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614311278082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+这当然是为了降低底层数据维护成本从而提升性能考虑。因此，我们如果尝试从 Redis 集合获取元素时，返回的结果值也是随机的，并不能确保给定位置的值是添加序列时的值，你可以看到 Redis Set 指令集中的 &lt;code&gt;SPOP&lt;/code&gt; 返回值也确实是随机的：&lt;/p&gt;
+&lt;p&gt;四、有序集合&lt;br&gt;
+有序集合就是在集合的基础上让内部元素有确定的排序，不过这个排序不是按照添加时的顺序，而是通过额外的排序字段值指定&lt;br&gt;
+通过&lt;code&gt;zadd&lt;/code&gt;指令向有序集合添加元素，有序集合命名为 sorted_skills&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317157012.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+和 &lt;code&gt;SADD&lt;/code&gt; 指令不同，在元素值之前插入了一个数值（score），在返回有序集合时，默认会根据这个数值进行升序排序：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317202509.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;code&gt;和&lt;/code&gt;LRANGE&lt;code&gt;指令一样，最后面的两个数字表示集合区间，前面是起始位置，后面是结束位置，-1 表示集合末尾索引值。&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;当然，你也可以通过 &lt;code&gt;ZREVRANGE&lt;/code&gt; 指令返回基于排序字段的倒序排序结果：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317285706.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+还可以通过 &lt;code&gt;WITHSCORES&lt;/code&gt; 选项在返回结果中包含排序字段值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317328290.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+有序集合非常适用于 Web 应用的一些排行榜功能，比如热门阅读、热门讨论等。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614317666702.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;五、哈希字典&lt;br&gt;
+通过&lt;code&gt;HSET&lt;/code&gt; 指令逐个添加字典元素：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319281731.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+在红框里，我们设定的字典名称是 student.1，字段名是 name，字段值是 lilei，其他两条指令类似，最终构建的是如下所示的字典结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    name: &amp;quot;lilei&amp;quot;,
+    class: 7,
+    grade: &amp;quot;A&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你也可以通过 &lt;code&gt;HMSET&lt;/code&gt; 指令一次性设置多个字典字段：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319462678.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+设置完成后，可以通过 &lt;code&gt;HKEYS&lt;/code&gt; 指令获取所有键，通过 &lt;code&gt;HVALS&lt;/code&gt; 指令获取所有值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319415896.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+可以通过 &lt;code&gt;HGET&lt;/code&gt; 指令获取单个字典字段值，也可以通过&lt;code&gt;HMGET&lt;/code&gt; 指令获取多个字典字段值，还可以通过 &lt;code&gt;HGETALL&lt;/code&gt; 指令获取所有字典字段值：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319501710.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+关于 Redis 字典的应用场景自然就是 NoSQL 数据库了。&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319801773.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1614319811422.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;更多指令可以去&lt;a href=&#34;https://redis.io/commands&#34; style=&#34;color:red;&#34;&gt;Redis官网Commands页面&lt;/a&gt;查看&lt;/p&gt;
+">Redis知识点1</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/xSb4UV7KE/"" data-c="
+          &lt;p&gt;如果我们想在某一本书中找到特定的主题，一般最快的方法是先看索引，找到对应的主题在哪个页码。&lt;/p&gt;
+&lt;p&gt;而对于 MySQL 而言，如果需要查找某一行的值，可以先通过索引找到对应的值，然后根据索引匹配的记录找到需要查询的数据行。然而，有时会发现，即使查询条件有索引，也会查询很慢，本节将分享这类情况。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;MySQL 索引为什么能提高查询速度？将在第二章具体讲解。本节分享的是某些时候有索引却不走索引的情况，当然，大多数情况索引对提升 MySQL 查询速度还是非常明显的。&lt;/p&gt;
+&lt;p&gt;下面会讲解几种有索引但是查询不走索引导致查询慢的场景。&lt;/p&gt;
+&lt;h2 id=&#34;1-函数操作&#34;&gt;1 函数操作&lt;/h2&gt;
+&lt;p&gt;小伙伴们在使用 MySQL 查询数据时，可能很多时候会借助一些函数实现查询。有时可能我们关注的重心在是否能查出结果，往往忽略了查询的效率。现在就一起研究对条件索引字段做函数操作，是否能用到索引？&lt;/p&gt;
+&lt;p&gt;1.1 验证对条件字段做函数操作是否能走索引&lt;br&gt;
+首先创建测试表，建表及数据写入语句如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;use muke;                       /* 使用muke这个database */
+
+drop table if exists t1;        /* 如果表t1存在则删除表t1 */
+
+CREATE TABLE `t1` (             /* 创建表t1 */
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `a` varchar(20) DEFAULT NULL,
+  `b` int(20) DEFAULT NULL,
+  `c` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,  
+  PRIMARY KEY (`id`),
+  KEY `idx_a` (`a`) USING BTREE,
+  KEY `idx_b` (`b`) USING BTREE,
+  KEY `idx_c` (`c`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
+
+drop procedure if exists insert_t1; /* 如果存在存储过程insert_t1，则删除 */
+delimiter ;;
+create procedure insert_t1()        /* 创建存储过程insert_t1 */
+begin
+  declare i int;                    /* 声明变量i */
+  set i=1;                          /* 设置i的初始值为1 */
+  while(i&amp;lt;=10000)do                 /* 对满足i&amp;lt;=10000的值进行while循环 */
+    insert into t1(a,b) values(i,i);  /* 写入表t1中a、b两个字段，值都为i当前的值 */
+    set i=i+1;                        /* 将i加1 */
+  end while;
+end;;
+delimiter ;
+call insert_t1();                    /* 运行存储过程insert_t1 */
+
+update t1 set c = &#39;2019-05-22 00:00:00&#39;;  /* 更新表t1的c字段，值都为&#39;2019-05-22 00:00:00&#39; */
+update t1 set c = &#39;2019-05-21 00:00:00&#39; where id=10000;	 /* 将id为10000的行的c字段改为与其它行都不一样的数据，以便后面实验使用 */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于上面创建的测试表，比如要查询测试表 t1 单独某一天的所有数据，SQL如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from t1 where date(c) =&#39;2019-05-21&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里就可以使用第 2 节学习的 explain 来分析这条SQL的执行计划，分析结果如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where date(c) =&#39;2019-05-21&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;图片描述查看图中的执行计划，type 为 ALL，key 字段结果为 NULL，因此知道该 SQL 是没走索引的全表扫描。 （执行计划各字段的解释如果忘记了，可以查阅第 2 篇文章《快速学会分析 SQL 执行效率（上）》中的 2 小节）&lt;/p&gt;
+&lt;p&gt;原因：对条件字段做函数操作走不了索引。&lt;/p&gt;
+&lt;p&gt;1.2 对条件字段做函数操作不走索引的原因&lt;br&gt;
+为什么对条件字段做函数操作走不了索引，我们下面来讨论一下：&lt;/p&gt;
+&lt;p&gt;该例中 c 字段普通索引的 B+ 索引树如下：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599394937998.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述根据上面结构可以看到，索引树中存储的是列的实际值和主键值。如果拿 ‘2019-05-21’ 去匹配，将无法定位到索引树中的值。因此放弃走索引，而选择全表扫描。&lt;/p&gt;
+&lt;p&gt;1.3 函数操作的 SQL 优化&lt;br&gt;
+因此如果需要优化的话，改成 c 字段实际值相匹配的形式。因为 SQL 的目的是查询 2019-05-21 当天所有的记录，因此可以改成范围查询，如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from t1 where c&amp;gt;=&#39;2019-05-21 00:00:00&#39; and c&amp;lt;=&#39;2019-05-21 23:59:59&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再用 explain 分析下执行计划：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where c&amp;gt;=&#39;2019-05-21 00:00:00&#39; and c&amp;lt;=&#39;2019-05-21 23:59:59&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599394950578.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述根据上面的结果，可确定，走了 c 字段的索引（对应关注字段 key），扫描行数 1 行（对应关注字段 rows）。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;经验分享：
+
+类似求某一天或者某一个月数据的需求，建议写成类似上例的范围查询，可让查询能走索引。避免对条件索引字段做函数处理。
+
+我在工作中就曾经遇到过这类慢查询，如下：
+
+SELECT tml_num_id, status_num_id FROM sd_bl_so_tml_hdr WHERE 
+tenant_num_id = 6 AND data_sign = 0 AND sub_unit_num_id = 100004 AND 
+channel_num_id = 91 AND date_format(order_date, &#39;%Y%m%d&#39;) = 
+date_format(&#39;2019-06-02&#39;, &#39;%Y%m%d&#39;) AND status_num_id &amp;lt; 3 LIMIT 100;
+如果明白了上面的优化技巧，可以尝试着改写优化这条 SQL。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;2-隐式转换&#34;&gt;2 隐式转换&lt;/h2&gt;
+&lt;p&gt;2.1 认识隐式转换&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;什么时隐式转换？
+
+当操作符与不同类型的操作对象一起使用时，就会发生类型转换以使操作兼容。某些转换是隐式的。
+
+关于隐式转换详情请参考MySQL官方手册
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;隐式转换估计是很多 MySQL 使用者踩过的坑，比如联系方式字段。由于有时电话号码带加、减等特殊字符，有时需要以 0 开头，因此一般设计表时会使用 varchar 类型存储，并且会经常做为条件来查询数据，所以会添加索引。&lt;/p&gt;
+&lt;p&gt;而有时遇到需要按照手机号码条件（比如 11111111111）去查询数据时，因为查询者看到条件是一串数字，而忽视表中对应手机号字段是 varchar 类型，因此写出了如下不合理的SQL：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select user_name,tele_phone from user_info where tele_phone =11111111111; /* SQL 1 */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;实际情况这条 SQL 查询效率是很低的。首先根据你的经验，思考下这条 SQL 怎么优化？&lt;/p&gt;
+&lt;p&gt;如果暂时不确定方法，请看下面的实验。&lt;/p&gt;
+&lt;p&gt;2.2 验证隐式转换是否能走索引&lt;br&gt;
+我们一起来通过实验验证一下隐式转换是否能走索引。&lt;/p&gt;
+&lt;p&gt;实验过程分为：先创建测试表并写入数据；测试隐式转换的查询并查看执行计划；测试正常查询，再查看执行计划。&lt;/p&gt;
+&lt;p&gt;比如我们要查询 a 字段等于 1000 的值，SQL如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where a=1000;
++------+------+------+---------------------+
+| id   | a    | b    | c                   |
++------+------+------+---------------------+
+| 1000 | 1000 | 1000 | 2019-05-22 00:00:00 |
++------+------+------+---------------------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;而这条 SQL 是否能使用索引呢？我们一起看下 explain 结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mysql&amp;gt;&#34;&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395228459.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+描述通过 type 这列可以看到是最差的情况 ALL（全表扫描，如果对 explain 结果中 type 各个值没印象的，可以查看第 2 节中&amp;lt;表 3-type 各项值解释&amp;gt;）， 通过 key 这列可以看到没走 a 字段的索引，通过 rows 这列可以看到进行了全表扫描。&lt;/p&gt;
+&lt;p&gt;2.3 不走索引的原因&lt;br&gt;
+a 字段类型是 varchar(20)，而语句中 a 字段条件值没加单引号，导致 MySQL 内部会先把a转换成int型，再去做判断，相当于实际执行的 SQL 语句如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where cast(a as signed int) =1000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因此又回到上面说的：对索引字段做函数操作时，优化器会放弃使用索引。&lt;/p&gt;
+&lt;p&gt;2.4 隐式转换的 SQL 优化&lt;br&gt;
+索引字符串列条件添加单引号，查看执行计划：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where a=&#39;1000&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395215243.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述通过 type 这列，可以看到是 ref（基于普通索引的等值查询，比 ALL 性能好很多，可复习第 2 节&amp;lt;表3-type 各项值解释&amp;gt;），通过key这列，可以看到已经走了 a 字段的索引，通过rows这列可以看到通过索引查询后就扫描了一行。&lt;/p&gt;
+&lt;p&gt;因此在联系方式这个例子中的 sql 1 可以这样优化：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select user_name,tele_phone from user_info where tele_phone =&#39;11111111111&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;经验分享：
+
+隐式转换导致查询慢的情况在工作中遇到过几次，有时字段名对开发写SQL产生了影响，比如曾经遇到过字段名是user_num，而实际字段类型是char，但是开发在写SQL时误认为是int型，导致漏写单引号而发生隐式转换。所以建议在写SQL时，先看字段类型，然后根据字段类型写SQL。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;3 模糊查询&lt;br&gt;
+3.1 分析模糊查询&lt;br&gt;
+很多时候我们想根据某个字段的某几个关键字查询数据，比如会有如下 SQL：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where a like &#39;%1111%&#39;;
++------+------+------+---------------------+
+| id   | a    | b    | c                   |
++------+------+------+---------------------+
+| 1111 | 1111 | 1111 | 2019-05-22 00:00:00 |
++------+------+------+---------------------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;实际这种情况无法走索引，看下执行计划：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where a like &#39;%1111%&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395934552.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+描述重点留意type、key、rows、Extra，发现是全表扫描。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Tips：通配符在前面为什么不走索引，将在第二章索引中详细描述。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;3.2 模糊查询优化建议&lt;br&gt;
+修改业务，让模糊查询必须包含条件字段前面的值，然后落到数据库的查询为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where a like &#39;1111%&#39;;
++------+------+------+---------------------+
+| id   | a    | b    | c                   |
++------+------+------+---------------------+
+| 1111 | 1111 | 1111 | 2019-05-22 00:00:00 |
++------+------+------+---------------------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Tips：这个优化方式必须结合业务，如果只是这样改SQL，可能会导致查询的结果不正确。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这种写法是可以用到索引的，explain分析如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where a like &#39;1111%&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395861985.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;经验分享：
+
+如果条件只知道中间的值，需要模糊查询去查，那就建议使用ElasticSearch或其它搜索服务器。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;4 范围查询&lt;br&gt;
+也许你会在工作中因为要查询某个范围的数据而使用范围查询，但不知道有没有遇到过这种场景？明明范围查询的条件字段有索引，但是却全表扫描了。&lt;/p&gt;
+&lt;p&gt;4.1 构造不能使用索引的范围查询&lt;br&gt;
+我们拿测试表举例，比如要取出b字段1到2000范围数据，SQL 如下 ：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where b&amp;gt;=1 and b &amp;lt;=2000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首先看下这条 SQL 的执行计划：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where b&amp;gt;=1 and b &amp;lt;=2000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395799255.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;发现并不能走b字段的索引。
+
+原因：优化器会根据检索比例、表大小、I/O块大小等进行评估是否使用索引。比如单次查询的数据量过大，优化器将不走索引。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;4.2 优化范围查询&lt;br&gt;
+降低单次查询范围，分多次查询：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where b&amp;gt;=1 and b &amp;lt;=1000;
+mysql&amp;gt; select * from t1 where b&amp;gt;=1001 and b &amp;lt;=2000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看执行计划（就只看第一条的，第二条同理）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where b&amp;gt;=1 and b &amp;lt;=1000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395745710.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+因此，降低查询范围后，能正常使用索引。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;经验分享：
+
+实际这种范围查询而导致使用不了索引的场景经常出现，比如按照时间段抽取全量数据，每条SQL抽取一个月的；或者某张业务表历史数据的删除。遇到此类操作时，应该在执行之前对SQL做explain分析，确定能走索引，再进行操作，否则不但可能导致操作缓慢，在做更新或者删除时，甚至会导致表所有记录锁住，十分危险。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;5 计算操作&lt;br&gt;
+5.1 查询条件进行计算操作的 SQL 执行效率&lt;br&gt;
+有时我们与有对条件字段做计算操作的需求，在使用 SQL 查询时，就应该小心了。先看下例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where b-1 =1000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395684773.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;原因：对索引字段做运算将使用不了索引。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;5.2 计算操作的 SQL 优化&lt;br&gt;
+将计算操作放在等号后面：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; explain select * from t1 where b =1000 + 1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395621289.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+发现将计算操作放在等号后，能正常使用索引。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;经验分享：
+
+一般需要对条件字段做计算时，建议通过程序代码实现，而不是通过MySQL实现。如果在MySQL中计算的情况避免不了，那必须把计算放在等号后面。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;6 总结&lt;br&gt;
+本节讲解几种条件字段有索引，但是使用不了索引的场景。因此在写 SQL 时应该注意这些点：&lt;/p&gt;
+&lt;p&gt;应该避免隐式转换&lt;br&gt;
+like查询不能以%开头&lt;br&gt;
+范围查询时，包含的数据比例不能太大&lt;br&gt;
+不建议对条件字段做运算及函数操作&lt;br&gt;
+本节涉及到的一些SQL优化如下图:&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599395551173.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+">条件字段有索引，为什么查询也这么慢?</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/amB0AixTy/"" data-c="
+          &lt;h2 id=&#34;1-show-profile-分析慢查询&#34;&gt;1 show profile 分析慢查询&lt;/h2&gt;
+&lt;p&gt;有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;``知识扩展：可以通过配置参数 profiling = 1 来启用 SQL 分析。该参数可以在全局和 session 级别来设置。对于全局级别则作用于整个MySQL 实例，而 session 级别仅影响当前 session 。该参数开启后，后续执行的 SQL 语句都将记录其资源开销，如 IO、上下文切换、CPU、Memory等等。根据这些开销进一步分析当前 SQL 从而进行优化与调整。```&lt;/p&gt;
+&lt;p&gt;下面我们来讲一下如何使用 profile 分析慢查询，大致步骤是：确定这个 MySQL 版本是否支持 profile；确定 profile 是否关闭；开启 profile；执行 SQL；查看执行完 SQL 的 query id；通过 query id 查看 SQL 的每个状态及耗时时间。&lt;/p&gt;
+&lt;p&gt;1.1 确定是否支持 profile&lt;br&gt;
+我们进行第一步，用下面命令来判断当前 MySQL 是否支持 profile：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select @@have_profiling;
+
++------------------+
+| @@have_profiling |
++------------------+
+| YES              |
++------------------+
+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从上面结果中可以看出是YES，表示支持profile的。&lt;/p&gt;
+&lt;p&gt;1.2 查看 profiling 是否关闭的&lt;br&gt;
+进行第二步，用下面命令判断 profiling 参数是否关闭（默认 profiling 是关闭的）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select @@profiling;
+
++-------------+
+| @@profiling |
++-------------+
+|           0 |
++-------------+
+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果显示为 0，表示 profiling 参数状态是关闭的。&lt;/p&gt;
+&lt;p&gt;1.3 通过 set 开启 profile&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set profiling=1;
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tips：set 时没加 global，只对当前 session 有效。&lt;/p&gt;
+&lt;p&gt;1.4 执行 SQL 语句&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; select * from t1 where b=1000;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1.5 确定 SQL 的 query id&lt;br&gt;
+通过 show profiles 语句确定执行过的 SQL 的 query id：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show profiles;
++----------+------------+-------------------------------+
+| Query_ID | Duration   | Query                         |
++----------+------------+-------------------------------+
+|        1 | 0.00063825 | select * from t1 where b=1000 |
++----------+------------+-------------------------------+
+1 row in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1.6 查询 SQL 执行详情&lt;br&gt;
+通过 show profile for query 可看到执行过的 SQL 每个状态和消耗时间：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show profile for query 1;
++----------------------+----------+
+| Status               | Duration |
++----------------------+----------+
+| starting             | 0.000115 |
+| checking permissions | 0.000013 |
+| Opening tables       | 0.000027 |
+| init                 | 0.000035 |
+| System lock          | 0.000017 |
+| optimizing           | 0.000016 |
+| statistics           | 0.000025 |
+| preparing            | 0.000020 |
+| executing            | 0.000006 |
+| Sending data         | 0.000294 |
+| end                  | 0.000009 |
+| query end            | 0.000012 |
+| closing tables       | 0.000011 |
+| freeing items        | 0.000024 |
+| cleaning up          | 0.000016 |
++----------------------+----------+
+15 rows in set, 1 warning (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过以上结果，可以确定 SQL 执行过程具体在哪个过程耗时比较久，从而更好地进行 SQL 优化与调整。&lt;/p&gt;
+&lt;h2 id=&#34;2-trace-分析-sql-优化器&#34;&gt;2 trace 分析 SQL 优化器&lt;/h2&gt;
+&lt;p&gt;从前面学到了 explain 可以查看 SQL 执行计划，但是无法知道它为什么做这个决策，如果想确定多种索引方案之间是如何选择的或者排序时选择的是哪种排序模式，有什么好的办法吗？&lt;/p&gt;
+&lt;p&gt;从 MySQL 5.6 开始，可以使用 trace 查看优化器如何选择执行计划。&lt;/p&gt;
+&lt;p&gt;通过trace，能够进一步了解为什么优化器选择A执行计划而不是选择B执行计划，或者知道某个排序使用的排序模式，帮助我们更好地理解优化器行为。&lt;/p&gt;
+&lt;p&gt;如果需要使用，先开启 trace，设置格式为 JSON，再执行需要分析的 SQL，最后查看 trace 分析结果（在 information_schema.OPTIMIZER_TRACE 中）。&lt;/p&gt;
+&lt;p&gt;开启该功能，会对 MySQL 性能有所影响，因此只建议分析问题时临时开启。&lt;/p&gt;
+&lt;p&gt;下面一起来看下 trace 的使用方法。使用讲解 explain 时创建的表t1做实验。&lt;/p&gt;
+&lt;p&gt;首先构造如下 SQL (表示取出表 t1 中 a 的值大于 900 并且 b 的值大于 910 的数据，然后按照 a 字段排序)：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们首先用 explain 分析下执行计划：&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599390318027.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述通过上面执行计划中 key 这个字段可以看出，该语句使用的是 b 字段的索引 idx_b。实际表 t1 中，a、b 两个字段都有索引，为什么条件中有这两个索引字段却偏偏选了 b 字段的索引呢？这时就可以使用 trace 进行分析。大致步骤如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set session optimizer_trace=&amp;quot;enabled=on&amp;quot;,end_markers_in_json=on;
+/* optimizer_trace=&amp;quot;enabled=on&amp;quot; 表示开启 trace；end_markers_in_json=on 表示 JSON 输出开启结束标记 */
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&amp;gt; select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a;
++------+------+------+
+| id   | a    | b    |
++------+------+------+
+|    1 |    1 |    1 |
+|    2 |    2 |    2 |
+
+......
+
+| 1000 | 1000 | 1000 |
++------+------+------+
+1000 rows in set (0.00 sec)
+
+mysql&amp;gt; SELECT * FROM information_schema.OPTIMIZER_TRACE\G
+*************************** 1. row ***************************
+QUERY: select * from t1 where a &amp;gt;900 and b &amp;gt; 910 order  by a    --SQL语句
+TRACE: {
+  &amp;quot;steps&amp;quot;: [
+    {
+      &amp;quot;join_preparation&amp;quot;: {				--SQL准备阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;expanded_query&amp;quot;: &amp;quot;/* select#1 */ select `t1`.`id` AS `id`,`t1`.`a` AS `a`,`t1`.`b` AS `b`,`t1`.`create_time` AS `create_time`,`t1`.`update_time` AS `update_time` from `t1` where ((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910)) order by `t1`.`a`&amp;quot;
+          }
+        ] /* steps */
+      } /* join_preparation */
+    },
+    {
+      &amp;quot;join_optimization&amp;quot;: {			--SQL优化阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;condition_processing&amp;quot;: {    --条件处理
+              &amp;quot;condition&amp;quot;: &amp;quot;WHERE&amp;quot;,
+              &amp;quot;original_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;,        --原始条件
+              &amp;quot;steps&amp;quot;: [
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;equality_propagation&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot; 		--等值传递转换
+                },
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;constant_propagation&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;       --常量传递转换
+                },
+                {
+                  &amp;quot;transformation&amp;quot;: &amp;quot;trivial_condition_removal&amp;quot;,
+                  &amp;quot;resulting_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;        --去除没有的条件后的结构
+                }
+              ] /* steps */
+            } /* condition_processing */
+          },
+          {
+            &amp;quot;substitute_generated_columns&amp;quot;: {
+            } /* substitute_generated_columns */   --替换虚拟生成列
+          },
+          {
+            &amp;quot;table_dependencies&amp;quot;: [		--表依赖详情
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;row_may_be_null&amp;quot;: false,
+                &amp;quot;map_bit&amp;quot;: 0,
+                &amp;quot;depends_on_map_bits&amp;quot;: [
+                ] /* depends_on_map_bits */
+              }
+            ] /* table_dependencies */
+          },
+          {
+            &amp;quot;ref_optimizer_key_uses&amp;quot;: [
+            ] /* ref_optimizer_key_uses */
+          },
+          {
+            &amp;quot;rows_estimation&amp;quot;: [	--预估表的访问成本
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;range_analysis&amp;quot;: {
+                  &amp;quot;table_scan&amp;quot;: {
+                    &amp;quot;rows&amp;quot;: 1000,       --扫描行数
+                    &amp;quot;cost&amp;quot;: 207.1       --成本
+                  } /* table_scan */,
+                  &amp;quot;potential_range_indexes&amp;quot;: [    --分析可能使用的索引
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;PRIMARY&amp;quot;,
+                      &amp;quot;usable&amp;quot;: false,       --为false，说明主键索引不可用
+                      &amp;quot;cause&amp;quot;: &amp;quot;not_applicable&amp;quot;
+                    },
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_a&amp;quot;,      --可能使用索引idx_a
+                      &amp;quot;usable&amp;quot;: true,
+                      &amp;quot;key_parts&amp;quot;: [
+                        &amp;quot;a&amp;quot;,
+                        &amp;quot;id&amp;quot;
+                      ] /* key_parts */
+                    },
+                    {
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,      --可能使用索引idx_b
+                      &amp;quot;usable&amp;quot;: true,
+                      &amp;quot;key_parts&amp;quot;: [
+                        &amp;quot;b&amp;quot;,
+                        &amp;quot;id&amp;quot;
+                      ] /* key_parts */
+                    }
+                  ] /* potential_range_indexes */,
+                  &amp;quot;setup_range_conditions&amp;quot;: [
+                  ] /* setup_range_conditions */,
+                  &amp;quot;group_index_range&amp;quot;: {
+                    &amp;quot;chosen&amp;quot;: false,
+                    &amp;quot;cause&amp;quot;: &amp;quot;not_group_by_or_distinct&amp;quot;
+                  } /* group_index_range */,
+                  &amp;quot;analyzing_range_alternatives&amp;quot;: { --分析各索引的成本
+                    &amp;quot;range_scan_alternatives&amp;quot;: [
+                      {
+                        &amp;quot;index&amp;quot;: &amp;quot;idx_a&amp;quot;,	--使用索引idx_a的成本
+                        &amp;quot;ranges&amp;quot;: [
+                          &amp;quot;900 &amp;lt; a&amp;quot;			--使用索引idx_a的范围
+                        ] /* ranges */,
+                        &amp;quot;index_dives_for_eq_ranges&amp;quot;: true, --是否使用index dive（详细描述请看下方的知识扩展）
+                        &amp;quot;rowid_ordered&amp;quot;: false, --使用该索引获取的记录是否按照主键排序
+                        &amp;quot;using_mrr&amp;quot;: false,  	--是否使用mrr
+                        &amp;quot;index_only&amp;quot;: false,    --是否使用覆盖索引
+                        &amp;quot;rows&amp;quot;: 100,            --使用该索引获取的记录数
+                        &amp;quot;cost&amp;quot;: 121.01,         --使用该索引的成本
+                        &amp;quot;chosen&amp;quot;: true          --可能选择该索引
+                      },
+                      {
+                        &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,       --使用索引idx_b的成本
+                        &amp;quot;ranges&amp;quot;: [
+                          &amp;quot;910 &amp;lt; b&amp;quot;
+                        ] /* ranges */,
+                        &amp;quot;index_dives_for_eq_ranges&amp;quot;: true,
+                        &amp;quot;rowid_ordered&amp;quot;: false,
+                        &amp;quot;using_mrr&amp;quot;: false,
+                        &amp;quot;index_only&amp;quot;: false,
+                        &amp;quot;rows&amp;quot;: 90,
+                        &amp;quot;cost&amp;quot;: 109.01,
+                        &amp;quot;chosen&amp;quot;: true             --也可能选择该索引
+                      }
+                    ] /* range_scan_alternatives */,
+                    &amp;quot;analyzing_roworder_intersect&amp;quot;: { --分析使用索引合并的成本
+                      &amp;quot;usable&amp;quot;: false,
+                      &amp;quot;cause&amp;quot;: &amp;quot;too_few_roworder_scans&amp;quot;
+                    } /* analyzing_roworder_intersect */
+                  } /* analyzing_range_alternatives */,
+                  &amp;quot;chosen_range_access_summary&amp;quot;: {  --确认最优方法
+                    &amp;quot;range_access_plan&amp;quot;: {
+                      &amp;quot;type&amp;quot;: &amp;quot;range_scan&amp;quot;,
+                      &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,
+                      &amp;quot;rows&amp;quot;: 90,
+                      &amp;quot;ranges&amp;quot;: [
+                        &amp;quot;910 &amp;lt; b&amp;quot;
+                      ] /* ranges */
+                    } /* range_access_plan */,
+                    &amp;quot;rows_for_plan&amp;quot;: 90,
+                    &amp;quot;cost_for_plan&amp;quot;: 109.01,
+                    &amp;quot;chosen&amp;quot;: true
+                  } /* chosen_range_access_summary */
+                } /* range_analysis */
+              }
+            ] /* rows_estimation */
+          },
+          {
+            &amp;quot;considered_execution_plans&amp;quot;: [  --考虑的执行计划
+              {
+                &amp;quot;plan_prefix&amp;quot;: [
+                ] /* plan_prefix */,
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;best_access_path&amp;quot;: {          --最优的访问路径
+                  &amp;quot;considered_access_paths&amp;quot;: [ --决定的访问路径
+                    {
+                      &amp;quot;rows_to_scan&amp;quot;: 90,      --扫描的行数
+                      &amp;quot;access_type&amp;quot;: &amp;quot;range&amp;quot;,  --访问类型：为range
+                      &amp;quot;range_details&amp;quot;: {
+                        &amp;quot;used_index&amp;quot;: &amp;quot;idx_b&amp;quot;  --使用的索引为：idx_b
+                      } /* range_details */,
+                      &amp;quot;resulting_rows&amp;quot;: 90,    --结果行数
+                      &amp;quot;cost&amp;quot;: 127.01,          --成本
+                      &amp;quot;chosen&amp;quot;: true,		   --确定选择
+                      &amp;quot;use_tmp_table&amp;quot;: true
+                    }
+                  ] /* considered_access_paths */
+                } /* best_access_path */,
+                &amp;quot;condition_filtering_pct&amp;quot;: 100,
+                &amp;quot;rows_for_plan&amp;quot;: 90,
+                &amp;quot;cost_for_plan&amp;quot;: 127.01,
+                &amp;quot;sort_cost&amp;quot;: 90,
+                &amp;quot;new_cost_for_plan&amp;quot;: 217.01,
+                &amp;quot;chosen&amp;quot;: true
+              }
+            ] /* considered_execution_plans */
+          },
+          {
+            &amp;quot;attaching_conditions_to_tables&amp;quot;: {  --尝试添加一些其他的查询条件
+              &amp;quot;original_condition&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;,
+              &amp;quot;attached_conditions_computation&amp;quot;: [
+              ] /* attached_conditions_computation */,
+              &amp;quot;attached_conditions_summary&amp;quot;: [
+                {
+                  &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                  &amp;quot;attached&amp;quot;: &amp;quot;((`t1`.`a` &amp;gt; 900) and (`t1`.`b` &amp;gt; 910))&amp;quot;
+                }
+              ] /* attached_conditions_summary */
+            } /* attaching_conditions_to_tables */
+          },
+          {
+            &amp;quot;clause_processing&amp;quot;: {
+              &amp;quot;clause&amp;quot;: &amp;quot;ORDER BY&amp;quot;,
+              &amp;quot;original_clause&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;,
+              &amp;quot;items&amp;quot;: [
+                {
+                  &amp;quot;item&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;
+                }
+              ] /* items */,
+              &amp;quot;resulting_clause_is_simple&amp;quot;: true,
+              &amp;quot;resulting_clause&amp;quot;: &amp;quot;`t1`.`a`&amp;quot;
+            } /* clause_processing */
+          },
+          {
+            &amp;quot;reconsidering_access_paths_for_index_ordering&amp;quot;: {
+              &amp;quot;clause&amp;quot;: &amp;quot;ORDER BY&amp;quot;,
+              &amp;quot;index_order_summary&amp;quot;: {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;index_provides_order&amp;quot;: false,
+                &amp;quot;order_direction&amp;quot;: &amp;quot;undefined&amp;quot;,
+                &amp;quot;index&amp;quot;: &amp;quot;idx_b&amp;quot;,
+                &amp;quot;plan_changed&amp;quot;: false
+              } /* index_order_summary */
+            } /* reconsidering_access_paths_for_index_ordering */
+          },
+          {
+            &amp;quot;refine_plan&amp;quot;: [          --改进的执行计划
+              {
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;pushed_index_condition&amp;quot;: &amp;quot;(`t1`.`b` &amp;gt; 910)&amp;quot;,
+                &amp;quot;table_condition_attached&amp;quot;: &amp;quot;(`t1`.`a` &amp;gt; 900)&amp;quot;
+              }
+            ] /* refine_plan */
+          }
+        ] /* steps */
+      } /* join_optimization */
+    },
+    {
+      &amp;quot;join_execution&amp;quot;: {             --SQL执行阶段
+        &amp;quot;select#&amp;quot;: 1,
+        &amp;quot;steps&amp;quot;: [
+          {
+            &amp;quot;filesort_information&amp;quot;: [
+              {
+                &amp;quot;direction&amp;quot;: &amp;quot;asc&amp;quot;,
+                &amp;quot;table&amp;quot;: &amp;quot;`t1`&amp;quot;,
+                &amp;quot;field&amp;quot;: &amp;quot;a&amp;quot;
+              }
+            ] /* filesort_information */,
+            &amp;quot;filesort_priority_queue_optimization&amp;quot;: {
+              &amp;quot;usable&amp;quot;: false,             --未使用优先队列优化排序
+              &amp;quot;cause&amp;quot;: &amp;quot;not applicable (no LIMIT)&amp;quot;     --未使用优先队列排序的原因是没有limit
+            } /* filesort_priority_queue_optimization */,
+            &amp;quot;filesort_execution&amp;quot;: [
+            ] /* filesort_execution */,
+            &amp;quot;filesort_summary&amp;quot;: {           --排序详情
+              &amp;quot;rows&amp;quot;: 90,
+              &amp;quot;examined_rows&amp;quot;: 90,          --参与排序的行数
+              &amp;quot;number_of_tmp_files&amp;quot;: 0,     --排序过程中使用的临时文件数
+              &amp;quot;sort_buffer_size&amp;quot;: 115056,
+              &amp;quot;sort_mode&amp;quot;: &amp;quot;&amp;lt;sort_key, additional_fields&amp;gt;&amp;quot;   --排序模式（详解请看下方知识扩展）
+            } /* filesort_summary */
+          }
+        ] /* steps */
+      } /* join_execution */
+    }
+  ] /* steps */
+}
+MISSING_BYTES_BEYOND_MAX_MEM_SIZE: 0	--该字段表示分析过程丢弃的文本字节大小，本例为0，说明没丢弃任何文本
+          INSUFFICIENT_PRIVILEGES: 0    --查看trace的权限是否不足，0表示有权限查看trace详情
+1 row in set (0.00 sec)
+------------------------------------------------
+------------------------------------------------
+
+
+mysql&amp;gt; set session optimizer_trace=&amp;quot;enabled=off&amp;quot;;
+/* 及时关闭trace */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里对上方的执行字段详细描述一下：&lt;/p&gt;
+&lt;p&gt;TRACE 字段中整个文本大致分为三个过程。&lt;/p&gt;
+&lt;p&gt;准备阶段：对应文本中的 join_preparation&lt;br&gt;
+优化阶段：对应文本中的 join_optimization&lt;br&gt;
+执行阶段：对应文本中的 join_execution&lt;br&gt;
+使用时，重点关注优化阶段和执行阶段。&lt;/p&gt;
+&lt;p&gt;由此例可以看出：&lt;/p&gt;
+&lt;p&gt;在 trace 结果的 analyzing_range_alternatives 这一项可以看到：使用索引 idx_a 的成本为 121.01，使用索引 idx_b 的成本为 109.01，显然使用索引 idx_b 的成本要低些，因此优化器选择了 idx_b 索引；&lt;br&gt;
+在 trace 结果的 filesort_summary 这一项可以看到：排序模式为&amp;lt;sort_key, additional_fields&amp;gt;，表示使用的是单路排序，即一次性取出满足条件行的所有字段，然后在 sort buffer 中进行排序。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;知识扩展：
+
+知识点一：MySQL 常见排序模式：
+
+&amp;lt; sort_key, rowid &amp;gt;双路排序（又叫回表排序模式）：是首先根据相应的条件取出相应的排序字段和可以直接定位行数据的行 ID，然后在 sort buffer 中进行排序，排序完后需要再次取回其它需要的字段；
+&amp;lt; sort_key, additional_fields &amp;gt;单路排序：是一次性取出满足条件行的所有字段，然后在sort buffer中进行排序；
+&amp;lt; sort_key, packed_additional_fields &amp;gt;打包数据排序模式：将 char 和 varchar 字段存到 sort buffer 中时，更加紧缩。
+三种排序模式比较：
+
+第二种模式相对第一种模式，避免了二次回表，可以理解为用空间换时间。由于 sort buffer 有限，如果需要查询的数据比较大的话，会增加磁盘排序时间，效率可能比第一种方式更低。
+
+MySQL 提供了一个参数：max_length_for_sort_data，当“排序的键值对大小” &amp;gt; max_length_for_sort_data 时，MySQL 认为磁盘外部排序的 IO 效率不如回表的效率，会选择第一种排序模式；否则，会选择第二种模式。
+
+第三种模式主要解决变长字符数据存储空间浪费的问题。
+
+知识点二：优化器在估计符合条件的行数时有两个选择：
+
+index diver：dive 到 index 中利用索引完成元组数的估算；特点是速度慢，但可以得到精确的值；
+index statistics：使用索引的统计数值，进行估算；特点是速度快，但是值不一定准确。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;3-总结&#34;&gt;3 总结&lt;/h2&gt;
+&lt;p&gt;今天我们分享了 show profile 和 trace 的使用方法，我们来对比一下三种分析 SQL 方法的特点：&lt;/p&gt;
+&lt;p&gt;explain：获取 MySQL 中 SQL 语句的执行计划，比如语句是否使用了关联查询、是否使用了索引、扫描行数等；&lt;br&gt;
+profile：可以清楚了解到SQL到底慢在哪个环节；&lt;br&gt;
+trace：查看优化器如何选择执行计划，获取每个可能的索引选择的代价。&lt;br&gt;
+三种方法各有其适用场景，如果你有其它分析 SQL 的工具，欢迎在留言区分享。&lt;/p&gt;
+&lt;p&gt;4 问题&lt;br&gt;
+在工作中，遇到慢查询你是如何去分析优化的？&lt;/p&gt;
+">快速学会分析SQL执行效率（下）</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/2XXuytX6c/"" data-c="
+          &lt;p&gt;从开篇词我们了解到，本专栏首先会一起讨论一下 SQL 优化，而优化 SQL 的前提是能定位到慢 SQL 并对其进行分析，因此在专栏的开始，会跟大家分享如何定位慢查询和如何分析 SQl 执行效率。在前面两节，会用一些简单的例子让大家学会这些分析技巧。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;在工作中可能会遇到某个新功能在测试时需要很久才返回结果，这时就应该分析是不是慢查询导致的。如果确实有慢查询，又应该怎么去分析 SQL 执行效率呢？这一篇文章我们就来学习怎么找到慢查询和怎么分析 SQL 执行效率。&lt;/p&gt;
+&lt;p&gt;1 定位慢 SQL&lt;br&gt;
+当我们实际工作中，碰到某个功能或者某个接口需要很久才能返回结果，我们就应该去确定是不是慢查询导致的。定位慢 SQL 有如下两种解决方案：&lt;/p&gt;
+&lt;p&gt;查看慢查询日志确定已经执行完的慢查询&lt;br&gt;
+show processlist 查看正在执行的慢查询&lt;br&gt;
+我们一起来了解下这两种方法的使用场景和使用技巧吧！&lt;/p&gt;
+&lt;p&gt;1.1 通过慢查询日志&lt;br&gt;
+如果需要定位到慢查询，一般的方法是通过慢查询日志来查询的，MySQL 的慢查询日志用来记录在 MySQL 中响应时间超过参数 long_query_time（单位秒，默认值 10）设置的值并且扫描记录数不小于 min_examined_row_limit（默认值0）的语句，能够帮我们找到执行完的慢查询，方便我们对这些 SQL 进行优化。&lt;/p&gt;
+&lt;p&gt;知识扩展：&lt;/p&gt;
+&lt;p&gt;默认情况下，慢查询日志中不会记录管理语句，可通过设置 log_slow_admin_statements = on 让管理语句中的慢查询也会记录到慢查询日志中。&lt;/p&gt;
+&lt;p&gt;默认情况下，也不会记录查询时间不超过 long_query_time 但是不使用索引的语句，可通过配置log_queries_not_using_indexes = on 让不使用索引的 SQL 都被记录到慢查询日志中（即使查询时间没超过 long_query_time 配置的值）。&lt;/p&gt;
+&lt;p&gt;如果需要使用慢查询日志，一般分为四步：开启慢查询日志、设置慢查询阀值、确定慢查询日志路径、确定慢查询日志的文件名。下面我们来学习下:&lt;/p&gt;
+&lt;p&gt;首先开启慢查询日志，由参数 slow_query_log 决定是否开启，在 MySQL 命令行下输入下面的命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set global slow_query_log = on;
+Query OK, 0 rows affected (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;默认环境下，慢查询日志是关闭的。&lt;/p&gt;
+&lt;p&gt;设置慢查询时间阀值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; set global long_query_time = 1;
+Query OK, 0 rows affected (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;知识扩展：
+MySQL 中 long_query_time 的值如何确定呢？
+
+线上业务一般建议把 long_query_time 设置为 1 秒，如果某个业务的 MySQL 要求比较高的 QPS，可设置慢查询为 0.1 秒。发现慢查询及时优化或者提醒开发改写。
+
+一般测试环境建议 long_query_time 设置的阀值比生产环境的小，比如生产环境是 1 秒，则测试环境建议配置成 0.5 秒。便于在测试环境及时发现一些效率低的 SQL。
+
+甚至某些重要业务测试环境 long_query_time 可以设置为 0，以便记录所有语句。并留意慢查询日志的输出，上线前的功能测试完成后，分析慢查询日志每类语句的输出，重点关注 Rows_examined（语句执行期间从存储引擎读取的行数），提前优化。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;确定慢查询日志路径&lt;/p&gt;
+&lt;p&gt;慢查询日志的路径默认是 MySQL 的数据目录&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show global variables like &amp;quot;datadir&amp;quot;;
+
++---------------+------------------------+
+| Variable_name | Value                  |
++---------------+------------------------+
+| datadir       | /data/mysql/data/3306/ |
++---------------+------------------------+
+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;确定慢查询日志的文件名&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show global variables like &amp;quot;slow_query_log_file&amp;quot;;
+
++---------------------+----------------+
+| Variable_name       | Value          |
++---------------------+----------------+
+| slow_query_log_file | mysql-slow.log |
++---------------------+----------------+
+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;根据上面的查询结果，可以直接查看 /data/mysql/data/3306/mysql-slow.log 文件获取已经执行完的慢查询&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@mysqltest ~]# tail -n5 /data/mysql/data/3306/mysql-slow.log
+
+Time: 2019-05-21T09:15:06.255554+08:00
+
+User@Host: root[root] @ localhost []  Id: 8591152
+
+Query_time: 10.000260  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 0
+
+SET timestamp=1558401306;
+select sleep(10);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里对上方的执行结果详细描述一下：&lt;/p&gt;
+&lt;p&gt;tail -n5：只查看慢查询文件的最后5行&lt;br&gt;
+Time：慢查询发生的时间&lt;br&gt;
+User@Host：客户端用户和IP&lt;br&gt;
+Query_time：查询时间&lt;br&gt;
+Lock_time：等待表锁的时间&lt;br&gt;
+Rows_sent：语句返回的行数&lt;br&gt;
+Rows_examined：语句执行期间从存储引擎读取的行数&lt;br&gt;
+上面这种方式是用系统自带的慢查询日志查看的，如果觉得系统自带的慢查询日志不方便查看，小伙伴们可以使用 pt-query-digest 或者 mysqldumpslow 等工具对慢查询日志进行分析，由于本节重点是找到慢查询，这里就不一一示例了。&lt;/p&gt;
+&lt;p&gt;1.2 通过 show processlist;&lt;br&gt;
+有时慢查询正在执行，已经导致数据库负载偏高了，而由于慢查询还没执行完，因此慢查询日志还看不到任何语句。此时可以使用 show processlist 命令判断正在执行的慢查询。show processlist 显示哪些线程正在运行。如果有 PROCESS 权限，则可以看到所有线程。否则，只能看到当前会话的线程。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;知识扩展：如果不使用 FULL 关键字，在 info 字段中只显示每个语句的前 100 个字符，如果想看语句的全部内容可以使用 full 修饰（show full processlist）。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show processlist\G`
+
+`......`
+
+`*************************** 10. row ***************************`
+
+     `Id: 7651833`
+
+   `User: one`
+
+   `Host: 192.168.1.251:52154`
+
+     `db: ops`
+
+`Command: Query`
+
+   `Time: 3`
+
+  `State: User sleep`
+
+   `Info: select sleep(10)`
+
+`......`
+
+`10 rows in set (0.00 sec)`
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里对上面结果解释一下：&lt;/p&gt;
+&lt;p&gt;Time：表示执行时间&lt;br&gt;
+Info：表示 SQL 语句&lt;br&gt;
+我们这里可以通过它的执行时间（Time）来判断是否是慢 SQL。&lt;/p&gt;
+&lt;p&gt;2 使用 explain 分析慢查询&lt;br&gt;
+分析 SQL 执行效率是优化 SQL 的重要手段，通过上面讲的两种方法，定位到慢查询语句后，我们就要开始分析 SQL 执行效率了，子曾经曰过：“工欲善其事，必先利其器”，我们可以通过 explain、show profile 和 trace 等诊断工具来分析慢查询。本节先讲解 explain 的使用，在下节将分享 show profile 和 trace 的使用。&lt;/p&gt;
+&lt;p&gt;Explain 可以获取 MySQL 中 SQL 语句的执行计划，比如语句是否使用了关联查询、是否使用了索引、扫描行数等。可以帮我们选择更好地索引和写出更优的 SQL 。使用方法：在查询语句前面加上 explain 运行就可以了。&lt;/p&gt;
+&lt;p&gt;这也是分析 SQL 时最常用的，也是作者最推荐的一种分析慢查询的方式。下面我们来看下示例~~&lt;/p&gt;
+&lt;p&gt;为了便于理解，先创建两张测试表（方便第 1、2 节实验使用），建表及数据写入语句如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE DATABASE muke;           /* 创建测试使用的database，名为muke */
+use muke;                       /* 使用muke这个database */
+drop table if exists t1;        /* 如果表t1存在则删除表t1 */
+
+CREATE TABLE `t1` (             /* 创建表t1 */
+  `id` int(11) NOT NULL auto_increment,
+  `a` int(11) DEFAULT NULL,
+  `b` int(11) DEFAULT NULL,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;记录创建时间&#39;,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &#39;记录更新时间&#39;,
+  PRIMARY KEY (`id`),
+  KEY `idx_a` (`a`),
+  KEY `idx_b` (`b`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;	
+
+drop procedure if exists insert_t1; /* 如果存在存储过程insert_t1，则删除 */
+delimiter ;;
+create procedure insert_t1()        /* 创建存储过程insert_t1 */
+begin
+  declare i int;                    /* 声明变量i */
+  set i=1;                          /* 设置i的初始值为1 */
+  while(i&amp;lt;=1000)do                  /* 对满足i&amp;lt;=1000的值进行while循环 */
+    insert into t1(a,b) values(i, i); /* 写入表t1中a、b两个字段，值都为i当前的值 */
+    set i=i+1;                      /* 将i加1 */
+  end while;
+end;;
+delimiter ;                 /* 创建批量写入1000条数据到表t1的存储过程insert_t1 */
+call insert_t1();           /* 运行存储过程insert_t1 */
+
+drop table if exists t2;    /* 如果表t2存在则删除表t2 */
+create table t2 like t1;    /* 创建表t2，表结构与t1一致 */
+insert into t2 select * from t1;   /* 将表t1的数据导入到t2 */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下面尝试使用 explain 分析一条 SQL，例子如下：&lt;br&gt;
+&lt;code&gt;mysql&amp;gt; explain select * from t1 where b=100;&lt;/code&gt;&lt;br&gt;
+&lt;img src=&#34;https://Dawn-cheng.github.io/post-images/1599389745198.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+图片描述Explain 的结果各字段解释如下：&lt;/p&gt;
+&lt;p&gt;加粗的列为需要重点关注的项。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;列名	解释
+id	查询编号
+select_type	查询类型：显示本行是简单还是复杂查询
+table	涉及到的表
+partitions	匹配的分区：查询将匹配记录所在的分区。仅当使用 partition 关键字时才显示该列。对于非分区表，该值为 NULL。
+type	本次查询的表连接类型
+possible_keys	可能选择的索引
+key	实际选择的索引
+key_len	被选择的索引长度：一般用于判断联合索引有多少列被选择了
+ref	与索引比较的列
+rows	预计需要扫描的行数，对 InnoDB 来说，这个值是估值，并不一定准确
+filtered	按条件筛选的行的百分比
+Extra	附加信息
+表1-explain 各字段解释
+其中 explain 各列都有各种不同的值，这里介绍几个比较重要列常包含的值:包含 select_typ、type 和 Extra。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下面将列出它们常见的一些值，可稍微过一遍，不需要完全记下来，在后续章节分析 SQL 时，可以返回查询本节内容并对比各种值的区别。&lt;/p&gt;
+&lt;p&gt;2.1 select_type&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select_type 的值	解释
+SIMPLE	简单查询(不使用关联查询或子查询)
+PRIMARY	如果包含关联查询或者子查询，则最外层的查询部分标记为primary
+UNION	联合查询中第二个及后面的查询
+DEPENDENT UNION	满足依赖外部的关联查询中第二个及以后的查询
+UNION RESULT	联合查询的结果
+SUBQUERY	子查询中的第一个查询
+DEPENDENT SUBQUERY	子查询中的第一个查询，并且依赖外部查询
+DERIVED	用到派生表的查询
+MATERIALIZED	被物化的子查询
+UNCACHEABLE SUBQUERY	一个子查询的结果不能被缓存，必须重新评估外层查询的每一行
+UNCACHEABLE UNION	关联查询第二个或后面的语句属于不可缓存的子查询
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;表2-select_type 各项值解释&lt;br&gt;
+2.2 type&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;type的值	解释
+system	查询对象表只有一行数据,且只能用于 MyISAM 和 Memory 引擎的表，这是最好的情况
+const	基于主键或唯一索引查询，最多返回一条结果
+eq_ref	表连接时基于主键或非 NULL 的唯一索引完成扫描
+ref	基于普通索引的等值查询，或者表间等值连接
+fulltext	全文检索
+ref_or_null	表连接类型是 ref，但进行扫描的索引列中可能包含 NULL 值
+index_merge	利用多个索引
+unique_subquery	子查询中使用唯一索引
+index_subquery	子查询中使用普通索引
+range	利用索引进行范围查询
+index	全索引扫描
+ALL	全表扫描
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;表3-type 各项值解释&lt;br&gt;
+上表的这些情况，查询性能从上到下依次是最好到最差。&lt;/p&gt;
+&lt;p&gt;2.3 Extra&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Extra 常见的值	解释	例子
+Using filesort	将用外部排序而不是索引排序，数据较小时从内存排序，否则需要在磁盘完成排序	explain select * from t1 order by create_time;
+Using temporary	需要创建一个临时表来存储结构，通常发生对没有索引的列进行 GROUP BY 时	explain select * from t1 group by create_time;
+Using index	使用覆盖索引	explain select a from t1 where a=111;
+Using where	使用 where 语句来处理结果	explain select * from t1 where create_time=‘2019-06-18 14:38:24’;
+Impossible WHERE	对 where 子句判断的结果总是 false 而不能选择任何数据	explain select * from t1 where 1&amp;lt;0;
+Using join buffer (Block Nested Loop)	关联查询中，被驱动表的关联字段没索引	explain select * from t1 straight_join t2 on (t1.create_time=t2.create_time);
+Using index condition	先条件过滤索引，再查数据	explain select * from t1 where a &amp;gt;900 and a like “%9”;
+Select tables optimized away	使用某些聚合函数（比如 max、min）来访问存在索引的某个字段是	explain select max(a) from t1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;表4-Extra 常见值解释及举例&lt;br&gt;
+3 总结&lt;br&gt;
+今天我分享的关于定位慢 SQL 及使用 explain 分析慢 SQL 到这里就结束了。本节知识点总结如下：&lt;/p&gt;
+&lt;p&gt;本节首先讲到如何定位慢 SQL:&lt;/p&gt;
+&lt;p&gt;一种方法是查看慢查询日志&lt;br&gt;
+另一种方法是 show process 查看正在执行的 SQL&lt;br&gt;
+再讲到通过 explain 分析慢 SQL，explain 会返回很多字段，其中 select_type、type、key、rows、Extra 是重点关注项。&lt;/p&gt;
+&lt;p&gt;在工作中及面试时，SQL 性能优化都是我们经常遇到的问题，要想做好性能优化，我们必须学会使用 SQL 优化时需要的工具，进行定位和分析。由于篇幅的问题，本小节只介绍了 explain 工具的使用，在下节将补充另外两种分析慢查询的工具：show profile 和 trace。在后面我会再讲解 SQL 优化的一些知识点，相信小伙伴们 SQL 性能优化时一定可以越来越熟练。&lt;/p&gt;
+&lt;p&gt;最后小伙伴们可以将处理问题时的心得体会进行总结，也欢迎给我留言分享，我们一起来交流、学习、进步。&lt;/p&gt;
+&lt;p&gt;4 问题&lt;br&gt;
+你在平常工作中是怎么降低慢查询在生产环境出现的概率？&lt;/p&gt;
+">快速学会分析SQL执行效率</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/cifMT6byw/"" data-c="
+          &lt;p&gt;1 消息&lt;br&gt;
+▪ 100 Continue&lt;br&gt;
+▪ 101 Switching Protocols&lt;br&gt;
+▪ 102 Processing&lt;br&gt;
+2 成功&lt;br&gt;
+▪ 200 OK&lt;br&gt;
+▪ 201 Created&lt;br&gt;
+▪ 202 Accepted&lt;br&gt;
+▪ 203 Non-Authoritative Information&lt;br&gt;
+▪ 204 No Content&lt;br&gt;
+▪ 205 Reset Content&lt;br&gt;
+▪ 206 Partial Content&lt;br&gt;
+▪ 207 Multi-Status&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;3 重定向&lt;br&gt;
+▪ 300 Multiple Choices&lt;br&gt;
+▪ 301 Moved Permanently&lt;br&gt;
+▪ 302 Move temporarily&lt;br&gt;
+▪ 303 See Other&lt;br&gt;
+▪ 304 Not Modified&lt;br&gt;
+▪ 305 Use Proxy&lt;br&gt;
+▪ 306 Switch Proxy&lt;br&gt;
+▪ 307 Temporary Redirect&lt;br&gt;
+4 请求错误&lt;br&gt;
+▪ 400 Bad Request&lt;br&gt;
+▪ 401 Unauthorized&lt;br&gt;
+▪ 402 Payment Required&lt;br&gt;
+▪ 403 Forbidden&lt;br&gt;
+▪ 404 Not Found&lt;br&gt;
+▪ 405 Method Not Allowed&lt;br&gt;
+▪ 406 Not Acceptable&lt;br&gt;
+▪ 407 Proxy Authentication Required&lt;br&gt;
+▪ 408 Request Timeout&lt;br&gt;
+▪ 409 Conflict&lt;br&gt;
+▪ 410 Gone&lt;br&gt;
+▪ 411 Length Required&lt;br&gt;
+▪ 412 Precondition Failed&lt;br&gt;
+▪ 413 Request Entity Too Large&lt;br&gt;
+▪ 414 Request-URI Too Long&lt;br&gt;
+▪ 415 Unsupported Media Type&lt;br&gt;
+▪ 416 Requested Range Not Satisfiable&lt;br&gt;
+▪ 417 Expectation Failed&lt;br&gt;
+▪ 421 too many connections&lt;br&gt;
+▪ 422 Unprocessable Entity&lt;br&gt;
+▪ 423 Locked&lt;br&gt;
+▪ 424 Failed Dependency&lt;br&gt;
+▪ 425 Unordered Collection&lt;br&gt;
+▪ 426 Upgrade Required&lt;br&gt;
+▪ 449 Retry With&lt;br&gt;
+▪ 451Unavailable For Legal Reasons&lt;br&gt;
+5 服务器错误&lt;br&gt;
+▪ 500 Internal Server Error&lt;br&gt;
+▪ 501 Not Implemented&lt;br&gt;
+▪ 502 Bad Gateway&lt;br&gt;
+▪ 503 Service Unavailable&lt;br&gt;
+▪ 504 Gateway Timeout&lt;br&gt;
+▪ 505 HTTP Version Not Supported&lt;br&gt;
+▪ 506 Variant Also Negotiates&lt;br&gt;
+▪ 507 Insufficient Storage&lt;br&gt;
+▪ 509 Bandwidth Limit Exceeded&lt;br&gt;
+▪ 510 Not Extended&lt;br&gt;
+▪ 600 Unparseable Response Headers&lt;/p&gt;
+&lt;p&gt;100 客户端应当继续发送请求。这个临时响应是用来通知客户端它的部分请求已经被服务器接收，且仍未被拒绝。客户端应当继续发送请求的剩余部分，或者如果请求已经完成，忽略这个响应。服务器必须在请求完成后向客户端发送一个最终响应。&lt;/p&gt;
+&lt;p&gt;101 服务器已经理解了客户端的请求，并将通过Upgrade 消息头通知客户端采用不同的协议来完成这个请求。在发送完这个响应最后的空行后，服务器将会切换到在Upgrade 消息头中定义的那些协议。 　　只有在切换新的协议更有好处的时候才应该采取类似措施。例如，切换到新的HTTP 版本比旧版本更有优势，或者切换到一个实时且同步的协议以传送利用此类特性的资源。&lt;/p&gt;
+&lt;p&gt;102 由WebDAV（RFC 2518）扩展的状态码，代表处理将被继续执行。&lt;/p&gt;
+&lt;p&gt;200 请求已成功，请求所希望的响应头或数据体将随此响应返回。&lt;/p&gt;
+&lt;p&gt;201 请求已经被实现，而且有一个新的资源已经依据请求的需要而建立，且其 URI 已经随Location 头信息返回。假如需要的资源无法及时建立的话，应当返回 &#39;202 Accepted&#39;。&lt;/p&gt;
+&lt;p&gt;202 服务器已接受请求，但尚未处理。正如它可能被拒绝一样，最终该请求可能会也可能不会被执行。在异步操作的场合下，没有比发送这个状态码更方便的做法了。 　　返回202状态码的响应的目的是允许服务器接受其他过程的请求（例如某个每天只执行一次的基于批处理的操作），而不必让客户端一直保持与服务器的连接直到批处理操作全部完成。在接受请求处理并返回202状态码的响应应当在返回的实体中包含一些指示处理当前状态的信息，以及指向处理状态监视器或状态预测的指针，以便用户能够估计操作是否已经完成。&lt;/p&gt;
+&lt;p&gt;203 服务器已成功处理了请求，但返回的实体头部元信息不是在原始服务器上有效的确定集合，而是来自本地或者第三方的拷贝。当前的信息可能是原始版本的子集或者超集。例如，包含资源的元数据可能导致原始服务器知道元信息的超级。使用此状态码不是必须的，而且只有在响应不使用此状态码便会返回200 OK的情况下才是合适的。&lt;/p&gt;
+&lt;p&gt;204 服务器成功处理了请求，但不需要返回任何实体内容，并且希望返回更新了的元信息。响应可能通过实体头部的形式，返回新的或更新后的元信息。如果存在这些头部信息，则应当与所请求的变量相呼应。 　　如果客户端是浏览器的话，那么用户浏览器应保留发送了该请求的页面，而不产生任何文档视图上的变化，即使按照规范新的或更新后的元信息应当被应用到用户浏览器活动视图中的文档。 　　由于204响应被禁止包含任何消息体，因此它始终以消息头后的第一个空行结尾。&lt;/p&gt;
+&lt;p&gt;205 服务器成功处理了请求，且没有返回任何内容。但是与204响应不同，返回此状态码的响应要求请求者重置文档视图。该响应主要是被用于接受用户输入后，立即重置表单，以便用户能够轻松地开始另一次输入。 　　与204响应一样，该响应也被禁止包含任何消息体，且以消息头后的第一个空行结束。&lt;/p&gt;
+&lt;p&gt;206 服务器已经成功处理了部分 GET 请求。类似于 FlashGet 或者迅雷这类的 HTTP 下载工具都是使用此类响应实现断点续传或者将一个大文档分解为多个下载段同时下载。 　　该请求必须包含 Range 头信息来指示客户端希望得到的内容范围，并且可能包含 If-Range 来作为请求条件。 　　响应必须包含如下的头部域： 　　Content-Range 用以指示本次响应中返回的内容的范围；如果是 Content-Type 为 multipart/byteranges 的多段下载，则每一 multipart 段中都应包含 Content-Range 域用以指示本段的内容范围。假如响应中包含 Content-Length，那么它的数值必须匹配它返回的内容范围的真实字节数。 　　Date 　　ETag 和/或 Content-Location，假如同样的请求本应该返回200响应。 　　Expires, Cache-Control，和/或 Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。 　　假如本响应请求使用了 If-Range 强缓存验证，那么本次响应不应该包含其他实体头；假如本响应的请求使用了 If-Range 弱缓存验证，那么本次响应禁止包含其他实体头；这避免了缓存的实体内容和更新了的实体头信息之间的不一致。否则，本响应就应当包含所有本应该返回200响应中应当返回的所有实体头部域。 　　假如 ETag 或 Last-Modified 头部不能精确匹配的话，则客户端缓存应禁止将206响应返回的内容与之前任何缓存过的内容组合在一起。 　　任何不支持 Range 以及 Content-Range 头的缓存都禁止缓存206响应返回的内容。&lt;/p&gt;
+&lt;p&gt;207 由WebDAV(RFC 2518)扩展的状态码，代表之后的消息体将是一个XML消息，并且可能依照之前子请求数量的不同，包含一系列独立的响应代码。&lt;/p&gt;
+&lt;p&gt;300 被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向。 　　除非这是一个 HEAD 请求，否则该响应应当包括一个资源特性及地址的列表的实体，以便用户或浏览器从中选择最合适的重定向地址。这个实体的格式由 Content-Type 定义的格式所决定。浏览器可能根据响应的格式以及浏览器自身能力，自动作出最合适的选择。当然，RFC 2616规范并没有规定这样的自动选择该如何进行。 　　如果服务器本身已经有了首选的回馈选择，那么在 Location 中应当指明这个回馈的 URI；浏览器可能会将这个 Location 值作为自动重定向的地址。此外，除非额外指定，否则这个响应也是可缓存的。&lt;/p&gt;
+&lt;p&gt;301 被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个 URI 之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。除非额外指定，否则这个响应也是可缓存的。 　　新的永久性的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。 　　如果这不是一个 GET 或者 HEAD 请求，因此浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。 　　注意：对于某些使用 HTTP/1.0 协议的浏览器，当它们发送的 POST 请求得到了一个301响应的话，接下来的重定向请求将会变成 GET 方式。&lt;/p&gt;
+&lt;p&gt;302 请求的资源现在临时从不同的 URI 响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。 　　新的临时性的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。 　　如果这不是一个 GET 或者 HEAD 请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。 　　注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用 GET 方式访问在 Location 中规定的 URI，而无视原先请求的方法。状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。&lt;/p&gt;
+&lt;p&gt;303 对应当前请求的响应可以在另一个 URI 上被找到，而且客户端应当采用 GET 的方式访问那个资源。这个方法的存在主要是为了允许由脚本激活的POST请求输出重定向到一个新的资源。这个新的 URI 不是原始资源的替代引用。同时，303响应禁止被缓存。当然，第二个请求（重定向）可能被缓存。 　　新的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。 　　注意：许多 HTTP/1.1 版以前的 浏览器不能正确理解303状态。如果需要考虑与这些浏览器之间的互动，302状态码应该可以胜任，因为大多数的浏览器处理302响应时的方式恰恰就是上述规范要求客户端处理303响应时应当做的。&lt;/p&gt;
+&lt;p&gt;304 如果客户端发送了一个带条件的 GET 请求且该请求已被允许，而文档的内容（自上次访问以来或者根据请求的条件）并没有改变，则服务器应当返回这个状态码。304响应禁止包含消息体，因此始终以消息头后的第一个空行结尾。 　　该响应必须包含以下的头信息： 　　Date，除非这个服务器没有时钟。假如没有时钟的服务器也遵守这些规则，那么代理服务器以及客户端可以自行将 Date 字段添加到接收到的响应头中去（正如RFC 2068中规定的一样），缓存机制将会正常工作。 　　ETag 和/或 Content-Location，假如同样的请求本应返回200响应。 　　Expires, Cache-Control，和/或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。 　　假如本响应请求使用了强缓存验证，那么本次响应不应该包含其他实体头；否则（例如，某个带条件的 GET 请求使用了弱缓存验证），本次响应禁止包含其他实体头；这避免了缓存了的实体内容和更新了的实体头信息之间的不一致。 　　假如某个304响应指明了当前某个实体没有缓存，那么缓存系统必须忽视这个响应，并且重复发送不包含限制条件的请求。 　　假如接收到一个要求更新某个缓存条目的304响应，那么缓存系统必须更新整个条目以反映所有在响应中被更新的字段的值。&lt;/p&gt;
+&lt;p&gt;305 被请求的资源必须通过指定的代理才能被访问。Location 域中将给出指定的代理所在的 URI 信息，接收者需要重复发送一个单独的请求，通过这个代理才能访问相应资源。只有原始服务器才能建立305响应。 　　注意：RFC 2068中没有明确305响应是为了重定向一个单独的请求，而且只能被原始服务器建立。忽视这些限制可能导致严重的安全后果。&lt;/p&gt;
+&lt;p&gt;306 在最新版的规范中，306状态码已经不再被使用。&lt;/p&gt;
+&lt;p&gt;307 请求的资源现在临时从不同的URI 响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。 　　新的临时性的URI 应当在响应的 Location 域中返回。除非这是一个HEAD 请求，否则响应的实体中应当包含指向新的URI 的超链接及简短说明。因为部分浏览器不能识别307响应，因此需要添加上述必要信息以便用户能够理解并向新的 URI 发出访问请求。 　　如果这不是一个GET 或者 HEAD 请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。&lt;/p&gt;
+&lt;p&gt;400 1、语义有误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。 　　2、请求参数有误。&lt;/p&gt;
+&lt;p&gt;401 当前请求需要用户验证。该响应必须包含一个适用于被请求资源的 WWW-Authenticate 信息头用以询问用户信息。客户端可以重复提交一个包含恰当的 Authorization 头信息的请求。如果当前请求已经包含了 Authorization 证书，那么401响应代表着服务器验证已经拒绝了那些证书。如果401响应包含了与前一个响应相同的身份验证询问，且浏览器已经至少尝试了一次验证，那么浏览器应当向用户展示响应中包含的实体信息，因为这个实体信息中可能包含了相关诊断信息。参见RFC 2617。&lt;/p&gt;
+&lt;p&gt;402 该状态码是为了将来可能的需求而预留的。&lt;/p&gt;
+&lt;p&gt;403 服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助，而且这个请求也不应该被重复提交。如果这不是一个 HEAD 请求，而且服务器希望能够讲清楚为何请求不能被执行，那么就应该在实体内描述拒绝的原因。当然服务器也可以返回一个404响应，假如它不希望让客户端获得任何信息。&lt;/p&gt;
+&lt;p&gt;404 请求失败，请求所希望得到的资源未被在服务器上发现。没有信息能够告诉用户这个状况到底是暂时的还是永久的。假如服务器知道情况的话，应当使用410状态码来告知旧资源因为某些内部的配置机制问题，已经永久的不可用，而且没有任何可以跳转的地址。404这个状态码被广泛应用于当服务器不想揭示到底为何请求被拒绝或者没有其他适合的响应可用的情况下。&lt;/p&gt;
+&lt;p&gt;405 请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow 头信息用以表示出当前资源能够接受的请求方法的列表。鉴于 PUT，DELETE 方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认配置下不允许上述请求方法，对于此类请求均会返回405错误。&lt;/p&gt;
+&lt;p&gt;406 请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。 　　除非这是一个 HEAD 请求，否则该响应就应当返回一个包含可以让用户或者浏览器从中选择最合适的实体特性以及地址列表的实体。实体的格式由 Content-Type 头中定义的媒体类型决定。浏览器可以根据格式及自身能力自行作出最佳选择。但是，规范中并没有定义任何作出此类自动选择的标准。&lt;/p&gt;
+&lt;p&gt;407 　与401响应类似，只不过客户端必须在代理服务器上进行身份验证。代理服务器必须返回一个 Proxy-Authenticate 用以进行身份询问。客户端可以返回一个 Proxy-Authorization 信息头用以验证。参见RFC 2617。&lt;/p&gt;
+&lt;p&gt;408 请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。&lt;/p&gt;
+&lt;p&gt;409 由于和被请求的资源的当前状态之间存在冲突，请求无法完成。这个代码只允许用在这样的情况下才能被使用：用户被认为能够解决冲突，并且会重新提交新的请求。该响应应当包含足够的信息以便用户发现冲突的源头。冲突通常发生于对 PUT 请求的处理中。例如，在采用版本检查的环境下，某次 PUT 提交的对特定资源的修改请求所附带的版本信息与之前的某个（第三方）请求向冲突，那么此时服务器就应该返回一个409错误，告知用户请求无法完成。此时，响应实体中很可能会包含两个冲突版本之间的差异比较，以便用户重新提交归并以后的新版本。&lt;/p&gt;
+&lt;p&gt;410 被请求的资源在服务器上已经不再可用，而且没有任何已知的转发地址。这样的状况应当被认为是永久性的。如果可能，拥有链接编辑功能的客户端应当在获得用户许可后删除所有指向这个地址的引用。如果服务器不知道或者无法确定这个状况是否是永久的，那么就应该使用404状态码。除非额外说明，否则这个响应是可缓存的。 　　410响应的目的主要是帮助网站管理员维护网站，通知用户该资源已经不再可用，并且服务器拥有者希望所有指向这个资源的远端连接也被删除。这类事件在限时、增值服务中很普遍。同样，410响应也被用于通知客户端在当前服务器站点上，原本属于某个个人的资源已经不再可用。当然，是否需要把所有永久不可用的资源标记为&#39;410 Gone&#39;，以及是否需要保持此标记多长时间，完全取决于服务器拥有者。&lt;/p&gt;
+&lt;p&gt;411 服务器拒绝在没有定义 Content-Length 头的情况下接受请求。在添加了表明请求消息体长度的有效 Content-Length 头之后，客户端可以再次提交该请求。&lt;/p&gt;
+&lt;p&gt;412 服务器在验证在请求的头字段中给出先决条件时，没能满足其中的一个或多个。这个状态码允许客户端在获取资源时在请求的元信息（请求头字段数据）中设置先决条件，以此避免该请求方法被应用到其希望的内容以外的资源上。&lt;/p&gt;
+&lt;p&gt;413 服务器拒绝处理当前请求，因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围。此种情况下，服务器可以关闭连接以免客户端继续发送此请求。如果这个状况是临时的，服务器应当返回一个 Retry-After 的响应头，以告知客户端可以在多少时间以后重新尝试。&lt;/p&gt;
+&lt;p&gt;414 请求的URI 长度超过了服务器能够解释的长度，因此服务器拒绝对该请求提供服务。这比较少见，通常的情况包括： 　　本应使用POST方法的表单提交变成了GET方法，导致查询字符串（Query String）过长。 　　重定向URI “黑洞”，例如每次重定向把旧的 URI 作为新的 URI 的一部分，导致在若干次重定向后 URI 超长。 　　客户端正在尝试利用某些服务器中存在的安全漏洞攻击服务器。这类服务器使用固定长度的缓冲读取或操作请求的 URI，当 GET 后的参数超过某个数值后，可能会产生缓冲区溢出，导致任意代码被执行[1]。没有此类漏洞的服务器，应当返回414状态码。&lt;/p&gt;
+&lt;p&gt;415 对于当前请求的方法和所请求的资源，请求中提交的实体并不是服务器中所支持的格式，因此请求被拒绝。&lt;/p&gt;
+&lt;p&gt;416 如果请求中包含了 Range 请求头，并且 Range 中指定的任何数据范围都与当前资源的可用范围不重合，同时请求中又没有定义 If-Range 请求头，那么服务器就应当返回416状态码。 　　假如 Range 使用的是字节范围，那么这种情况就是指请求指定的所有数据范围的首字节位置都超过了当前资源的长度。服务器也应当在返回416状态码的同时，包含一个 Content-Range 实体头，用以指明当前资源的长度。这个响应也被禁止使用 multipart/byteranges 作为其 Content-Type。&lt;/p&gt;
+&lt;p&gt;417 在请求头 Expect 中指定的预期内容无法被服务器满足，或者这个服务器是一个代理服务器，它有明显的证据证明在当前路由的下一个节点上，Expect 的内容无法被满足。&lt;/p&gt;
+&lt;p&gt;421 从当前客户端所在的IP地址到服务器的连接数超过了服务器许可的最大范围。通常，这里的IP地址指的是从服务器上看到的客户端地址（比如用户的网关或者代理服务器地址）。在这种情况下，连接数的计算可能涉及到不止一个终端用户。&lt;/p&gt;
+&lt;p&gt;422 从当前客户端所在的IP地址到服务器的连接数超过了服务器许可的最大范围。通常，这里的IP地址指的是从服务器上看到的客户端地址（比如用户的网关或者代理服务器地址）。在这种情况下，连接数的计算可能涉及到不止一个终端用户。&lt;/p&gt;
+&lt;p&gt;422 请求格式正确，但是由于含有语义错误，无法响应。（RFC 4918 WebDAV）423 Locked 　　当前资源被锁定。（RFC 4918 WebDAV）&lt;/p&gt;
+&lt;p&gt;424 由于之前的某个请求发生的错误，导致当前请求失败，例如 PROPPATCH。（RFC 4918 WebDAV）&lt;/p&gt;
+&lt;p&gt;425 在WebDav Advanced Collections 草案中定义，但是未出现在《WebDAV 顺序集协议》（RFC 3658）中。&lt;/p&gt;
+&lt;p&gt;426 客户端应当切换到TLS/1.0。（RFC 2817）&lt;/p&gt;
+&lt;p&gt;449 由微软扩展，代表请求应当在执行完适当的操作后进行重试。&lt;/p&gt;
+&lt;p&gt;500 服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。一般来说，这个问题都会在服务器的程序码出错时出现。&lt;/p&gt;
+&lt;p&gt;501 服务器不支持当前请求所需要的某个功能。当服务器无法识别请求的方法，并且无法支持其对任何资源的请求。&lt;/p&gt;
+&lt;p&gt;502 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应。&lt;/p&gt;
+&lt;p&gt;503 由于临时的服务器维护或者过载，服务器当前无法处理请求。这个状况是临时的，并且将在一段时间以后恢复。如果能够预计延迟时间，那么响应中可以包含一个 Retry-After 头用以标明这个延迟时间。如果没有给出这个Retry-After 信息，那么客户端应当以处理500响应的方式处理它。 　　注意：503状态码的存在并不意味着服务器在过载的时候必须使用它。某些服务器只不过是希望拒绝客户端的连接。&lt;/p&gt;
+&lt;p&gt;504 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。 　　注意：某些代理服务器在DNS查询超时时会返回400或者500错误&lt;/p&gt;
+&lt;p&gt;505 服务器不支持，或者拒绝支持在请求中使用的 HTTP 版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体。&lt;/p&gt;
+&lt;p&gt;506 由《透明内容协商协议》（RFC 2295）扩展，代表服务器存在内部配置错误：被请求的协商变元资源被配置为在透明内容协商中使用自己，因此在一个协商处理中不是一个合适的重点。&lt;/p&gt;
+&lt;p&gt;507 服务器无法存储完成请求所必须的内容。这个状况被认为是临时的。WebDAV (RFC 4918)&lt;/p&gt;
+&lt;p&gt;509 服务器达到带宽限制。这不是一个官方的状态码，但是仍被广泛使用。&lt;/p&gt;
+&lt;p&gt;510 获取资源所需要的策略并没有没满足。（RFC 2774）&lt;/p&gt;
+">HTTPS状态码</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/Vk-CNXac3/"" data-c="
@@ -1472,7 +2541,26 @@ mysql的两种数据存储方式，一种是InnoDB，一种是MyISAM。这两种
 &lt;p&gt;var currentWebview = this.&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;mp.page.&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.625em;vertical-align:-0.19444em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.03588em;&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;getAppWebview() //获取当前页面的webview对象&lt;/p&gt;
 &lt;p&gt;currentWebview.append(w);//一定要append到当前的页面里！！！才能跟随当前页面一起做动画，一起关闭&lt;/p&gt;
 &lt;p&gt;// #endif&lt;/p&gt;
-&lt;p&gt;转载链接：https://www.jianshu.com/p/bc0504905d8e&lt;/p&gt;
+&lt;p&gt;nvue页面：&lt;br&gt;
+```&lt;br&gt;
+var  wv;&lt;br&gt;
+export default {&lt;br&gt;
+***&lt;br&gt;
+// 页面周期与 onLoad 同级&lt;br&gt;
+onBackPress() {&lt;br&gt;
+wx.close();&lt;br&gt;
+}&lt;br&gt;
+onLoad(e){&lt;br&gt;
+// #ifdef APP-PLUS&lt;br&gt;
+wv = plus.webview.create(this.url, &#39;custom-webview&#39;, {&lt;br&gt;
+top:&#39;80px&#39;,&lt;br&gt;
+height: &#39;1000px&#39;,&lt;br&gt;
+});&lt;br&gt;
+wv.show()&lt;br&gt;
+// #endif&lt;br&gt;
+}&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+转载链接：https://www.jianshu.com/p/bc0504905d8e&lt;/code&gt;&lt;/pre&gt;
 ">uni-app webview组件，页面铺面全屏问题</a>
       </div>
       
