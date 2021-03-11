@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Dawn-cheng.github.io</id>
     <title>Dawn-cheng</title>
-    <updated>2021-02-27T10:09:01.711Z</updated>
+    <updated>2021-03-11T06:06:19.904Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Dawn-cheng.github.io"/>
     <link rel="self" href="https://Dawn-cheng.github.io/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://Dawn-cheng.github.io/images/avatar.png</logo>
     <icon>https://Dawn-cheng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Dawn-cheng</rights>
+    <entry>
+        <title type="html"><![CDATA[乐观锁与悲观锁的简单区别]]></title>
+        <id>https://Dawn-cheng.github.io/e36e-6WJh/</id>
+        <link href="https://Dawn-cheng.github.io/e36e-6WJh/">
+        </link>
+        <updated>2021-03-11T05:58:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>乐观锁和悲观锁都是用于解决并发场景下的数据竞争问题，但是却是两种完全不同的思想。它们的使用非常广泛，也不局限于某种编程语言或数据库。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>乐观锁和悲观锁都是用于解决并发场景下的数据竞争问题，但是却是两种完全不同的思想。它们的使用非常广泛，也不局限于某种编程语言或数据库。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Redis知识点]]></title>
         <id>https://Dawn-cheng.github.io/shEut_oVv/</id>
@@ -140,16 +151,5 @@ redis目前支持五种数据结构<br>
         <link href="https://Dawn-cheng.github.io/2RM9DBOkg/">
         </link>
         <updated>2020-07-22T11:06:06.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ABC联合索引生效问题]]></title>
-        <id>https://Dawn-cheng.github.io/iYDeoWK2N/</id>
-        <link href="https://Dawn-cheng.github.io/iYDeoWK2N/">
-        </link>
-        <updated>2020-07-21T03:15:07.000Z</updated>
-        <summary type="html"><![CDATA[<p>对于复合索引：Mysql从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。例如索引是key index （a,b,c）。 可以支持a | a,b| a,b,c 3种组合进行查找，但不支持 b,c进行查找 .当最左侧字段是常量引用时，索引就十分有效。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>对于复合索引：Mysql从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。例如索引是key index （a,b,c）。 可以支持a | a,b| a,b,c 3种组合进行查找，但不支持 b,c进行查找 .当最左侧字段是常量引用时，索引就十分有效。</p>
-]]></content>
     </entry>
 </feed>

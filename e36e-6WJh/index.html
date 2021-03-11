@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>uni-app canvas 绘制海报图 | Dawn-cheng</title>
+<title>乐观锁与悲观锁的简单区别 | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1615442774665">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="uni-app canvas 绘制海报图" />
-  <meta name="keywords" content="其他,JS" />
+  <meta name="description" content="乐观锁与悲观锁的简单区别" />
+  <meta name="keywords" content="MYSQL,PHP" />
 </head>
 
 <body>
@@ -226,9 +226,34 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li><a href="#%E8%A7%86%E5%9B%BE">视图</a></li>
-<li><a href="#js">js</a></li>
-<li><a href="#%E7%BB%93%E6%9E%9C">结果</a></li>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E6%A6%82%E5%BF%B5">乐观锁的概念</a></li>
+</ul>
+</li>
+<li><a href="#%E6%82%B2%E8%A7%82%E9%94%81%E7%9A%84%E6%A6%82%E5%BF%B5">悲观锁的概念</a></li>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F">乐观锁的实现方式</a>
+<ul>
+<li><a href="#%E7%89%88%E6%9C%AC%E5%8F%B7%E6%9C%BA%E5%88%B6">版本号机制</a></li>
+</ul>
+</li>
+<li><a href="#%E6%82%B2%E8%A7%82%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F">悲观锁的实现方式</a></li>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">乐观锁与悲观锁的优缺点和使用场景</a></li>
+<li><a href="#%E5%8A%9F%E8%83%BD%E9%99%90%E5%88%B6">功能限制</a></li>
+<li><a href="#%E7%AB%9E%E4%BA%89%E6%BF%80%E7%83%88%E7%A8%8B%E5%BA%A6">竞争激烈程度</a></li>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81%E6%98%AF%E5%90%A6%E4%BC%9A%E5%8A%A0%E9%94%81">乐观锁是否会加锁</a></li>
+<li><a href="#cas%E7%9A%84%E7%BC%BA%E7%82%B9">CAS的缺点</a>
+<ul>
+<li><a href="#%E9%AB%98%E7%AB%9E%E4%BA%89%E4%B8%8B%E7%9A%84%E5%BC%80%E9%94%80%E9%97%AE%E9%A2%98">高竞争下的开销问题</a></li>
+<li><a href="#%E8%87%AA%E8%BA%AB%E7%9A%84%E5%8A%9F%E8%83%BD%E9%99%90%E5%88%B6">自身的功能限制</a></li>
+</ul>
+</li>
+<li><a href="#%E6%82%B2%E8%A7%82%E9%94%81">悲观锁</a></li>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81">乐观锁</a></li>
+</ul>
+</li>
 </ul>
 
   </div>
@@ -494,8 +519,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://Dawn-cheng.github.io/916fEKaXJ/">
-      uni-app canvas 绘制海报图
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/e36e-6WJh/">
+      乐观锁与悲观锁的简单区别
     </a>
   </h1>
   <div class="post-meta">
@@ -503,7 +528,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-08-05 14:41:56">2020-08-05</span>
+      <span class="publish-time" data-t="2021-03-11 13:58:36">2021-03-11</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -512,14 +537,14 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://Dawn-cheng.github.io/tag/VM25FpwwJ/">
-        <span>其他</span>
+      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/">
+        <span>MYSQL</span>
       </a>、
       
       
       
-      <a href="https://Dawn-cheng.github.io/tag/8bF2Fk_du/">
-        <span>JS</span>
+      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/">
+        <span>PHP</span>
       </a>
       
       
@@ -528,231 +553,56 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>5<span class="language" data-lan="minute">分钟</span></span>
+      <span>7<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>880<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1913<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>公司要做淘客类型的app,其中有个功能是要做分享海报的编辑，以前没有接触过，找了一些资料，历经几天的时间做了出来，下面分享我的代码，不好勿喷。</p>
+              <p>乐观锁和悲观锁都是用于解决并发场景下的数据竞争问题，但是却是两种完全不同的思想。它们的使用非常广泛，也不局限于某种编程语言或数据库。</p>
 <!-- more -->
-<h1 id="视图">视图</h1>
-<pre><code>&lt;template&gt;
-	&lt;view&gt;
-        &lt;canvas  canvas-id=&quot;poster&quot; &gt;&lt;/canvas&gt;
-        &lt;image v-bind:src=&quot;hbimg&quot;&gt;&lt;/image&gt;
-    &lt;/view&gt;
-&lt;/template&gt;
-</code></pre>
-<h1 id="js">js</h1>
-<pre><code>  // 生成二维码
-   import qr from '@/common/wxqrcode.js'
-   // 文字换行
-   function drawtext(text, maxWidth) {
-   	let textArr = text.split(&quot;&quot;);
-   	let len = textArr.length;
-   	// 上个节点
-   	let previousNode = 0;
-   	// 记录节点宽度
-   	let nodeWidth = 0;
-   	// 文本换行数组
-   	let rowText = [];
-   	// 如果是字母，侧保存长度
-   	let letterWidth = 0;
-   	// 汉字宽度
-   	let chineseWidth = 21;
-   	// otherFont宽度
-   	let otherWidth = 10.5;
-   	for (let i = 0; i &lt; len; i++) {
-   		if (/[\u4e00-\u9fa5]|[\uFE30-\uFFA0]/g.test(textArr[i])) {
-   			if(letterWidth &gt; 0){
-   				if(nodeWidth + chineseWidth + letterWidth * otherWidth &gt; maxWidth){
-   					rowText.push({
-   						type: &quot;text&quot;,
-   						content: text.substring(previousNode, i)
-   					});
-   					previousNode = i;
-   					nodeWidth = chineseWidth;
-   					letterWidth = 0;
-   				} else {
-   					nodeWidth += chineseWidth + letterWidth * otherWidth;
-   					letterWidth = 0;
-   				}
-   			} else {
-   				if(nodeWidth + chineseWidth &gt; maxWidth){
-   					rowText.push({
-   						type: &quot;text&quot;,
-   						content: text.substring(previousNode, i)
-   					});
-   					previousNode = i;
-   					nodeWidth = chineseWidth;
-   				}else{
-   					nodeWidth += chineseWidth;
-   				}
-   			}
-   		} else {
-   			if(/\n/g.test(textArr[i])){
-   				rowText.push({
-   					type: &quot;break&quot;,
-   					content: text.substring(previousNode, i)
-   				});
-   				previousNode = i + 1;
-   				nodeWidth = 0;
-   				letterWidth = 0;
-   			}else if(textArr[i] == &quot;\\&quot; &amp;&amp; textArr[i + 1] == &quot;n&quot;){
-   				rowText.push({
-   					type: &quot;break&quot;,
-   					content: text.substring(previousNode, i)
-   				});
-   				previousNode = i + 2;
-   				nodeWidth = 0;
-   				letterWidth = 0;
-   			}else if(/[a-zA-Z0-9]/g.test(textArr[i])){
-   				letterWidth += 1;
-   				if(nodeWidth + letterWidth * otherWidth &gt; maxWidth){
-   					rowText.push({
-   						type: &quot;text&quot;,
-   						content: text.substring(previousNode, i + 1 - letterWidth)
-   					});
-   					previousNode = i + 1 - letterWidth;
-   					nodeWidth = letterWidth * otherWidth;
-   					letterWidth = 0;
-   				}
-   			} else{
-   				if(nodeWidth + otherWidth &gt; maxWidth){
-   					rowText.push({
-   						type: &quot;text&quot;,
-   						content: text.substring(previousNode, i)
-   					});
-   					previousNode = i;
-   					nodeWidth = otherWidth;
-   				}else{
-   					nodeWidth += otherWidth;
-   				}
-   			}
-   		}
-   	}
-   	if (previousNode &lt; len) {
-   		rowText.push({
-   			type: &quot;text&quot;,
-   			content: text.substring(previousNode, len)
-   		});
-   	}
-   	return rowText;
-   }
-   
-   export default {
-   	data() {
-   	    return {
-   			hbimg:&quot;&quot;，
-   	    }
-   	}，
-       onLoad(e) {
-   		let hb = this.createPoster();
-           hb.then(function(data){
-               this.hbimg = data;
-           });
-   	},
-   	methods:{
-   		 // 创建海报
-   		 createPoster() {
-   		 	 return new Promise((resolve, reject) =&gt; {
-   		 		let qrcode = qr.createQrCodeImg(二维码地址);
-   		 		const ctx = uni.createCanvasContext('poster');
-   		 		let	that = this;
-   		 		ctx.fillRect(0, 0, 375, 673);
-   		 		ctx.setFillStyle(&quot;#FFF&quot;);
-   		 		ctx.fillRect(0, 0, 375, 673);
-   		 		// 淘宝logo
-   		 		ctx.drawImage(淘宝logo本地地址, 30, 40, 25, 20);
-   		 		// 商品标题
-   		 		ctx.setFontSize(18);
-   		 		ctx.setFillStyle('#333');
-   		 		let textTop = 40;
-   		 		let drawtextList = drawtext(商品标题, 330);
-   		 		drawtextList.forEach((item,index) =&gt; {
-   		 			if(index==1 &amp;&amp; index &lt; 2){
-   		 				textTop = textTop + (index + 1) * 10;
-   		 				let str = item.content.substring(0,item.content.length-1+ '...';
-   		 				ctx.fillText(str, 63, textTop);
-   		 			}else if(index==0 &amp;&amp; index &lt; 2){
-   		 				textTop = textTop + (index + 1) * 10;
-   		 				ctx.fillText(item.content, 63, textTop);
-   		 			}
-   		 		});
-   		 		// 商品价格
-   		 		ctx.setFontSize(14);
-   		 		ctx.setFillStyle('#f00');
-   		 		ctx.fillText(&quot;券后价 ¥&quot;+商品价格, 30, textTop + 30);
-   		 		// 商品门市价
-   		 		ctx.setFontSize(12);
-   		 		ctx.setFillStyle('#999');
-   		 		let textLeft = 30;
-   		 		ctx.fillText(&quot;原价 ¥&quot;+商品原价, 30, textTop + 60);
-   		 		// 商品门市价横线
-   		 		ctx.beginPath();
-   		 		ctx.setLineWidth(1);
-   		 		ctx.moveTo(textLeft + 25, textTop + 55);
-   		 		ctx.lineTo(textLeft + 8 + 商品原价.toString().length * 13, textTop + 55);
-   		 		ctx.setStrokeStyle('#999');
-   		 		ctx.stroke();
-   		 		// 商品销售量
-   		 		ctx.setFontSize(12);
-   		 		ctx.setFillStyle('#999');
-   		 		ctx.fillText(&quot;销量 &quot;+商品销售量, 120, textTop + 60);
-   		 		//优惠券图
-   		 		let len = that.goods.coupon_amount.toString().length
-   		 		ctx.drawImage(优惠券底部背景图地址 270, textTop+48, 40+len*5, 20 );
-   		 		// 商品优惠券金额
-   		 		ctx.setFontSize(12);
-   		 		ctx.setFillStyle('#FFF');
-   		 		ctx.fillText(&quot;¥&quot;+优惠券金额, 280, textTop + 63);
-   		 		//商品图
-   		 		ctx.drawImage(商品图片地址, 30, textTop+80, 310, 310 );
-   		 		// 平台logo
-   		 		ctx.drawImage(平台logo图地址, 30, textTop + 425, 60, 60);
-   		 		// 平台名称
-   		 		ctx.setFontSize(16);
-   		 		ctx.setFillStyle('#999');
-   		 		ctx.fillText(平台名称, 103, textTop + 460);
-   		 		// 长按识别二维码访问
-   		 		ctx.setFontSize(16);
-   		 		ctx.setFillStyle('#999');
-   		 		ctx.fillText(&quot;长按图片&quot;, 30, textTop + 510);
-   		 		// 长按识别二维码访问
-   		 		ctx.setFontSize(16);
-   		 		ctx.setFillStyle('#999');
-   		 		ctx.fillText(&quot;扫码领取优惠券&quot;, 30, textTop + 530);
-   		 		// 二维码
-   		 		ctx.drawImage(上面生成的二维码, 220, textTop + 430, 120, 120);
-   		 		ctx.stroke();
-   		 		ctx.draw(true, function(){
-   		 			// canvas画布转成图片并返回图片地址
-   		 			uni.canvasToTempFilePath({
-   		 				canvasId: 'poster',
-   		 				fileType:&quot;jpg&quot;,
-   		 				success: (res) =&gt; {
-   		 					resolve(res.tempFilePath);
-   		 				},
-   		 				fail: () =&gt; {
-   		 					reject();
-   		 				}
-   		 			})
-   		 		})
-   		      })
-   		 }, 
-   	
-   	}
-   }
-
-</code></pre>
-<h1 id="结果">结果</h1>
-<figure data-type="image" tabindex="1"><img src="https://Dawn-cheng.github.io/post-images/1596610408680.jpeg" alt="" loading="lazy"></figure>
+<h3 id="乐观锁的概念">乐观锁的概念</h3>
+<p>所谓的乐观锁，指的是在操作数据的时候非常乐观，乐观地认为别人不会同时修改数据，因此乐观锁不会上锁，只有在执行更新的时候才会去判断在此期间别人是否修改了数据，如果别人修改了数据则放弃操作，否则执行操作。</p>
+<h2 id="悲观锁的概念">悲观锁的概念</h2>
+<p>所谓的悲观锁，指的是在操作数据的时候比较悲观，悲观地认为别人一定会同时修改数据，因此悲观锁在操作数据时是直接把数据上锁，直到操作完成之后才会释放锁，在上锁期间其他人不能操作数据。</p>
+<h2 id="乐观锁的实现方式">乐观锁的实现方式</h2>
+<p>乐观锁的实现方式主要有两种，一种是CAS（Compare and Swap，比较并交换）机制，一种是版本号机制。</p>
+<p>###CAS机制</p>
+<p>CAS操作包括了三个操作数，分别是需要读取的内存位置（V）、进行比较的预期值（A）和拟写入的新值（B），操作逻辑是，如果内存位置V的值等于预期值A，则将该位置更新为新值B，否则不进行操作。另外，许多CAS操作都是自旋的，意思就是，如果操作不成功，就会一直重试，直到操作成功为止。</p>
+<h3 id="版本号机制">版本号机制</h3>
+<p>版本号机制的基本思路，是在数据中增加一个version字段用来表示该数据的版本号，每当数据被修改版本号就会加1。当某个线程查询数据的时候，会将该数据的版本号一起读取出来，之后在该线程需要更新该数据的时候，就将之前读取的版本号与当前版本号进行比较，如果一致，则执行操作，如果不一致，则放弃操作。</p>
+<h2 id="悲观锁的实现方式">悲观锁的实现方式</h2>
+<p>悲观锁的实现方式也就是加锁，加锁既可以在代码层面（比如Java中的synchronized关键字），也可以在数据库层面（比如MySQL中的排他锁）。</p>
+<h2 id="乐观锁与悲观锁的优缺点和使用场景">乐观锁与悲观锁的优缺点和使用场景</h2>
+<p>乐观锁和悲观锁并没有优劣之分，它们有各自适合的场景。</p>
+<h2 id="功能限制">功能限制</h2>
+<p>乐观锁与悲观锁相比，适用的场景受到了更多的限制，无论是CAS机制还是版本号机制。</p>
+<p>比如，CAS机制只能保证单个变量操作的原子性，当涉及到多个变量的时候，CAS机制是无能为力的，而synchronized却可以通过对整个代码块进行加锁处理；再比如，版本号机制如果在查询数据的时候是针对表1，而更新数据的时候是针对表2，也很难通过简单的版本号来实现乐观锁。</p>
+<h2 id="竞争激烈程度">竞争激烈程度</h2>
+<p>在竞争不激烈（出现并发冲突的概率比较小）的场景中，乐观锁更有优势。因为悲观锁会锁住代码块或数据，其他的线程无法同时访问，必须等待上一个线程释放锁才能进入操作，会影响并发的响应速度。另外，加锁和释放锁都需要消耗额外的系统资源，也会影响并发的处理速度。</p>
+<p>在竞争激烈（出现并发冲突的概率较大）的场景中，悲观锁则更有优势。因为乐观锁在执行更新的时候，可能会因为数据被反复修改而更新失败，进而不断重试，造成CPU资源的浪费。</p>
+<h2 id="乐观锁是否会加锁">乐观锁是否会加锁</h2>
+<p>乐观锁本身是不加锁的，只有在更新的时候才会去判断数据是否被其他线程更新了，比如AtomicInteger便是一个例子。但是有时候乐观锁可能会与加锁操作合作，比如MySQL在执行更新数据操作的时候会加上排他锁。因此可以理解为乐观锁本身是不加锁的，只有在更新数据的时候才有可能会加锁。</p>
+<h2 id="cas的缺点">CAS的缺点</h2>
+<p>CAS的缺点主要有ABA问题、高竞争下的开销问题和本身的功能限制。</p>
+<p>ABA问题</p>
+<p>所谓的ABA问题，指的就是一个线程在操作数据的时候，有别的线程对数据进行了一系列操作，但是在该线程重新读取该数据的时候，被修改过的数据却和该线程一开始读取的数据一致，该线程不会知道该数据已经被修改过了，然后CAS操作就被判断是成功了。</p>
+<p>ABA问题在一些场景下可能不会造成什么危害，但是在某些场景中却可能会造成隐患。比如CAS操作的是栈顶的数据，栈顶的数据虽然经过两次（或多次）变化后又恢复了原值，但是栈却可能是发生了变化，栈中数据的变化就可能会引发一些问题。</p>
+<p>对于ABA问题，比较有效的方案是引入版本号。只要内存中的值发生变化，版本号就加1，在进行CAS操作的时候不仅比较内存中的值，也比较版本号，只有当二者都没有变化的时候，CAS操作才能执行成功。Java中的AtomicStampedReference类便是适用版本号来解决ABA问题的。</p>
+<h3 id="高竞争下的开销问题">高竞争下的开销问题</h3>
+<p>在并发冲突的概率较大的高竞争场景下，如果CAS操作一直失败，就会一直重试，造成CPU开销大的问题。针对这个问题，一个简单的思路是引入退出机制，如果重试次数超过一定阈值，就强制失败退出。当然了，最好是避免在高竞争的场景下使用乐观锁。</p>
+<h3 id="自身的功能限制">自身的功能限制</h3>
+<p>CAS的功能是比较受限的，比如CAS只能保证单个变量（或者说单个内存值）操作的原子性。这就意味着原子性不一定能保证线程安全，当涉及到多个变量（或者说多个内存值），CAS也是无能为力。除此之外，CAS的实现需要硬件层面处理器的支持，在Java中普通的用户是无法直接使用的，只有借助atomic包下的原子类才能使用，灵活性有限。</p>
+<h2 id="悲观锁">悲观锁</h2>
+<p>总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，像加synchronized,只允许单个线程占用资源，其他线程阻塞，在效率上来说可能较低；适用于写多读少；</p>
+<h2 id="乐观锁">乐观锁</h2>
+<p>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。适用于读多写少；</p>
+<p>CAS有3个操作数，内存值V，旧的预期值A，要修改的新值B。当且仅当预期值A和内存值V相同时，将内存值V修改为B，否则什么都不做。</p>
 
             </div>
             
@@ -769,7 +619,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://Dawn-cheng.github.io/916fEKaXJ/" title="uni-app canvas 绘制海报图">https://Dawn-cheng.github.io/916fEKaXJ/</a>
+      <a href="https://Dawn-cheng.github.io/e36e-6WJh/" title="乐观锁与悲观锁的简单区别">https://Dawn-cheng.github.io/e36e-6WJh/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -778,23 +628,19 @@
   </ul>
   <div class="tags">
     
-      <a href="https://Dawn-cheng.github.io/tag/VM25FpwwJ/"># 其他</a>
+      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/"># MYSQL</a>
     
-      <a href="https://Dawn-cheng.github.io/tag/8bF2Fk_du/"># JS</a>
+      <a href="https://Dawn-cheng.github.io/tag/xE0sOEJr0/"># PHP</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="GO strconv包" href="https://Dawn-cheng.github.io/Vk-CNXac3/">GO strconv包</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="GO strconv包" href="https://Dawn-cheng.github.io/Vk-CNXac3/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="GO 并发" href="https://Dawn-cheng.github.io/lmW1HkTh_/">GO 并发</a>
-        <a class="nav-mobile-next" title="GO 并发" href="https://Dawn-cheng.github.io/lmW1HkTh_/">下一篇</a>
+        <a class="nav-pc-next" title="Redis知识点" href="https://Dawn-cheng.github.io/shEut_oVv/">Redis知识点</a>
+        <a class="nav-mobile-next" title="Redis知识点" href="https://Dawn-cheng.github.io/shEut_oVv/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
