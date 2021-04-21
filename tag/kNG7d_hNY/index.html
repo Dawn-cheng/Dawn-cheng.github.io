@@ -9,7 +9,7 @@
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
 <title>Dawn-cheng</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1616477186142">
+<link rel="shortcut icon" href="/favicon.ico?v=1618997778887">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -161,7 +161,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">23</span>
+        <span class="site-item-stat-count">25</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -214,6 +214,23 @@
           <small class="language" data-lan="tag">标签</small>
         </h2>
       </div>
+      
+      
+      
+      <a href="https://Dawn-cheng.github.io/OeXddSlG9/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              04-21
+              <small>MYSQL四种隔离级别</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
       
       
       
@@ -593,6 +610,42 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/OeXddSlG9/"" data-c="
+          &lt;p&gt;1 未提交读&lt;br&gt;
+这个隔离级别，其他事务可以看到本事务没有提交的部分修改，因此会造成脏读(读取到其他事务未提交的部分，而之后该事务进行了回滚)&lt;/p&gt;
+&lt;p&gt;2 已提交读&lt;br&gt;
+其他事务只能读到本事务已经提交的部分，这个隔离级别有不可重读的问题。在同一个事务内的两次读取，拿到的结构不一样，因为另一个事务对数据进行了修改&lt;/p&gt;
+&lt;p&gt;3 可重复读&lt;br&gt;
+可重复读解决了已提交读的不可重读问题。但是会出现新的问题：幻读。例如：当读取id&amp;gt;10的数据时，对所有的行加了读锁。但是此时一个事务新插了一条id=11的数据，因为是新插入的数据，所以不会触发上面的锁的排斥，那么进行本事务进行下一次的查询时会发现有一条id=11的数据,而上次的查询操作并没有获取到,再进行插入就会有主键冲突的问题.&lt;/p&gt;
+&lt;p&gt;4 可串行化&lt;br&gt;
+这是最高的隔离级别,可以解决上面提到的所有问题,因为他强制将所以的操作串行执行,这会导致并发性能极速下降,因此也不是很常用.&lt;/p&gt;
+">MYSQL四种隔离级别</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/iqlQKihKH/"" data-c="
+          &lt;h2 id=&#34;什么是索引&#34;&gt;什么是索引&lt;/h2&gt;
+&lt;p&gt;索引是一种数据结构，可以快速的进行数据查找&lt;/p&gt;
+&lt;h2 id=&#34;索引常用的数据结构&#34;&gt;索引常用的数据结构&lt;/h2&gt;
+&lt;p&gt;索引的数据结构与存储引擎的实现有关。在mysql中使用较多的索引有hash索引，B+树索引。innoDB的存储引擎默认的索引实现是B+树索引，但是也是支持hash索引的，不过必须启用，hash索引的创建是有innoDB存储引擎自动优化创建，根据表的使用自动的为表生成hash索引。&lt;/p&gt;
+&lt;p&gt;##HASH索引和B+树的区别和优劣&lt;br&gt;
+HASH索引的底层原理： hash索引底层就是hash表，进行查找时，调用hash函数就可以获取相应的键值，之后在进行回表查询获取实际数据。&lt;br&gt;
+B+树索引的底层实现原理：多路平衡查找树，对每一次的查询都是从跟节点出发，查找到叶子节点可以获得所查键值，根绝查询判断是否需要回表查询数据&lt;br&gt;
+两者的不同：&lt;br&gt;
+1.hash索引进行等值查询比较快，但是无法进行范围查询&lt;br&gt;
+因为hash索引中经过hash函数建立索引之后，索引的顺序和原顺序无法保持一致，不能支持范围查询。&lt;br&gt;
+B+树的所有节点遵守左节点小于父节点，右节点大于父节点，天然支持范围&lt;br&gt;
+2.hash索引不支持使用索引进行排序。&lt;br&gt;
+3.hash索引不支持模糊查询以及多列索引最左前缀匹配，原理也是hash函数的不可预测 .AAAA和AAAAB的索引没有相关性&lt;br&gt;
+4.hash索引任何时候都避免不了回表查询数据,而B+树在符合某些条件(聚簇索引,覆盖索引等)的时候可以只通过索引完成查询&lt;br&gt;
+5.hash索引虽然在等值查询上较快,但是不稳定.性能不可预测,当某个键值存在大量重复的时候,发生hash碰撞,此时效率可能极差.而B+树的查询效率比较稳定,对于所有的查询都是从根节点到叶子节点,且树的高度较低&lt;br&gt;
+##上面提到了B+树在满足聚簇索引和覆盖索引的时候不需要回表查询数据,什么是聚簇索引?&lt;br&gt;
+在B+树的索引中,叶子节点可能存储了当前的key值,也可能存储了当前的key值以及整行的数据,这就是聚簇索引和非聚簇索引. 在InnoDB中,只有主键索引是聚簇索引,如果没有主键,则挑选一个唯一键建立聚簇索引.如果没有唯一键,则隐式的生成一个键来建立聚簇索引.&lt;br&gt;
+当查询使用聚簇索引时,在对应的叶子节点,可以获取到整行数据,因此不用再次进行回表查询.&lt;/p&gt;
+">MYSQL常见问题</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://Dawn-cheng.github.io/cBy4x2IQr/"" data-c="

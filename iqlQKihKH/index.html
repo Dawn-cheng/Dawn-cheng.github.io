@@ -8,7 +8,7 @@
 <meta name="keywords" content="Dawn-cheng个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引 | Dawn-cheng</title>
+<title>MYSQL常见问题 | Dawn-cheng</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1618997778887">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引" />
-  <meta name="keywords" content="MYSQL" />
+  <meta name="description" content="MYSQL常见问题" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -167,7 +167,8 @@
       <div class="sidebar-body pisces" id="sidebar_body">
         
           
-            
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -205,6 +206,196 @@
 
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B4%A2%E5%BC%95">什么是索引</a></li>
+<li><a href="#%E7%B4%A2%E5%BC%95%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">索引常用的数据结构</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
           
         
       </div>
@@ -292,8 +483,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://Dawn-cheng.github.io/jvx7Ng7mp/">
-      mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引
+    <a class="post-title-link" href="https://Dawn-cheng.github.io/iqlQKihKH/">
+      MYSQL常见问题
     </a>
   </h1>
   <div class="post-meta">
@@ -301,73 +492,41 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-07-16 19:24:57">2020-07-16</span>
+      <span class="publish-time" data-t="2021-04-21 13:36:21">2021-04-21</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
-      <i class="fa fa-folder-o"></i>
-      <span class="pc-show language" data-lan="category-in">分类于</span>
-      
-      
-      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/">
-        <span>MYSQL</span>
-      </a>
-      
-      
-    </span>
-    <span class="post-meta-divider">|</span>
-    
-    <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>5<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>1244<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>746<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>首先介绍这些索引的概念：<br>
-1、聚集索引</p>
-<p>聚集索引：指索引项的排序方式和表中数据记录排序方式一致的索引</p>
-<!-- more -->
-<p>也就是说聚集索引的顺序就是数据的物理存储顺序。它会根据聚集索引键的顺序来存储表中的数据，即对表的数据按索引键的顺序进行排序，然后重新存储到磁盘上。因为数据在物理存放时只能有一种排列方式，所以一个表只能有一个聚集索引。<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594898785007.png" alt="" loading="lazy"></p>
-<p>比如字典中，用‘拼音’查汉字，就是聚集索引。因为正文中字都是按照拼音排序的。而用‘偏旁部首’查汉字，就是非聚集索引，因为正文中的字并不是按照偏旁部首排序的，我们通过检字表得到正文中的字在索引中的映射，然后通过映射找到所需要的字。</p>
-<p>聚集索引的使用场合为：</p>
-<p>a.查询命令的回传结果是以该字段为排序依据的；</p>
-<p>b.查询的结果返回一个区间的值；</p>
-<p>c.查询的结果返回某值相同的大量结果集。</p>
-<p>聚集索引会降低 insert，和update操作的性能，所以，是否使用聚集索引要全面衡量。</p>
-<p>2、非聚集索引： 索引顺序与物理存储顺序不同<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594898800060.png" alt="" loading="lazy"></p>
-<p>非聚集索引的使用场合为：</p>
-<p>a.查询所获数据量较少时；</p>
-<p>b.某字段中的数据的唯一性比较高时；</p>
-<p>非聚集索引必须是稠密索引</p>
-<p>3、聚簇索引</p>
-<p>聚簇索引并不是一种单独的索引类型，而是一种数据存储方式。术语“聚族”表示数据行和相邻的键值紧凑的存储在一起。因为无法同时把数据行放在两个不同的地方，所以一个表只能有一个聚族索引。<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594898814943.png" alt="" loading="lazy"></p>
-<p>聚族索引的优点</p>
-<p>可以把相关数据保存在一起。就好像在操场上战队，一个院系一个院系的站在一起，这样要找到一个人，就先找到他的院系，然后在他的院系里找到他就行了，而不是把学校里的所有人都遍历一遍</p>
-<p>数据访问更快。聚族索引将索引和数据保存在同一个B-Tree中，因此从聚族索引中获取数据通常比在非聚族索引中查找更快</p>
-<p>4、稠密索引</p>
-<p>稠密索引：每个索引键值都对应有一个索引项<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594898824043.png" alt="" loading="lazy"></p>
-<p>稠密索引能够比稀疏索引更快的定位一条记录。但是，稀疏索引相比于稠密索引的优点是：它所占空间更小，且插入和删除时的维护开销也小。</p>
-<p>5、稀疏索引</p>
-<p>稀疏索引：相对于稠密索引，稀疏索引只为某些搜索码值建立索引记录；在搜索时，找到其最大的搜索码值小于或等于所查找记录的搜索码值的索引项，然后从该记录开始向后顺序查询直到找到为止。<br>
-<img src="https://Dawn-cheng.github.io/post-images/1594898834027.png" alt="" loading="lazy"></p>
-<p>接着结合mysql进行讲解：<br>
-mysql的两种数据存储方式，一种是InnoDB，一种是MyISAM。这两种存储都是基于B+树的存储方式，但是也有点不同。</p>
-<p>MyIsam 索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。主索引和辅助索引没有区别都是非聚集索引。索引页正常大小为1024字节，索引页存放在.MYI 文件中。MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。</p>
-<p>InnoDB 也使用B+Tree作为索引结构，索引页大小16，和表数据页共同存放在表空间中。从InnoDB表数据存放方式可看出InnoDB表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
-<p>InnoDB默认对主键建立聚簇索引。如果你不指定主键，InnoDB会用一个具有唯一且非空值的索引来代替。如果不存在这样的索引，InnoDB会定义一个隐藏的主键，然后对其建立聚簇索引。一般来说，InnoDB 会以聚簇索引的形式来存储实际的数据，它是其它二级索引的基础。</p>
-<p>所以mysql innodb引擎的聚集索引、聚簇索引都默认是主键索引，如果没有指定主键，就是一个具有唯一且非空值的索引，如果不存在这样的索引，就是InnoDB自定义的隐藏主键索引，并且该索引是稠密索引。</p>
+              <h2 id="什么是索引">什么是索引</h2>
+<p>索引是一种数据结构，可以快速的进行数据查找</p>
+<h2 id="索引常用的数据结构">索引常用的数据结构</h2>
+<p>索引的数据结构与存储引擎的实现有关。在mysql中使用较多的索引有hash索引，B+树索引。innoDB的存储引擎默认的索引实现是B+树索引，但是也是支持hash索引的，不过必须启用，hash索引的创建是有innoDB存储引擎自动优化创建，根据表的使用自动的为表生成hash索引。</p>
+<p>##HASH索引和B+树的区别和优劣<br>
+HASH索引的底层原理： hash索引底层就是hash表，进行查找时，调用hash函数就可以获取相应的键值，之后在进行回表查询获取实际数据。<br>
+B+树索引的底层实现原理：多路平衡查找树，对每一次的查询都是从跟节点出发，查找到叶子节点可以获得所查键值，根绝查询判断是否需要回表查询数据<br>
+两者的不同：<br>
+1.hash索引进行等值查询比较快，但是无法进行范围查询<br>
+因为hash索引中经过hash函数建立索引之后，索引的顺序和原顺序无法保持一致，不能支持范围查询。<br>
+B+树的所有节点遵守左节点小于父节点，右节点大于父节点，天然支持范围<br>
+2.hash索引不支持使用索引进行排序。<br>
+3.hash索引不支持模糊查询以及多列索引最左前缀匹配，原理也是hash函数的不可预测 .AAAA和AAAAB的索引没有相关性<br>
+4.hash索引任何时候都避免不了回表查询数据,而B+树在符合某些条件(聚簇索引,覆盖索引等)的时候可以只通过索引完成查询<br>
+5.hash索引虽然在等值查询上较快,但是不稳定.性能不可预测,当某个键值存在大量重复的时候,发生hash碰撞,此时效率可能极差.而B+树的查询效率比较稳定,对于所有的查询都是从根节点到叶子节点,且树的高度较低<br>
+##上面提到了B+树在满足聚簇索引和覆盖索引的时候不需要回表查询数据,什么是聚簇索引?<br>
+在B+树的索引中,叶子节点可能存储了当前的key值,也可能存储了当前的key值以及整行的数据,这就是聚簇索引和非聚簇索引. 在InnoDB中,只有主键索引是聚簇索引,如果没有主键,则挑选一个唯一键建立聚簇索引.如果没有唯一键,则隐式的生成一个键来建立聚簇索引.<br>
+当查询使用聚簇索引时,在对应的叶子节点,可以获取到整行数据,因此不用再次进行回表查询.</p>
 
             </div>
             
@@ -384,7 +543,7 @@ mysql的两种数据存储方式，一种是InnoDB，一种是MyISAM。这两种
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://Dawn-cheng.github.io/jvx7Ng7mp/" title="mysql中的聚集索引、非聚集索引、聚簇索引、稀疏索引、稠密索引">https://Dawn-cheng.github.io/jvx7Ng7mp/</a>
+      <a href="https://Dawn-cheng.github.io/iqlQKihKH/" title="MYSQL常见问题">https://Dawn-cheng.github.io/iqlQKihKH/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -393,21 +552,19 @@ mysql的两种数据存储方式，一种是InnoDB，一种是MyISAM。这两种
   </ul>
   <div class="tags">
     
-      <a href="https://Dawn-cheng.github.io/tag/kNG7d_hNY/"># MYSQL</a>
-    
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="MyISAM以及InnoDB引擎默认排序方式" href="https://Dawn-cheng.github.io/Z_ENFNWmH/">MyISAM以及InnoDB引擎默认排序方式</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="MyISAM以及InnoDB引擎默认排序方式" href="https://Dawn-cheng.github.io/Z_ENFNWmH/">上一篇</a>
+        <a class="nav-pc-next" title="MYSQL四种隔离级别" href="https://Dawn-cheng.github.io/OeXddSlG9/">MYSQL四种隔离级别</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="MYSQL四种隔离级别" href="https://Dawn-cheng.github.io/OeXddSlG9/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="邀请码的设计" href="https://Dawn-cheng.github.io/6ZVP7IE6V/">邀请码的设计</a>
-        <a class="nav-mobile-next" title="邀请码的设计" href="https://Dawn-cheng.github.io/6ZVP7IE6V/">下一篇</a>
+        <a class="nav-pc-next" title="php-fpm 请求链路" href="https://Dawn-cheng.github.io/cBy4x2IQr/">php-fpm 请求链路</a>
+        <a class="nav-mobile-next" title="php-fpm 请求链路" href="https://Dawn-cheng.github.io/cBy4x2IQr/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
